@@ -1,0 +1,326 @@
+{
+  "Variable declaration": {
+    "prefix": "var",
+    "body": ["var ${1:name} = ${2:0}"],
+    "description": "Declare an 8-bit integer variable"
+  },
+  "Word variable": {
+    "prefix": "varw",
+    "body": ["var ${1:name}: word = ${2:$0000}"],
+    "description": "Declare a 16-bit word variable"
+  },
+  "String variable": {
+    "prefix": "vars",
+    "body": ["var ${1:name} = \"${2:text}\""],
+    "description": "Declare a string variable"
+  },
+  "Array variable": {
+    "prefix": "vara",
+    "body": ["var ${1:name} = array(${2:8})"],
+    "description": "Declare a byte array"
+  },
+  "Constant": {
+    "prefix": "const",
+    "body": ["const ${1:NAME} = ${2:$0000}"],
+    "description": "Compile-time constant"
+  },
+  "If/then": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition} then",
+      "  ${2:# body}",
+      "end"
+    ],
+    "description": "If/then block"
+  },
+  "If/then/else": {
+    "prefix": "ife",
+    "body": [
+      "if ${1:condition} then",
+      "  ${2:# true branch}",
+      "else",
+      "  ${3:# false branch}",
+      "end"
+    ],
+    "description": "If/then/else block"
+  },
+  "For loop": {
+    "prefix": "for",
+    "body": [
+      "for ${1:i} = ${2:0} to ${3:9}",
+      "  ${4:# body}",
+      "next"
+    ],
+    "description": "For..next loop"
+  },
+  "For loop with step": {
+    "prefix": "fors",
+    "body": [
+      "for ${1:i} = ${2:0} to ${3:255} step ${4:2}",
+      "  ${5:# body}",
+      "next"
+    ],
+    "description": "For..next loop with step"
+  },
+  "While loop": {
+    "prefix": "while",
+    "body": [
+      "while ${1:condition}",
+      "  ${2:# body}",
+      "end"
+    ],
+    "description": "While loop"
+  },
+  "Infinite loop": {
+    "prefix": "loop",
+    "body": [
+      "loop",
+      "  ${1:# body}",
+      "end"
+    ],
+    "description": "Infinite loop"
+  },
+  "Counted loop": {
+    "prefix": "loopc",
+    "body": [
+      "loop ${1:5}",
+      "  ${2:# body}",
+      "end"
+    ],
+    "description": "Counted loop"
+  },
+  "Label": {
+    "prefix": "label",
+    "body": ["label ${1:name}"],
+    "description": "Define a label"
+  },
+  "Goto": {
+    "prefix": "goto",
+    "body": ["goto ${1:label}"],
+    "description": "Jump to label"
+  },
+  "Subroutine": {
+    "prefix": "sub",
+    "body": [
+      "sub ${1:name}(${2})",
+      "  ${3:# body}",
+      "end"
+    ],
+    "description": "Subroutine definition"
+  },
+  "Print": {
+    "prefix": "print",
+    "body": ["print \"${1:text}\""],
+    "description": "Print statement"
+  },
+  "Print variable": {
+    "prefix": "printv",
+    "body": ["print \"${1:label}: \", ${2:var}"],
+    "description": "Print label + variable"
+  },
+  "Color text": {
+    "prefix": "ctext",
+    "body": ["color text ${1:14}"],
+    "description": "Set text color"
+  },
+  "Color border": {
+    "prefix": "cborder",
+    "body": ["color border ${1:6}"],
+    "description": "Set border color"
+  },
+  "Color bg": {
+    "prefix": "cbg",
+    "body": ["color bg ${1:0}"],
+    "description": "Set background color"
+  },
+  "Color setup (text+border+bg)": {
+    "prefix": "colors",
+    "body": [
+      "color text ${1:14}",
+      "color border ${2:6}",
+      "color bg ${3:6}"
+    ],
+    "description": "Set text, border and background colors"
+  },
+  "Poke": {
+    "prefix": "poke",
+    "body": ["poke ${1:\\$D020}, ${2:value}"],
+    "description": "Write byte to memory address"
+  },
+  "Peek": {
+    "prefix": "peek",
+    "body": ["var ${1:v} = peek(${2:\\$D012})"],
+    "description": "Read byte from memory address"
+  },
+  "Getch": {
+    "prefix": "getch",
+    "body": ["var ${1:key} = getch()"],
+    "description": "Wait for keypress, return PETSCII code"
+  },
+  "Joystick read": {
+    "prefix": "joy",
+    "body": ["var ${1:j} = joy(${2:2})"],
+    "description": "Read joystick port (1 or 2)"
+  },
+  "Sound": {
+    "prefix": "sound",
+    "body": ["sound ${1:0}, ${2:\\$1CAD}, ${3:25}"],
+    "description": "Play SID sound (channel, freq, duration in frames)"
+  },
+  "Wait raster": {
+    "prefix": "waitr",
+    "body": ["wait raster ${1:100}"],
+    "description": "Wait for raster line"
+  },
+  "Graphics on": {
+    "prefix": "gon",
+    "body": [
+      "graphics on",
+      "gcls"
+    ],
+    "description": "Enable hires bitmap mode and clear"
+  },
+  "Graphics on multicolor": {
+    "prefix": "gonm",
+    "body": [
+      "graphics on multi",
+      "gcls"
+    ],
+    "description": "Enable multicolor bitmap mode and clear"
+  },
+  "Graphics off": {
+    "prefix": "goff",
+    "body": ["graphics off"],
+    "description": "Return to text mode"
+  },
+  "Plot pixel": {
+    "prefix": "plot",
+    "body": ["plot ${1:x}, ${2:y}"],
+    "description": "Set pixel at (x, y)"
+  },
+  "Draw line": {
+    "prefix": "line",
+    "body": ["line ${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}"],
+    "description": "Draw Bresenham line"
+  },
+  "Sprite definition (sprdef)": {
+    "prefix": "sprdef",
+    "body": [
+      "sprdef ${1:0}",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "  0,0,0",
+      "end"
+    ],
+    "description": "Sprite data definition block (21 rows × 3 bytes = 63 bytes)"
+  },
+  "Sprite setup": {
+    "prefix": "sprite",
+    "body": [
+      "sprite ${1:0}, ${2:x}, ${3:y}, ${4:\\$2000}",
+      "sprite_on ${1:0}",
+      "sprite_color ${1:0}, ${5:7}"
+    ],
+    "description": "Set sprite position, enable and color"
+  },
+  "Inline assembly block": {
+    "prefix": "asm",
+    "body": [
+      "asm {",
+      "  ${1:# 6502 opcodes as hex bytes}",
+      "}"
+    ],
+    "description": "Inline assembly block"
+  },
+  "SYS call": {
+    "prefix": "sys",
+    "body": ["sys ${1:\\$FFD2}"],
+    "description": "JSR to KERNAL/ROM routine"
+  },
+  "Data table": {
+    "prefix": "data",
+    "body": ["data ${1:1, 2, 3, 255}"],
+    "description": "Constant byte data table"
+  },
+  "Include file": {
+    "prefix": "include",
+    "body": ["include \"${1:file.ub}\""],
+    "description": "Include another .ub source file"
+  },
+  "Include binary": {
+    "prefix": "incbin",
+    "body": ["incbin \"${1:data.bin}\""],
+    "description": "Embed raw binary file"
+  },
+  "REU stash": {
+    "prefix": "reustash",
+    "body": ["reu stash ${1:c64addr}, ${2:0}, ${3:0}, ${4:len}"],
+    "description": "Copy C64 RAM to REU"
+  },
+  "REU fetch": {
+    "prefix": "reufetch",
+    "body": ["reu fetch ${1:c64addr}, ${2:0}, ${3:0}, ${4:len}"],
+    "description": "Copy REU to C64 RAM"
+  },
+  "Main loop skeleton": {
+    "prefix": "mainloop",
+    "body": [
+      "cls",
+      "color text ${1:14}",
+      "color border ${2:6}",
+      "color bg ${3:6}",
+      "",
+      "label main_loop",
+      "",
+      "  var key = getch()",
+      "  if key == 81 then  # Q = quit",
+      "    goto done",
+      "  end",
+      "",
+      "  ${4:# main logic here}",
+      "",
+      "  goto main_loop",
+      "",
+      "label done",
+      "  cls",
+      "  bye"
+    ],
+    "description": "Main game loop skeleton with quit on Q"
+  },
+  "Bitmap demo skeleton": {
+    "prefix": "bitmapskel",
+    "body": [
+      "graphics on",
+      "gcls",
+      "",
+      "# Draw something",
+      "plot ${1:160}, ${2:100}",
+      "",
+      "# Wait for key",
+      "var key = getch()",
+      "",
+      "graphics off",
+      "cls",
+      "bye"
+    ],
+    "description": "Bitmap graphics skeleton"
+  }
+}

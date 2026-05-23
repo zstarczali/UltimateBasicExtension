@@ -1,0 +1,199 @@
+{
+  "name": "ultimate-basic",
+  "displayName": "Ultimate Basic",
+  "description": "Language support for Ultimate Basic (.ub) — C64 BASIC-like compiler targeting 6502",
+  "version": "0.2.0",
+  "publisher": "nextbasic",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "activationEvents": [
+    "onLanguage:ultimate-basic"
+  ],
+  "icon": "images/icon.png",
+  "keywords": [
+    "ultimate basic",
+    "c64",
+    "commodore 64",
+    "6502",
+    "retro"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nextbasic/ultimate-basic-vscode"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "ultimate-basic",
+        "aliases": [
+          "Ultimate Basic",
+          "ultimate-basic",
+          "ub"
+        ],
+        "extensions": [
+          ".ub"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "ultimate-basic",
+        "scopeName": "source.ub",
+        "path": "./syntaxes/ultimate-basic.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "ultimate-basic",
+        "path": "./snippets/ultimate-basic.json"
+      }
+    ],
+    "taskDefinitions": [
+      {
+        "type": "ultimate-basic",
+        "required": [
+          "file"
+        ],
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The .ub source file to compile"
+          },
+          "output": {
+            "type": "string",
+            "description": "Output .prg file path"
+          },
+          "verbose": {
+            "type": "boolean",
+            "description": "Show zero-page layout and hex dump"
+          },
+          "d64": {
+            "type": "string",
+            "description": "Also produce a .d64 disk image"
+          },
+          "noStub": {
+            "type": "boolean",
+            "description": "Skip the BASIC SYS stub"
+          },
+          "runAfterBuild": {
+            "type": "boolean",
+            "description": "Launch VICE emulator after successful build"
+          }
+        }
+      }
+    ],
+    "problemMatchers": [
+      {
+        "name": "ultimate-basic",
+        "owner": "ultimate-basic",
+        "fileLocation": [
+          "relative",
+          "${workspaceFolder}"
+        ],
+        "pattern": {
+          "regexp": "^(?:error|Error):\\s+(.+)$",
+          "message": 1
+        }
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceExtname == .ub",
+          "command": "ultimate-basic.build",
+          "group": "ub@1"
+        },
+        {
+          "when": "resourceExtname == .ub",
+          "command": "ultimate-basic.buildAndRun",
+          "group": "ub@2"
+        },
+        {
+          "when": "resourceExtname == .ub",
+          "command": "ultimate-basic.buildVerbose",
+          "group": "ub@3"
+        },
+        {
+          "when": "resourceExtname == .ub",
+          "command": "ultimate-basic.buildD64",
+          "group": "ub@4"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "ultimate-basic.build",
+        "title": "Build (.prg)",
+        "category": "Ultimate Basic",
+        "icon": "$(play)"
+      },
+      {
+        "command": "ultimate-basic.buildAndRun",
+        "title": "Build & Run in VICE",
+        "category": "Ultimate Basic",
+        "icon": "$(debug-start)"
+      },
+      {
+        "command": "ultimate-basic.buildVerbose",
+        "title": "Build (verbose)",
+        "category": "Ultimate Basic",
+        "icon": "$(output)"
+      },
+      {
+        "command": "ultimate-basic.buildD64",
+        "title": "Build + D64 disk image",
+        "category": "Ultimate Basic",
+        "icon": "$(save-all)"
+      },
+      {
+        "command": "ultimate-basic.buildAndRunD64",
+        "title": "Build D64 & Run in VICE",
+        "category": "Ultimate Basic",
+        "icon": "$(debug-start)"
+      }
+    ],
+    "configuration": {
+      "title": "Ultimate Basic",
+      "properties": {
+        "ultimateBasic.compilerPath": {
+          "type": "string",
+          "default": "ultimate-basic",
+          "description": "Path to the ultimate-basic compiler executable (e.g. C:\\tools\\ultimate-basic.exe)"
+        },
+        "ultimateBasic.vicePath": {
+          "type": "string",
+          "default": "x64sc",
+          "description": "Path to the VICE C64 emulator executable (e.g. C:\\VICE\\x64sc.exe). Used by 'Build & Run'."
+        },
+        "ultimateBasic.viceArgs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "Extra command-line arguments passed to VICE (e.g. [\"-fullscreen\", \"-joydev1\", \"4\"])"
+        },
+        "ultimateBasic.defaultOutputDir": {
+          "type": "string",
+          "default": "",
+          "description": "Default output directory for compiled .prg files (empty = same directory as source file)"
+        }
+      }
+    }
+  },
+  "main": "./out/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.60.0",
+    "typescript": "^5.0.0"
+  }
+}

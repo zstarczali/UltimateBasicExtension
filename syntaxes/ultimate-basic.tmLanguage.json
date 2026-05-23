@@ -1,0 +1,236 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Ultimate Basic",
+  "scopeName": "source.ub",
+  "fileTypes": ["ub"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#keywords-control" },
+    { "include": "#keywords-declaration" },
+    { "include": "#keywords-c64" },
+    { "include": "#keywords-operators" },
+    { "include": "#builtin-functions" },
+    { "include": "#types" },
+    { "include": "#labels" },
+    { "include": "#inline-asm" },
+    { "include": "#operators" },
+    { "include": "#identifiers" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.ub",
+          "match": "#.*$"
+        },
+        {
+          "name": "comment.line.semicolon.ub",
+          "match": ";.*$"
+        },
+        {
+          "name": "comment.line.rem.ub",
+          "match": "(?i)\\brem\\b.*$"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.ub",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": []
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.hex.ub",
+          "match": "\\$[0-9A-Fa-f]+"
+        },
+        {
+          "name": "constant.numeric.binary.ub",
+          "match": "%[01]+"
+        },
+        {
+          "name": "constant.numeric.decimal.ub",
+          "match": "\\b[0-9]+\\b"
+        }
+      ]
+    },
+    "keywords-control": {
+      "patterns": [
+        {
+          "name": "keyword.control.ub",
+          "match": "(?i)\\b(if|then|else|end|for|to|step|next|while|loop|break|goto|label|sub|call|return)\\b"
+        },
+        {
+          "name": "keyword.control.exit.ub",
+          "match": "(?i)\\b(bye|exit)\\b"
+        }
+      ]
+    },
+    "keywords-declaration": {
+      "patterns": [
+        {
+          "name": "keyword.other.declaration.ub",
+          "match": "(?i)\\b(var|const)\\b"
+        },
+        {
+          "name": "keyword.other.include.ub",
+          "match": "(?i)\\b(include|incbin)\\b"
+        },
+        {
+          "name": "keyword.other.data.ub",
+          "match": "(?i)\\b(data|read)\\b"
+        }
+      ]
+    },
+    "keywords-c64": {
+      "patterns": [
+        {
+          "name": "support.function.c64.output.ub",
+          "match": "(?i)\\b(print|cls)\\b"
+        },
+        {
+          "name": "support.function.c64.graphics.ub",
+          "match": "(?i)\\b(graphics|gcls|plot|line)\\b"
+        },
+        {
+          "name": "support.function.c64.color.ub",
+          "match": "(?i)\\b(color)\\b"
+        },
+        {
+          "name": "support.function.c64.memory.ub",
+          "match": "(?i)\\b(poke)\\b"
+        },
+        {
+          "name": "support.function.c64.sprite.ub",
+          "match": "(?i)\\b(sprite|sprite_on|sprite_off|sprite_color|sprite_multicolor|sprdef)\\b"
+        },
+        {
+          "name": "support.function.c64.sound.ub",
+          "match": "(?i)\\b(sound)\\b"
+        },
+        {
+          "name": "support.function.c64.timing.ub",
+          "match": "(?i)\\b(wait)\\b"
+        },
+        {
+          "name": "support.function.c64.reu.ub",
+          "match": "(?i)\\b(reu)\\b"
+        },
+        {
+          "name": "support.function.c64.assembly.ub",
+          "match": "(?i)\\b(sys|asm)\\b"
+        },
+        {
+          "name": "support.function.c64.string.ub",
+          "match": "(?i)\\b(int_to_str)\\b"
+        },
+        {
+          "name": "constant.language.c64.modifier.ub",
+          "match": "(?i)\\b(on|off|fast|multi|raster|text|border|bg|stash|fetch|swap)\\b"
+        }
+      ]
+    },
+    "keywords-operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.logical.ub",
+          "match": "(?i)\\b(and|or|xor|not|shl|shr)\\b"
+        }
+      ]
+    },
+    "builtin-functions": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.io.ub",
+          "match": "(?i)\\b(getch|inkey|joy)\\s*(?=\\()"
+        },
+        {
+          "name": "support.function.builtin.memory.ub",
+          "match": "(?i)\\b(peek)\\s*(?=\\()"
+        },
+        {
+          "name": "support.function.builtin.math.ub",
+          "match": "(?i)\\b(abs|min|max|sgn|rnd|sin|cos)\\s*(?=\\()"
+        },
+        {
+          "name": "support.function.builtin.string.ub",
+          "match": "(?i)\\b(chr\\$|len|asc|hex|bin|str_to_int)\\s*(?=\\()"
+        },
+        {
+          "name": "support.function.builtin.sprite.ub",
+          "match": "(?i)\\b(sprite_hit|sprite_bg_hit)\\s*(?=\\()"
+        },
+        {
+          "name": "support.function.builtin.reu.ub",
+          "match": "(?i)\\b(reu_present)\\s*(?=\\()"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.ub",
+          "match": "(?i)\\b(int|word|string|array)\\b"
+        }
+      ]
+    },
+    "labels": {
+      "patterns": [
+        {
+          "name": "entity.name.label.ub",
+          "match": "(?i)(?<=\\blabel\\s)\\s*([A-Za-z_][A-Za-z0-9_]*)"
+        },
+        {
+          "name": "entity.name.label.goto.ub",
+          "match": "(?i)(?<=\\bgoto\\s)\\s*([A-Za-z_][A-Za-z0-9_]*)"
+        },
+        {
+          "name": "entity.name.function.ub",
+          "match": "(?i)(?<=\\bsub\\s)\\s*([A-Za-z_][A-Za-z0-9_]*)"
+        }
+      ]
+    },
+    "inline-asm": {
+      "name": "meta.embedded.asm.ub",
+      "begin": "(?i)\\basm\\s*\\{",
+      "end": "\\}",
+      "beginCaptures": {
+        "0": { "name": "keyword.other.asm.ub" }
+      },
+      "endCaptures": {
+        "0": { "name": "keyword.other.asm.ub" }
+      },
+      "patterns": [
+        { "include": "#numbers" },
+        { "include": "#comments" }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.comparison.ub",
+          "match": "==|!=|<=|>=|<|>"
+        },
+        {
+          "name": "keyword.operator.assignment.ub",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.arithmetic.ub",
+          "match": "[+\\-*/]"
+        }
+      ]
+    },
+    "identifiers": {
+      "patterns": [
+        {
+          "name": "variable.other.ub",
+          "match": "[A-Za-z_][A-Za-z0-9_]*"
+        }
+      ]
+    }
+  }
+}
