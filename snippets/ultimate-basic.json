@@ -271,6 +271,51 @@
     ],
     "description": "Set sprite position, enable and color"
   },
+  "Sprite on": {
+    "prefix": "spron",
+    "body": ["sprite_on ${1:0}"],
+    "description": "Enable sprite N ($D015 |= bitN)"
+  },
+  "Sprite off": {
+    "prefix": "sproff",
+    "body": ["sprite_off ${1:0}"],
+    "description": "Disable sprite N ($D015 &= ~bitN)"
+  },
+  "Sprite color": {
+    "prefix": "sprcol",
+    "body": ["sprite_color ${1:0}, ${2:7}"],
+    "description": "Set sprite N color ($D027+N)"
+  },
+  "Sprite multicolor on": {
+    "prefix": "sprmc",
+    "body": ["sprite_multicolor ${1:0}, ${2:on}"],
+    "description": "Enable or disable multicolor mode for sprite N ($D01C)"
+  },
+  "Sprite hit check": {
+    "prefix": "sprhit",
+    "body": [
+      "var ${1:h} = sprite_hit()",
+      "if ${1:h} != 0 then",
+      "  ${2:# sprite-sprite collision}",
+      "end"
+    ],
+    "description": "Check sprite-sprite collision ($D01E)"
+  },
+  "Sprite background hit check": {
+    "prefix": "sprbghit",
+    "body": [
+      "var ${1:b} = sprite_bg_hit()",
+      "if ${1:b} != 0 then",
+      "  ${2:# sprite-background collision}",
+      "end"
+    ],
+    "description": "Check sprite-background collision ($D01F)"
+  },
+  "Str to int": {
+    "prefix": "strtoint",
+    "body": ["var ${1:n} = str_to_int(\"${2:42}\")"],
+    "description": "Compile-time string literal to integer"
+  },
   "Inline assembly block": {
     "prefix": "asm",
     "body": [

@@ -76,6 +76,11 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `sound` | SID sound |
 | `wait`, `waitr` | wait N transitions / wait for raster line |
 | `sprite` | sprite setup (position + enable + color) |
+| `spron`, `sproff` | sprite enable / disable |
+| `sprcol` | sprite color |
+| `sprmc` | sprite multicolor on/off |
+| `sprhit`, `sprbghit` | sprite collision checks |
+| `strtoint` | compile-time string to integer |
 | `plot`, `line`, `circle` | pixel, line and circle drawing |
 | `gon`, `gonm`, `goff` | graphics on / multicolor / off |
 | `don`, `doff` | display on / off (VIC DEN bit) |
