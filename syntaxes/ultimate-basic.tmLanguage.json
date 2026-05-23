@@ -61,7 +61,7 @@
       "patterns": [
         {
           "name": "keyword.control.ub",
-          "match": "(?i)\\b(if|then|else|end|for|to|step|next|while|loop|break|goto|label|sub|call|return)\\b"
+          "match": "(?i)\\b(if|then|else|end|for|to|step|next|while|loop|break|goto|label|sub|call|return|repeat|until)\\b"
         },
         {
           "name": "keyword.control.exit.ub",
@@ -93,7 +93,7 @@
         },
         {
           "name": "support.function.c64.graphics.ub",
-          "match": "(?i)\\b(graphics|gcls|plot|line|circle|display)\\b"
+          "match": "(?i)\\b(graphics|gcls|plot|line|circle|display|cursor)\\b"
         },
         {
           "name": "support.function.c64.color.ub",
@@ -133,7 +133,7 @@
         },
         {
           "name": "constant.language.c64.modifier.ub",
-          "match": "(?i)\\b(on|off|fast|multi|raster|text|border|bg|stash|fetch|swap|color|multicolor)\\b"
+          "match": "(?i)\\b(on|off|fast|multi|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority)\\b"
         }
       ]
     },
@@ -141,7 +141,7 @@
       "patterns": [
         {
           "name": "keyword.operator.logical.ub",
-          "match": "(?i)\\b(and|or|xor|not|shl|shr)\\b"
+          "match": "(?i)\\b(and|or|xor|not|shl|shr|mod)\\b"
         }
       ]
     },

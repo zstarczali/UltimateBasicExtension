@@ -65,6 +65,7 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `if`, `ife` | if/then, if/then/else block |
 | `for`, `fors` | for..next loop (with or without step) |
 | `while`, `loop`, `loopc` | while / infinite / counted loop |
+| `repeat` | repeat/until do-while loop |
 | `sub` | subroutine definition |
 | `sprdef` | 21-row sprite data block template |
 | `mainloop` | full main loop skeleton (keyboard handling, Q = quit) |
@@ -80,8 +81,12 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `sprcol` | sprite color |
 | `sprmc` | sprite multicolor on/off |
 | `sprhit`, `sprbghit` | sprite collision checks |
+| `sprex`, `sprey` | sprite expand x / expand y |
+| `sprpri` | sprite priority (behind/in front of background) |
 | `strtoint` | compile-time string to integer |
-| `plot`, `line`, `circle` | pixel, line and circle drawing |
+| `plot`, `plote`, `plotx` | set / erase / toggle pixel |
+| `line`, `circle` | line and circle drawing |
+| `cursor` | move cursor to column, row |
 | `gon`, `gonm`, `goff` | graphics on / multicolor / off |
 | `don`, `doff` | display on / off (VIC DEN bit) |
 | `clsf` | fast screen clear |

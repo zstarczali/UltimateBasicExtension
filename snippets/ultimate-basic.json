@@ -62,6 +62,15 @@
     ],
     "description": "For..next loop with step"
   },
+  "Repeat/until loop": {
+    "prefix": "repeat",
+    "body": [
+      "repeat",
+      "  ${1:# body}",
+      "until ${2:condition}"
+    ],
+    "description": "Do-while loop — body runs at least once, exits when condition is true"
+  },
   "While loop": {
     "prefix": "while",
     "body": [
@@ -213,6 +222,11 @@
     "body": ["graphics off"],
     "description": "Return to text mode"
   },
+  "Cursor position": {
+    "prefix": "cursor",
+    "body": ["cursor ${1:0}, ${2:0}"],
+    "description": "Move cursor to column, row (KERNAL PLOT $FFF0)"
+  },
   "Display on": {
     "prefix": "don",
     "body": ["display on"],
@@ -227,6 +241,16 @@
     "prefix": "plot",
     "body": ["plot ${1:x}, ${2:y}"],
     "description": "Set pixel at (x, y)"
+  },
+  "Plot erase": {
+    "prefix": "plote",
+    "body": ["plot erase ${1:x}, ${2:y}"],
+    "description": "Clear pixel at (x, y) — AND ~mask"
+  },
+  "Plot xor": {
+    "prefix": "plotx",
+    "body": ["plot xor ${1:x}, ${2:y}"],
+    "description": "Toggle pixel at (x, y) — EOR mask, flicker-free animation"
   },
   "Draw line": {
     "prefix": "line",
@@ -295,6 +319,21 @@
     "prefix": "sprmc",
     "body": ["sprite multicolor ${1:0}, ${2:on}"],
     "description": "Enable or disable multicolor mode for sprite N ($D01C)"
+  },
+  "Sprite expand x": {
+    "prefix": "sprex",
+    "body": ["sprite expand x ${1:0}, ${2:on}"],
+    "description": "Double width (on) or normal width (off) for sprite N ($D01D)"
+  },
+  "Sprite expand y": {
+    "prefix": "sprey",
+    "body": ["sprite expand y ${1:0}, ${2:on}"],
+    "description": "Double height (on) or normal height (off) for sprite N ($D017)"
+  },
+  "Sprite priority": {
+    "prefix": "sprpri",
+    "body": ["sprite priority ${1:0}, ${2:on}"],
+    "description": "Behind background (on) or in front of background (off) ($D01B)"
   },
   "Sprite hit check": {
     "prefix": "sprhit",
