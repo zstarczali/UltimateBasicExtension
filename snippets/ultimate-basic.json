@@ -123,10 +123,10 @@
     "body": ["cls fast"],
     "description": "Fast screen clear (screen RAM + color RAM + HOME)"
   },
-  "Int to string": {
-    "prefix": "inttostr",
-    "body": ["int_to_str ${1:score}, ${2:\\$0340}"],
-    "description": "Write variable as 3-digit decimal string to memory address"
+  "Numstr (number to string)": {
+    "prefix": "numstr",
+    "body": ["numstr ${1:score}, ${2:\\$0340}"],
+    "description": "Write variable as 3-digit zero-padded decimal string to memory address"
   },
   "Color text": {
     "prefix": "ctext",
@@ -166,6 +166,11 @@
     "prefix": "getch",
     "body": ["var ${1:key} = getch()"],
     "description": "Wait for keypress, return PETSCII code"
+  },
+  "Inkey": {
+    "prefix": "inkey",
+    "body": ["var ${1:k} = inkey()"],
+    "description": "Non-blocking key read — returns PETSCII code or 0 if no key pressed"
   },
   "Joystick read": {
     "prefix": "joy",
@@ -266,10 +271,55 @@
     "prefix": "sprite",
     "body": [
       "sprite ${1:0}, ${2:x}, ${3:y}, ${4:\\$2000}",
-      "sprite_on ${1:0}",
-      "sprite_color ${1:0}, ${5:7}"
+      "sprite on ${1:0}",
+      "sprite color ${1:0}, ${5:7}"
     ],
     "description": "Set sprite position, enable and color"
+  },
+  "Sprite on": {
+    "prefix": "spron",
+    "body": ["sprite on ${1:0}"],
+    "description": "Enable sprite N ($D015 |= bitN)"
+  },
+  "Sprite off": {
+    "prefix": "sproff",
+    "body": ["sprite off ${1:0}"],
+    "description": "Disable sprite N ($D015 &= ~bitN)"
+  },
+  "Sprite color": {
+    "prefix": "sprcol",
+    "body": ["sprite color ${1:0}, ${2:7}"],
+    "description": "Set sprite N color ($D027+N)"
+  },
+  "Sprite multicolor": {
+    "prefix": "sprmc",
+    "body": ["sprite multicolor ${1:0}, ${2:on}"],
+    "description": "Enable or disable multicolor mode for sprite N ($D01C)"
+  },
+  "Sprite hit check": {
+    "prefix": "sprhit",
+    "body": [
+      "var ${1:h} = sprite_hit()",
+      "if ${1:h} != 0 then",
+      "  ${2:# sprite-sprite collision}",
+      "end"
+    ],
+    "description": "Check sprite-sprite collision ($D01E)"
+  },
+  "Sprite background hit check": {
+    "prefix": "sprbghit",
+    "body": [
+      "var ${1:b} = sprite_bg_hit()",
+      "if ${1:b} != 0 then",
+      "  ${2:# sprite-background collision}",
+      "end"
+    ],
+    "description": "Check sprite-background collision ($D01F)"
+  },
+  "Str to int": {
+    "prefix": "strtoint",
+    "body": ["var ${1:n} = str_to_int(\"${2:42}\")"],
+    "description": "Compile-time string literal to integer"
   },
   "Inline assembly block": {
     "prefix": "asm",
@@ -294,6 +344,26 @@
     "prefix": "read",
     "body": ["read ${1:varname}"],
     "description": "Load next byte from data table into variable"
+  },
+  "Load file": {
+    "prefix": "load",
+    "body": ["load \"${1:PROGRAM}\""],
+    "description": "Load file from device 8 to its native address"
+  },
+  "Load file to address": {
+    "prefix": "loada",
+    "body": ["load \"${1:DATA}\", ${2:\\$C000}"],
+    "description": "Load file from device 8 to a specific address"
+  },
+  "String length": {
+    "prefix": "len",
+    "body": ["var ${1:n} = len(${2:msg})"],
+    "description": "Length of null-terminated string variable (0–255)"
+  },
+  "Asc (char code)": {
+    "prefix": "asc",
+    "body": ["var ${1:c} = asc(${2:msg})"],
+    "description": "PETSCII code of first character of string"
   },
   "Include file": {
     "prefix": "include",

@@ -71,17 +71,24 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `bitmapskel` | bitmap graphics skeleton |
 | `var`, `varw`, `vars`, `vara` | variable declaration (int / word / string / array) |
 | `const` | compile-time constant |
-| `getch`, `joy` | keyboard / joystick read |
+| `getch`, `inkey`, `joy` | keyboard (blocking / non-blocking) / joystick read |
 | `poke`, `peek` | memory write / read |
 | `sound` | SID sound |
 | `wait`, `waitr` | wait N transitions / wait for raster line |
 | `sprite` | sprite setup (position + enable + color) |
+| `spron`, `sproff` | sprite enable / disable |
+| `sprcol` | sprite color |
+| `sprmc` | sprite multicolor on/off |
+| `sprhit`, `sprbghit` | sprite collision checks |
+| `strtoint` | compile-time string to integer |
 | `plot`, `line`, `circle` | pixel, line and circle drawing |
 | `gon`, `gonm`, `goff` | graphics on / multicolor / off |
 | `don`, `doff` | display on / off (VIC DEN bit) |
 | `clsf` | fast screen clear |
 | `data`, `read` | data table / read next byte |
-| `inttostr` | write number as 3-digit decimal string |
+| `numstr` | write number as 3-digit decimal string (`numstr`) |
+| `load`, `loada` | load file from disk (native / specific address) |
+| `len`, `asc` | string length / first character PETSCII code |
 | `include`, `incbin` | source file include / binary embed |
 | `reustash`, `reufetch`, `reuswap` | REU memory transfer |
 | `reupresent` | check if REU is present |
