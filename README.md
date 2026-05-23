@@ -74,9 +74,15 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `getch`, `joy` | keyboard / joystick read |
 | `poke`, `peek` | memory write / read |
 | `sound` | SID sound |
+| `wait`, `waitr` | wait N transitions / wait for raster line |
 | `sprite` | sprite setup (position + enable + color) |
 | `plot`, `line`, `circle` | pixel, line and circle drawing |
 | `gon`, `gonm`, `goff` | graphics on / multicolor / off |
+| `don`, `doff` | display on / off (VIC DEN bit) |
+| `clsf` | fast screen clear |
+| `data`, `read` | data table / read next byte |
+| `inttostr` | write number as 3-digit decimal string |
 | `include`, `incbin` | source file include / binary embed |
-| `reustash`, `reufetch` | REU memory transfer |
+| `reustash`, `reufetch`, `reuswap` | REU memory transfer |
+| `reupresent` | check if REU is present |
 | `asm` | inline assembly block |

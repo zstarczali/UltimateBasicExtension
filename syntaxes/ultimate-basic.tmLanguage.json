@@ -93,7 +93,7 @@
         },
         {
           "name": "support.function.c64.graphics.ub",
-          "match": "(?i)\\b(graphics|gcls|plot|line|circle)\\b"
+          "match": "(?i)\\b(graphics|gcls|plot|line|circle|display)\\b"
         },
         {
           "name": "support.function.c64.color.ub",
