@@ -118,6 +118,16 @@
     "body": ["print \"${1:label}: \", ${2:var}"],
     "description": "Print label + variable"
   },
+  "CLS fast": {
+    "prefix": "clsf",
+    "body": ["cls fast"],
+    "description": "Fast screen clear (screen RAM + color RAM + HOME)"
+  },
+  "Int to string": {
+    "prefix": "inttostr",
+    "body": ["int_to_str ${1:score}, ${2:\\$0340}"],
+    "description": "Write variable as 3-digit decimal string to memory address"
+  },
   "Color text": {
     "prefix": "ctext",
     "body": ["color text ${1:14}"],
@@ -167,10 +177,15 @@
     "body": ["sound ${1:0}, ${2:\\$1CAD}, ${3:25}"],
     "description": "Play SID sound (channel, freq, duration in frames)"
   },
+  "Wait": {
+    "prefix": "wait",
+    "body": ["wait ${1:50}"],
+    "description": "Wait N raster-line transitions (~3.2 ms each)"
+  },
   "Wait raster": {
     "prefix": "waitr",
     "body": ["wait raster ${1:100}"],
-    "description": "Wait for raster line"
+    "description": "Spin until raster line N ($D012)"
   },
   "Graphics on": {
     "prefix": "gon",
@@ -193,6 +208,16 @@
     "body": ["graphics off"],
     "description": "Return to text mode"
   },
+  "Display on": {
+    "prefix": "don",
+    "body": ["display on"],
+    "description": "Re-enable VIC display ($D011 DEN bit = 1)"
+  },
+  "Display off": {
+    "prefix": "doff",
+    "body": ["display off"],
+    "description": "Blank VIC display ($D011 DEN bit = 0)"
+  },
   "Plot pixel": {
     "prefix": "plot",
     "body": ["plot ${1:x}, ${2:y}"],
@@ -202,6 +227,11 @@
     "prefix": "line",
     "body": ["line ${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}"],
     "description": "Draw Bresenham line"
+  },
+  "Draw circle": {
+    "prefix": "circle",
+    "body": ["circle ${1:x}, ${2:y}, ${3:r}"],
+    "description": "Draw midpoint circle centered at (x, y) with radius r"
   },
   "Sprite definition (sprdef)": {
     "prefix": "sprdef",
@@ -260,6 +290,11 @@
     "body": ["data ${1:1, 2, 3, 255}"],
     "description": "Constant byte data table"
   },
+  "Read from data": {
+    "prefix": "read",
+    "body": ["read ${1:varname}"],
+    "description": "Load next byte from data table into variable"
+  },
   "Include file": {
     "prefix": "include",
     "body": ["include \"${1:file.ub}\""],
@@ -279,6 +314,21 @@
     "prefix": "reufetch",
     "body": ["reu fetch ${1:c64addr}, ${2:0}, ${3:0}, ${4:len}"],
     "description": "Copy REU to C64 RAM"
+  },
+  "REU swap": {
+    "prefix": "reuswap",
+    "body": ["reu swap ${1:c64addr}, ${2:0}, ${3:0}, ${4:len}"],
+    "description": "Swap bytes between C64 RAM and REU"
+  },
+  "REU present check": {
+    "prefix": "reupresent",
+    "body": [
+      "var ${1:ok} = reu_present()",
+      "if ${1:ok} == 0 then",
+      "  ${2:# no REU}",
+      "end"
+    ],
+    "description": "Check if REU is present"
   },
   "Main loop skeleton": {
     "prefix": "mainloop",
