@@ -61,7 +61,7 @@
       "patterns": [
         {
           "name": "keyword.control.ub",
-          "match": "(?i)\\b(if|then|else|end|for|to|step|next|while|loop|break|goto|label|sub|call|return)\\b"
+          "match": "(?i)\\b(if|then|else|end|for|to|step|next|while|loop|break|goto|label|sub|call|return|repeat|until)\\b"
         },
         {
           "name": "keyword.control.exit.ub",
@@ -93,7 +93,7 @@
         },
         {
           "name": "support.function.c64.graphics.ub",
-          "match": "(?i)\\b(graphics|gcls|plot|line|circle|display)\\b"
+          "match": "(?i)\\b(graphics|gcls|plot|line|circle|display|cursor)\\b"
         },
         {
           "name": "support.function.c64.color.ub",
@@ -105,7 +105,7 @@
         },
         {
           "name": "support.function.c64.sprite.ub",
-          "match": "(?i)\\b(sprite|sprite_on|sprite_off|sprite_color|sprite_multicolor|sprdef)\\b"
+          "match": "(?i)\\b(sprite|sprdef)\\b"
         },
         {
           "name": "support.function.c64.sound.ub",
@@ -125,11 +125,15 @@
         },
         {
           "name": "support.function.c64.string.ub",
-          "match": "(?i)\\b(int_to_str)\\b"
+          "match": "(?i)\\b(numstr|int_to_str)\\b"
+        },
+        {
+          "name": "support.function.c64.disk.ub",
+          "match": "(?i)\\b(load|save)\\b"
         },
         {
           "name": "constant.language.c64.modifier.ub",
-          "match": "(?i)\\b(on|off|fast|multi|raster|text|border|bg|stash|fetch|swap)\\b"
+          "match": "(?i)\\b(on|off|fast|multi|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority)\\b"
         }
       ]
     },
@@ -137,7 +141,7 @@
       "patterns": [
         {
           "name": "keyword.operator.logical.ub",
-          "match": "(?i)\\b(and|or|xor|not|shl|shr)\\b"
+          "match": "(?i)\\b(and|or|xor|not|shl|shr|mod)\\b"
         }
       ]
     },
@@ -217,6 +221,10 @@
         {
           "name": "keyword.operator.assignment.ub",
           "match": "="
+        },
+        {
+          "name": "punctuation.separator.statement.ub",
+          "match": ":"
         },
         {
           "name": "keyword.operator.arithmetic.ub",
