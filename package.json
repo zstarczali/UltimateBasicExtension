@@ -4,6 +4,9 @@
   "description": "Language support for Ultimate Basic (.ub) — C64 BASIC-like compiler targeting 6502",
   "version": "0.2.0",
   "publisher": "nextbasic",
+  "author": {
+    "name": "Zsolt Tarczali"
+  },
   "engines": {
     "vscode": "^1.60.0"
   },

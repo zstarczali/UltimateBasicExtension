@@ -203,6 +203,11 @@
     "body": ["line ${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}"],
     "description": "Draw Bresenham line"
   },
+  "Draw circle": {
+    "prefix": "circle",
+    "body": ["circle ${1:x}, ${2:y}, ${3:r}"],
+    "description": "Draw midpoint circle centered at (x, y) with radius r"
+  },
   "Sprite definition (sprdef)": {
     "prefix": "sprdef",
     "body": [
