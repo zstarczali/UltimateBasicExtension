@@ -92,7 +92,7 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `clsf` | fast screen clear |
 | `data`, `read` | data table / read next byte |
 | `numstr` | write number as 3-digit decimal string (`numstr`) |
-| `load`, `loada`, `save` | load / save file to/from disk |
+| `load`, `loada` | load file from disk (native / specific address) |
 | `len`, `asc` | string length / first character PETSCII code |
 | `include`, `incbin` | source file include / binary embed |
 | `reustash`, `reufetch`, `reuswap` | REU memory transfer |
