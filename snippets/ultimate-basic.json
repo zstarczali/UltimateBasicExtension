@@ -394,11 +394,6 @@
     "body": ["load \"${1:DATA}\", ${2:\\$C000}"],
     "description": "Load file from device 8 to a specific address"
   },
-  "Save file": {
-    "prefix": "save",
-    "body": ["save \"${1:DATA}\", ${2:\\$C000}, ${3:4096}"],
-    "description": "Save bytes to device 8 (address, length)"
-  },
   "String length": {
     "prefix": "len",
     "body": ["var ${1:n} = len(${2:msg})"],
