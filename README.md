@@ -9,8 +9,8 @@ Language support for **Ultimate Basic** (`.ub`), a modern BASIC-like language th
 ## Features
 
 - **Syntax highlighting** — keywords, types, C64-specific statements, numbers (decimal, hex `$D020`, binary `%1010`), comments (`#`, `rem`, `;`)
-- **30+ code snippets** — `if`, `for`, `while`, `sub`, `sprdef`, `mainloop`, `bitmapskel` and more
-- **Auto-indent** — smart indentation for `if/end`, `for/next`, `sub/end`, `sprdef/end`, `while/end` blocks
+- **50+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `sprdef`, `mainloop`, `bitmapskel` and more
+- **Auto-indent** — smart indentation for `if/end`, `for/next`, `sub/end`, `sprdef/end`, `while/end`, `repeat/until` blocks
 - **Build & Run commands** — compile and launch directly in VICE with a single command
 - **Context menu** — right-click any `.ub` file for quick access to Build / Build & Run
 - **Task integration** — works with the VS Code Task system (`Ctrl+Shift+B`)
@@ -62,39 +62,43 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 
 | Prefix | Inserts |
 |---|---|
+| `var`, `varw`, `vars`, `vara` | variable declaration (int / word / string / array) |
+| `const` | compile-time constant |
 | `if`, `ife` | if/then, if/then/else block |
 | `for`, `fors` | for..next loop (with or without step) |
 | `while`, `loop`, `loopc` | while / infinite / counted loop |
 | `repeat` | repeat/until do-while loop |
+| `label`, `goto` | label definition / jump |
 | `sub` | subroutine definition |
-| `sprdef` | 21-row sprite data block template |
-| `mainloop` | full main loop skeleton (keyboard handling, Q = quit) |
-| `bitmapskel` | bitmap graphics skeleton |
-| `var`, `varw`, `vars`, `vara` | variable declaration (int / word / string / array) |
-| `const` | compile-time constant |
+| `print`, `printv` | print string / print label + variable |
+| `ctext`, `cborder`, `cbg`, `colors` | color text / border / bg / all three |
+| `clsf` | fast screen clear |
+| `cursor` | move cursor to column, row |
 | `getch`, `inkey`, `joy` | keyboard (blocking / non-blocking) / joystick read |
 | `poke`, `peek` | memory write / read |
 | `sound` | SID sound |
 | `wait`, `waitr` | wait N transitions / wait for raster line |
+| `plot`, `plote`, `plotx` | set / erase / toggle pixel |
+| `line`, `circle` | line and circle drawing |
+| `gon`, `gonm`, `goff` | graphics on / multicolor / off |
+| `don`, `doff` | display on / off (VIC DEN bit) |
+| `sprdef` | 21-row sprite data block template |
 | `sprite` | sprite setup (position + enable + color) |
 | `spron`, `sproff` | sprite enable / disable |
 | `sprcol` | sprite color |
 | `sprmc` | sprite multicolor on/off |
-| `sprhit`, `sprbghit` | sprite collision checks |
 | `sprex`, `sprey` | sprite expand x / expand y |
 | `sprpri` | sprite priority (behind/in front of background) |
-| `strtoint` | compile-time string to integer |
-| `plot`, `plote`, `plotx` | set / erase / toggle pixel |
-| `line`, `circle` | line and circle drawing |
-| `cursor` | move cursor to column, row |
-| `gon`, `gonm`, `goff` | graphics on / multicolor / off |
-| `don`, `doff` | display on / off (VIC DEN bit) |
-| `clsf` | fast screen clear |
+| `sprhit`, `sprbghit` | sprite collision checks |
 | `data`, `read` | data table / read next byte |
-| `numstr` | write number as 3-digit decimal string (`numstr`) |
-| `load`, `loada`, `save` | load / save file to/from disk |
+| `numstr` | write number as 3-digit decimal string |
+| `strtoint` | compile-time string to integer |
 | `len`, `asc` | string length / first character PETSCII code |
+| `load`, `loada`, `save` | load / save file to/from disk |
 | `include`, `incbin` | source file include / binary embed |
 | `reustash`, `reufetch`, `reuswap` | REU memory transfer |
 | `reupresent` | check if REU is present |
+| `sys` | JSR to KERNAL/ROM routine |
 | `asm` | inline assembly block |
+| `mainloop` | full main loop skeleton (keyboard handling, Q = quit) |
+| `bitmapskel` | bitmap graphics skeleton |
