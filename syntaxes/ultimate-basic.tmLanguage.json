@@ -35,10 +35,6 @@
           "match": "(?<!\\w)#.*$"
         },
         {
-          "name": "comment.line.semicolon.ub",
-          "match": ";.*$"
-        },
-        {
           "name": "comment.line.rem.ub",
           "match": "(?i)\\brem\\b.*$"
         }
@@ -70,7 +66,7 @@
       "patterns": [
         {
           "name": "keyword.control.ub",
-          "match": "(?i)\\b(if|then|else|end|for|to|step|next|while|loop|break|goto|label|sub|call|return|repeat|until)\\b"
+          "match": "(?i)\\b(if|then|else|end|for|to|step|next|while|loop|break|continue|goto|label|sub|call|return|repeat|until|select|case|inc|dec)\\b"
         },
         {
           "name": "keyword.control.exit.ub",
@@ -98,7 +94,7 @@
       "patterns": [
         {
           "name": "support.function.c64.output.ub",
-          "match": "(?i)\\b(print|cls)\\b"
+          "match": "(?i)\\b(print|cls|screen)\\b"
         },
         {
           "name": "support.function.c64.graphics.ub",
@@ -159,6 +155,10 @@
         {
           "name": "support.function.builtin.io.ub",
           "match": "(?i)\\b(getch|inkey|joy)\\s*(?=\\()"
+        },
+        {
+          "name": "support.function.builtin.print.ub",
+          "match": "(?i)\\b(spc|tab)\\s*(?=\\()"
         },
         {
           "name": "support.function.builtin.memory.ub",
@@ -307,12 +307,20 @@
           "match": "==|!=|<=|>=|<|>"
         },
         {
+          "name": "keyword.operator.compound.ub",
+          "match": "\\+=|-=|\\*=|/="
+        },
+        {
           "name": "keyword.operator.assignment.ub",
           "match": "="
         },
         {
           "name": "punctuation.separator.statement.ub",
           "match": ":"
+        },
+        {
+          "name": "punctuation.separator.print.ub",
+          "match": ";"
         },
         {
           "name": "keyword.operator.arithmetic.ub",

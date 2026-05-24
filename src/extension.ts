@@ -218,13 +218,15 @@ class UbTaskProvider implements vscode.TaskProvider {
 
 /**
  * Strip a trailing line comment and trim trailing whitespace.
- * Handles # and ; comment starters, respecting double-quoted strings.
+ * Handles # and ; starters, respecting double-quoted strings.
+ * (Does not interpret # inside asm blocks, but block keywords never start
+ *  with a 6502 mnemonic, so this is safe for indent detection.)
  */
 function stripTrailingComment(raw: string): string {
     let inStr = false;
     for (let i = 0; i < raw.length; i++) {
         if (raw[i] === '"') { inStr = !inStr; continue; }
-        if (!inStr && (raw[i] === '#' || raw[i] === ';')) {
+        if (!inStr && raw[i] === '#') {
             return raw.slice(0, i).trimEnd();
         }
     }
@@ -232,27 +234,14 @@ function stripTrailingComment(raw: string): string {
 }
 
 /**
- * True if this line ends a block (de-dented BEFORE being printed):
- *   end / else / next / until / }
+ * Stack-based formatter with proper select/case handling.
+ *
+ * Block kinds:
+ *  'generic'   – opened by if/for/while/loop/sub/sprdef/repeat/asm/else
+ *  'select'    – opened by `select`; case arms live at this level
+ *  'case_body' – opened by `case` / `else:` inside a select
  */
-function closesBlock(trimmed: string): boolean {
-    return /^(end|else|next|until)\b/i.test(trimmed) || trimmed === '}';
-}
-
-/**
- * True if this line opens a block (de-dented AFTER being printed):
- *   else / for / while / loop / sub / sprdef / repeat
- *   if ... then   (block form — nothing after 'then' except optional comment)
- *   asm {
- */
-function opensBlock(trimmed: string): boolean {
-    const code = stripTrailingComment(trimmed);
-    if (/^(else|for|while|loop|sub|sprdef|repeat)\b/i.test(code)) { return true; }
-    if (/^asm\s*\{/i.test(code)) { return true; }
-    // Block-form if: line ends with 'then' (after stripping comments)
-    if (/^if\b/i.test(code) && /\bthen\s*$/i.test(code)) { return true; }
-    return false;
-}
+type BlockKind = 'generic' | 'select' | 'case_body';
 
 class UbFormatter implements vscode.DocumentFormattingEditProvider {
     provideDocumentFormattingEdits(
@@ -260,14 +249,17 @@ class UbFormatter implements vscode.DocumentFormattingEditProvider {
         options: vscode.FormattingOptions,
     ): vscode.TextEdit[] {
         const edits: vscode.TextEdit[] = [];
-        const unit = options.insertSpaces ? ' '.repeat(options.tabSize) : '\t';
-        let level = 0;
+        const unit  = options.insertSpaces ? ' '.repeat(options.tabSize) : '\t';
+        let   level = 0;
+        const stack: BlockKind[] = [];
+
+        const top = () => stack[stack.length - 1] as BlockKind | undefined;
 
         for (let i = 0; i < document.lineCount; i++) {
             const line    = document.lineAt(i);
             const trimmed = line.text.trim();
 
-            // Blank / whitespace-only line: strip any trailing spaces, leave empty
+            // Blank / whitespace-only: strip trailing spaces, keep the line
             if (trimmed === '') {
                 if (line.text !== '') {
                     edits.push(vscode.TextEdit.replace(line.range, ''));
@@ -275,17 +267,70 @@ class UbFormatter implements vscode.DocumentFormattingEditProvider {
                 continue;
             }
 
-            // De-dent BEFORE printing this line (end / else / next / until / })
-            if (closesBlock(trimmed)) { level = Math.max(0, level - 1); }
+            // Strip trailing comment for pattern matching only
+            const code = stripTrailingComment(trimmed);
+            const low  = code.toLowerCase();
+
+            // Classify the line
+            // `case N:` or bare `else:` (inside select) — both close previous case body and open a new one
+            const isCase  = /^case\b/i.test(low) || /^else\s*:\s*$/.test(low);
+            // plain `else` (without colon) — belongs to if/then
+            const isElse  = /^else\b/i.test(low) && !isCase;
+            const isEnd   = /^end\b/i.test(low);
+            const isNext  = /^next\b/i.test(low);
+            const isUntil = /^until\b/i.test(low);
+            const isBrace = low === '}';
+
+            // ── Decrease indent BEFORE printing ──────────────────────────────
+
+            if (isCase) {
+                // Close the previous case body (not the select frame itself)
+                if (top() === 'case_body') { level = Math.max(0, level - 1); stack.pop(); }
+
+            } else if (isElse) {
+                // Close the if-body, print at the if-level
+                level = Math.max(0, level - 1); stack.pop();
+
+            } else if (isEnd) {
+                // If the innermost block is a case body, close it first, then close its select/if/etc.
+                if (top() === 'case_body') { level = Math.max(0, level - 1); stack.pop(); }
+                level = Math.max(0, level - 1); stack.pop();
+
+            } else if (isNext || isUntil || isBrace) {
+                level = Math.max(0, level - 1); stack.pop();
+            }
+
+            // ── Print ─────────────────────────────────────────────────────────
 
             const newText = unit.repeat(level) + trimmed;
-
-            // Indent the NEXT line if this line opens a block
-            if (opensBlock(trimmed)) { level++; }
-
             if (newText !== line.text) {
                 edits.push(vscode.TextEdit.replace(line.range, newText));
             }
+
+            // ── Increase indent AFTER printing ───────────────────────────────
+
+            if (isCase) {
+                // Open the case body
+                level++; stack.push('case_body');
+
+            } else if (isElse) {
+                // Re-open for the else body
+                level++; stack.push('generic');
+
+            } else if (/^select\b/i.test(low)) {
+                level++; stack.push('select');
+
+            } else if (/^(for|while|loop|sub|sprdef|repeat)\b/i.test(low)) {
+                level++; stack.push('generic');
+
+            } else if (/^asm\s*\{/i.test(low)) {
+                level++; stack.push('generic');
+
+            } else if (/^if\b/i.test(low) && /\bthen\s*$/.test(code)) {
+                // Block-form if: line ends with 'then' (nothing after it)
+                level++; stack.push('generic');
+            }
+            // isEnd / isNext / isUntil / isBrace already closed above — no open action needed
         }
 
         return edits;

@@ -9,7 +9,7 @@ Language support for **Ultimate Basic** (`.ub`), a modern BASIC-like language th
 ## Features
 
 - **Syntax highlighting** — keywords, types, C64-specific statements, numbers (decimal, hex `$D020`, binary `%1010`), comments (`#`, `rem`, `;`)
-- **70+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `sprdef`, `mainloop`, `bitmapskel` and more
+- **80+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `select`, `sprdef`, `mainloop`, `bitmapskel` and more
 - **Auto-indent** — smart indentation for `if/end`, `for/next`, `sub/end`, `sprdef/end`, `while/end`, `repeat/until` blocks
 - **Build & Run commands** — compile and launch directly in VICE with a single command
 - **Context menu** — right-click any `.ub` file for quick access to Build / Build & Run
@@ -68,8 +68,11 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `for`, `fors` | for..next loop (with or without step) |
 | `while`, `loop`, `loopc` | while / infinite / counted loop |
 | `repeat` | repeat/until do-while loop |
+| `select` | select/case statement |
+| `break`, `conti` | exit loop / skip to next iteration |
 | `label`, `goto` | label definition / jump |
 | `sub` | subroutine definition |
+| `inc`, `dec` | increment / decrement variable |
 | `print`, `printv` | print string / print label + variable |
 | `ctext`, `cborder`, `cbg`, `colors` | color text / border / bg / all three |
 | `clsf` | fast screen clear |
@@ -77,6 +80,8 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `getch`, `inkey`, `joy` | keyboard (blocking / non-blocking) / joystick read |
 | `mousex`, `mousey`, `mousebtn` | mouse X / Y position / button state |
 | `printat` | print text at column, row |
+| `spc`, `tab` | print N spaces / move to column N |
+| `screen`, `screenc` | write char to screen RAM (with optional color) |
 | `poke`, `peek` | memory write / read (8-bit) |
 | `poke16`, `peek16` | memory write / read (16-bit) |
 | `fill` | fill memory range with value |
@@ -104,6 +109,8 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `numstr` | write number as 3-digit decimal string |
 | `strtoint` | compile-time string to integer |
 | `len`, `asc` | string length / first character PETSCII code |
+| `hex`, `bin` | print as 2-digit hex / 8-bit binary string |
+| `chrp` | print single character by PETSCII code (`chr$`) |
 | `input`, `inputp` | keyboard input (with / without prompt) |
 | `load`, `loada`, `save` | load from disk / load to address / save memory range |
 | `open`, `openp`, `close` | open / close serial file channel |

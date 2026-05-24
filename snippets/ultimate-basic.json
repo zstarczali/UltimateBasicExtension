@@ -609,5 +609,74 @@
     "prefix": "save",
     "body": ["save \"${1:MYFILE}\", ${2:\\$C000}, ${3:\\$C100}"],
     "description": "Save memory range to disk (filename, start address, end address)"
+  },
+  "Increment": {
+    "prefix": "inc",
+    "body": ["inc ${1:x}"],
+    "description": "Increment variable by 1 (INC zp — single 6502 instruction)"
+  },
+  "Decrement": {
+    "prefix": "dec",
+    "body": ["dec ${1:x}"],
+    "description": "Decrement variable by 1 (DEC zp — single 6502 instruction)"
+  },
+  "Continue (loop)": {
+    "prefix": "conti",
+    "body": ["continue"],
+    "description": "Skip rest of current loop iteration and jump to next"
+  },
+  "Break (loop)": {
+    "prefix": "break",
+    "body": ["break"],
+    "description": "Exit the current loop immediately"
+  },
+  "Select / Case": {
+    "prefix": "select",
+    "body": [
+      "select ${1:x}",
+      "  case ${2:1}:",
+      "    ${3:# body}",
+      "  case ${4:2}:",
+      "    ${5:# body}",
+      "  else:",
+      "    ${6:# default}",
+      "end"
+    ],
+    "description": "Select/case statement — evaluates expression once, jumps to matching case"
+  },
+  "Screen write": {
+    "prefix": "screen",
+    "body": ["screen ${1:0}, ${2:0}, ${3:65}"],
+    "description": "Write char code to screen RAM at col, row ($0400 + row*40 + col)"
+  },
+  "Screen write with color": {
+    "prefix": "screenc",
+    "body": ["screen ${1:0}, ${2:0}, ${3:65}, ${4:7}"],
+    "description": "Write char code to screen RAM and color RAM at col, row"
+  },
+  "Print spc": {
+    "prefix": "spc",
+    "body": ["print spc(${1:5})"],
+    "description": "Print N space characters via CHROUT"
+  },
+  "Print tab": {
+    "prefix": "tab",
+    "body": ["print tab(${1:20}), \"${2:VALUE}\""],
+    "description": "Move cursor to absolute column N, then print"
+  },
+  "Print hex": {
+    "prefix": "hex",
+    "body": ["print hex(${1:n})"],
+    "description": "Print variable as 2-digit uppercase hex (e.g. 255 → \"FF\")"
+  },
+  "Print bin": {
+    "prefix": "bin",
+    "body": ["print bin(${1:n})"],
+    "description": "Print variable as 8-bit binary string (e.g. 10 → \"00001010\")"
+  },
+  "Chr$ print": {
+    "prefix": "chrp",
+    "body": ["print chr$(${1:65})"],
+    "description": "Print single character by PETSCII code"
   }
 }

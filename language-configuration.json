@@ -20,8 +20,8 @@
     ["\"", "\""]
   ],
   "indentationRules": {
-    "increaseIndentPattern": "^\\s*(if\\b.*\\bthen|else|for\\b|while\\b|loop\\b|sub\\b|sprdef\\b|repeat\\b|asm\\s*\\{)\\s*$",
-    "decreaseIndentPattern": "^\\s*(end|else|next\\b|until\\b|\\})\\s*$"
+    "increaseIndentPattern": "^\\s*(if\\b.*\\bthen|else\\s*:?|for\\b|while\\b|loop\\b|sub\\b|sprdef\\b|repeat\\b|asm\\s*\\{|select\\b|case\\b.*)\\s*$",
+    "decreaseIndentPattern": "^\\s*(end|else\\s*:?|next\\b|until\\b|\\}|case\\b)\\s*.*$"
   },
   "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\!\\@\\#\\%\\^\\&\\*\\(\\)\\-\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)",
   "folding": {
