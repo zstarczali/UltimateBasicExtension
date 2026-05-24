@@ -549,5 +549,134 @@
       "bye"
     ],
     "description": "Bitmap graphics skeleton"
+  },
+  "Paint (flood fill)": {
+    "prefix": "paint",
+    "body": ["paint ${1:x}, ${2:y}"],
+    "description": "4-connected flood fill from (x, y) in bitmap mode"
+  },
+  "Print at position": {
+    "prefix": "printat",
+    "body": ["print at ${1:0}, ${2:0}, \"${3:text}\""],
+    "description": "Print text at column, row without moving the KERNAL cursor permanently"
+  },
+  "Mouse X": {
+    "prefix": "mousex",
+    "body": ["var ${1:mx} = mouse_x()"],
+    "description": "Read current mouse X position"
+  },
+  "Mouse Y": {
+    "prefix": "mousey",
+    "body": ["var ${1:my} = mouse_y()"],
+    "description": "Read current mouse Y position"
+  },
+  "Mouse button": {
+    "prefix": "mousebtn",
+    "body": ["var ${1:btn} = mouse_btn()"],
+    "description": "Read mouse button state (bit 0 = left, bit 1 = right)"
+  },
+  "SID volume": {
+    "prefix": "sidvol",
+    "body": ["sid volume ${1:15}"],
+    "description": "Set SID master volume (0–15) via $D418"
+  },
+  "SID stop": {
+    "prefix": "sidstop",
+    "body": ["sid stop"],
+    "description": "Silence SID: set volume to 0 and gate all voices off"
+  },
+  "Load SID music": {
+    "prefix": "loadsid",
+    "body": ["load sid \"${1:tune.sid}\""],
+    "description": "Embed SID music file at compile time and set up player"
+  },
+  "SYS with accumulator": {
+    "prefix": "sysa",
+    "body": ["sys ${1:\\$FFD2}, ${2:65}"],
+    "description": "JSR to routine with A register pre-loaded (e.g. CHROUT with char code)"
+  },
+  "IRQ exit": {
+    "prefix": "irqexit",
+    "body": ["irq_exit"],
+    "description": "Return from raster IRQ handler (restores registers, RTI)"
+  },
+  "Draw memory block (2D blit)": {
+    "prefix": "drawmem",
+    "body": ["drawmem ${1:\\$C000}, ${2:\\$0400}, ${3:40}, ${4:25}, ${5:40}"],
+    "description": "2D blit: source, destination, width, height, stride (bytes per row)"
+  },
+  "Save file": {
+    "prefix": "save",
+    "body": ["save \"${1:MYFILE}\", ${2:\\$C000}, ${3:\\$C100}"],
+    "description": "Save memory range to disk (filename, start address, end address)"
+  },
+  "Increment": {
+    "prefix": "inc",
+    "body": ["inc ${1:x}"],
+    "description": "Increment variable by 1 (INC zp — single 6502 instruction)"
+  },
+  "Decrement": {
+    "prefix": "dec",
+    "body": ["dec ${1:x}"],
+    "description": "Decrement variable by 1 (DEC zp — single 6502 instruction)"
+  },
+  "Continue (loop)": {
+    "prefix": "conti",
+    "body": ["continue"],
+    "description": "Skip rest of current loop iteration and jump to next"
+  },
+  "Break (loop)": {
+    "prefix": "break",
+    "body": ["break"],
+    "description": "Exit the current loop immediately"
+  },
+  "Select / Case": {
+    "prefix": "select",
+    "body": [
+      "select ${1:x}",
+      "  case ${2:1}:",
+      "    ${3:# body}",
+      "  case ${4:2}:",
+      "    ${5:# body}",
+      "  else:",
+      "    ${6:# default}",
+      "end"
+    ],
+    "description": "Select/case statement — evaluates expression once, jumps to matching case"
+  },
+  "Screen write": {
+    "prefix": "screen",
+    "body": ["screen ${1:0}, ${2:0}, ${3:65}"],
+    "description": "Write char code to screen RAM at col, row ($0400 + row*40 + col)"
+  },
+  "Screen write with color": {
+    "prefix": "screenc",
+    "body": ["screen ${1:0}, ${2:0}, ${3:65}, ${4:7}"],
+    "description": "Write char code to screen RAM and color RAM at col, row"
+  },
+  "Print spc": {
+    "prefix": "spc",
+    "body": ["print spc(${1:5})"],
+    "description": "Print N space characters via CHROUT"
+  },
+  "Print tab": {
+    "prefix": "tab",
+    "body": ["print tab(${1:20}), \"${2:VALUE}\""],
+    "description": "Move cursor to absolute column N, then print"
+  },
+  "Print hex": {
+    "prefix": "hex",
+    "body": ["print hex(${1:n})"],
+    "description": "Print variable as 2-digit uppercase hex (e.g. 255 → \"FF\")"
+  },
+  "Print bin": {
+    "prefix": "bin",
+    "body": ["print bin(${1:n})"],
+    "description": "Print variable as 8-bit binary string (e.g. 10 → \"00001010\")"
+  },
+  "Chr$ print": {
+    "prefix": "chrp",
+    "body": ["print chr$(${1:65})"],
+    "description": "Print single character by PETSCII code"
   }
 }

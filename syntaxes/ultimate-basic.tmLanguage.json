@@ -35,10 +35,6 @@
           "match": "(?<!\\w)#.*$"
         },
         {
-          "name": "comment.line.semicolon.ub",
-          "match": ";.*$"
-        },
-        {
           "name": "comment.line.rem.ub",
           "match": "(?i)\\brem\\b.*$"
         }
@@ -70,7 +66,7 @@
       "patterns": [
         {
           "name": "keyword.control.ub",
-          "match": "(?i)\\b(if|then|else|end|for|to|step|next|while|loop|break|goto|label|sub|call|return|repeat|until)\\b"
+          "match": "(?i)\\b(if|then|else|end|for|to|step|next|while|loop|break|continue|goto|label|sub|call|return|repeat|until|select|case|inc|dec)\\b"
         },
         {
           "name": "keyword.control.exit.ub",
@@ -98,11 +94,11 @@
       "patterns": [
         {
           "name": "support.function.c64.output.ub",
-          "match": "(?i)\\b(print|cls)\\b"
+          "match": "(?i)\\b(print|cls|screen)\\b"
         },
         {
           "name": "support.function.c64.graphics.ub",
-          "match": "(?i)\\b(graphics|gcls|plot|line|circle|display|cursor)\\b"
+          "match": "(?i)\\b(graphics|gcls|plot|line|circle|display|cursor|paint)\\b"
         },
         {
           "name": "support.function.c64.color.ub",
@@ -110,7 +106,7 @@
         },
         {
           "name": "support.function.c64.memory.ub",
-          "match": "(?i)\\b(poke|poke16|fill|memcopy)\\b"
+          "match": "(?i)\\b(poke|poke16|fill|memcopy|drawmem)\\b"
         },
         {
           "name": "support.function.c64.sprite.ub",
@@ -118,11 +114,11 @@
         },
         {
           "name": "support.function.c64.sound.ub",
-          "match": "(?i)\\b(sound)\\b"
+          "match": "(?i)\\b(sound|sid)\\b"
         },
         {
           "name": "support.function.c64.timing.ub",
-          "match": "(?i)\\b(wait|irq)\\b"
+          "match": "(?i)\\b(wait|irq|irq_exit)\\b"
         },
         {
           "name": "support.function.c64.reu.ub",
@@ -142,7 +138,7 @@
         },
         {
           "name": "constant.language.c64.modifier.ub",
-          "match": "(?i)\\b(on|off|fast|multi|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority)\\b"
+          "match": "(?i)\\b(on|off|fast|multi|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority|at|volume|stop)\\b"
         }
       ]
     },
@@ -161,6 +157,10 @@
           "match": "(?i)\\b(getch|inkey|joy)\\s*(?=\\()"
         },
         {
+          "name": "support.function.builtin.print.ub",
+          "match": "(?i)\\b(spc|tab)\\s*(?=\\()"
+        },
+        {
           "name": "support.function.builtin.memory.ub",
           "match": "(?i)\\b(peek|peek16)\\s*(?=\\()"
         },
@@ -175,6 +175,10 @@
         {
           "name": "support.function.builtin.sprite.ub",
           "match": "(?i)\\b(sprite_hit|sprite_bg_hit)\\s*(?=\\()"
+        },
+        {
+          "name": "support.function.builtin.mouse.ub",
+          "match": "(?i)\\b(mouse_x|mouse_y|mouse_btn)\\s*(?=\\()"
         },
         {
           "name": "support.function.builtin.reu.ub",
@@ -303,12 +307,20 @@
           "match": "==|!=|<=|>=|<|>"
         },
         {
+          "name": "keyword.operator.compound.ub",
+          "match": "\\+=|-=|\\*=|/="
+        },
+        {
           "name": "keyword.operator.assignment.ub",
           "match": "="
         },
         {
           "name": "punctuation.separator.statement.ub",
           "match": ":"
+        },
+        {
+          "name": "punctuation.separator.print.ub",
+          "match": ";"
         },
         {
           "name": "keyword.operator.arithmetic.ub",
