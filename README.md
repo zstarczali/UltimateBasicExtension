@@ -9,7 +9,7 @@ Language support for **Ultimate Basic** (`.ub`), a modern BASIC-like language th
 ## Features
 
 - **Syntax highlighting** — keywords, types, C64-specific statements, numbers (decimal, hex `$D020`, binary `%1010`), comments (`#`, `rem`, `;`)
-- **50+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `sprdef`, `mainloop`, `bitmapskel` and more
+- **60+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `sprdef`, `mainloop`, `bitmapskel` and more
 - **Auto-indent** — smart indentation for `if/end`, `for/next`, `sub/end`, `sprdef/end`, `while/end`, `repeat/until` blocks
 - **Build & Run commands** — compile and launch directly in VICE with a single command
 - **Context menu** — right-click any `.ub` file for quick access to Build / Build & Run
@@ -62,7 +62,7 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 
 | Prefix | Inserts |
 |---|---|
-| `var`, `varw`, `vars`, `vara` | variable declaration (int / word / string / array) |
+| `var`, `varw`, `vars`, `vara`, `varaw` | variable declaration (int / word / string / array / word array) |
 | `const` | compile-time constant |
 | `if`, `ife` | if/then, if/then/else block |
 | `for`, `fors` | for..next loop (with or without step) |
@@ -75,7 +75,10 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `clsf` | fast screen clear |
 | `cursor` | move cursor to column, row |
 | `getch`, `inkey`, `joy` | keyboard (blocking / non-blocking) / joystick read |
-| `poke`, `peek` | memory write / read |
+| `poke`, `peek` | memory write / read (8-bit) |
+| `poke16`, `peek16` | memory write / read (16-bit) |
+| `fill` | fill memory range with value |
+| `memcopy` | copy memory block |
 | `sound` | SID sound |
 | `wait`, `waitr` | wait N transitions / wait for raster line |
 | `plot`, `plote`, `plotx` | set / erase / toggle pixel |
@@ -94,7 +97,11 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `numstr` | write number as 3-digit decimal string |
 | `strtoint` | compile-time string to integer |
 | `len`, `asc` | string length / first character PETSCII code |
+| `input`, `inputp` | keyboard input (with / without prompt) |
 | `load`, `loada`, `save` | load / save file to/from disk |
+| `open`, `openp`, `close` | open / close serial file channel |
+| `printhash` | send output to logical file (`print#`) |
+| `irq` | raster IRQ setup with handler skeleton |
 | `include`, `incbin` | source file include / binary embed |
 | `reustash`, `reufetch`, `reuswap` | REU memory transfer |
 | `reupresent` | check if REU is present |
