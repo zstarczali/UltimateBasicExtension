@@ -549,5 +549,65 @@
       "bye"
     ],
     "description": "Bitmap graphics skeleton"
+  },
+  "Paint (flood fill)": {
+    "prefix": "paint",
+    "body": ["paint ${1:x}, ${2:y}"],
+    "description": "4-connected flood fill from (x, y) in bitmap mode"
+  },
+  "Print at position": {
+    "prefix": "printat",
+    "body": ["print at ${1:0}, ${2:0}, \"${3:text}\""],
+    "description": "Print text at column, row without moving the KERNAL cursor permanently"
+  },
+  "Mouse X": {
+    "prefix": "mousex",
+    "body": ["var ${1:mx} = mouse_x()"],
+    "description": "Read current mouse X position"
+  },
+  "Mouse Y": {
+    "prefix": "mousey",
+    "body": ["var ${1:my} = mouse_y()"],
+    "description": "Read current mouse Y position"
+  },
+  "Mouse button": {
+    "prefix": "mousebtn",
+    "body": ["var ${1:btn} = mouse_btn()"],
+    "description": "Read mouse button state (bit 0 = left, bit 1 = right)"
+  },
+  "SID volume": {
+    "prefix": "sidvol",
+    "body": ["sid volume ${1:15}"],
+    "description": "Set SID master volume (0–15) via $D418"
+  },
+  "SID stop": {
+    "prefix": "sidstop",
+    "body": ["sid stop"],
+    "description": "Silence SID: set volume to 0 and gate all voices off"
+  },
+  "Load SID music": {
+    "prefix": "loadsid",
+    "body": ["load sid \"${1:tune.sid}\""],
+    "description": "Embed SID music file at compile time and set up player"
+  },
+  "SYS with accumulator": {
+    "prefix": "sysa",
+    "body": ["sys ${1:\\$FFD2}, ${2:65}"],
+    "description": "JSR to routine with A register pre-loaded (e.g. CHROUT with char code)"
+  },
+  "IRQ exit": {
+    "prefix": "irqexit",
+    "body": ["irq_exit"],
+    "description": "Return from raster IRQ handler (restores registers, RTI)"
+  },
+  "Draw memory block (2D blit)": {
+    "prefix": "drawmem",
+    "body": ["drawmem ${1:\\$C000}, ${2:\\$0400}, ${3:40}, ${4:25}, ${5:40}"],
+    "description": "2D blit: source, destination, width, height, stride (bytes per row)"
+  },
+  "Save file": {
+    "prefix": "save",
+    "body": ["save \"${1:MYFILE}\", ${2:\\$C000}, ${3:\\$C100}"],
+    "description": "Save memory range to disk (filename, start address, end address)"
   }
 }

@@ -102,7 +102,7 @@
         },
         {
           "name": "support.function.c64.graphics.ub",
-          "match": "(?i)\\b(graphics|gcls|plot|line|circle|display|cursor)\\b"
+          "match": "(?i)\\b(graphics|gcls|plot|line|circle|display|cursor|paint)\\b"
         },
         {
           "name": "support.function.c64.color.ub",
@@ -110,7 +110,7 @@
         },
         {
           "name": "support.function.c64.memory.ub",
-          "match": "(?i)\\b(poke|poke16|fill|memcopy)\\b"
+          "match": "(?i)\\b(poke|poke16|fill|memcopy|drawmem)\\b"
         },
         {
           "name": "support.function.c64.sprite.ub",
@@ -118,11 +118,11 @@
         },
         {
           "name": "support.function.c64.sound.ub",
-          "match": "(?i)\\b(sound)\\b"
+          "match": "(?i)\\b(sound|sid)\\b"
         },
         {
           "name": "support.function.c64.timing.ub",
-          "match": "(?i)\\b(wait|irq)\\b"
+          "match": "(?i)\\b(wait|irq|irq_exit)\\b"
         },
         {
           "name": "support.function.c64.reu.ub",
@@ -142,7 +142,7 @@
         },
         {
           "name": "constant.language.c64.modifier.ub",
-          "match": "(?i)\\b(on|off|fast|multi|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority)\\b"
+          "match": "(?i)\\b(on|off|fast|multi|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority|at|volume|stop)\\b"
         }
       ]
     },
@@ -175,6 +175,10 @@
         {
           "name": "support.function.builtin.sprite.ub",
           "match": "(?i)\\b(sprite_hit|sprite_bg_hit)\\s*(?=\\()"
+        },
+        {
+          "name": "support.function.builtin.mouse.ub",
+          "match": "(?i)\\b(mouse_x|mouse_y|mouse_btn)\\s*(?=\\()"
         },
         {
           "name": "support.function.builtin.reu.ub",

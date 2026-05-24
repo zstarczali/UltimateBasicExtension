@@ -214,6 +214,84 @@ class UbTaskProvider implements vscode.TaskProvider {
     }
 }
 
+// ── Document formatter ────────────────────────────────────────────────────────
+
+/**
+ * Strip a trailing line comment and trim trailing whitespace.
+ * Handles # and ; comment starters, respecting double-quoted strings.
+ */
+function stripTrailingComment(raw: string): string {
+    let inStr = false;
+    for (let i = 0; i < raw.length; i++) {
+        if (raw[i] === '"') { inStr = !inStr; continue; }
+        if (!inStr && (raw[i] === '#' || raw[i] === ';')) {
+            return raw.slice(0, i).trimEnd();
+        }
+    }
+    return raw.trimEnd();
+}
+
+/**
+ * True if this line ends a block (de-dented BEFORE being printed):
+ *   end / else / next / until / }
+ */
+function closesBlock(trimmed: string): boolean {
+    return /^(end|else|next|until)\b/i.test(trimmed) || trimmed === '}';
+}
+
+/**
+ * True if this line opens a block (de-dented AFTER being printed):
+ *   else / for / while / loop / sub / sprdef / repeat
+ *   if ... then   (block form — nothing after 'then' except optional comment)
+ *   asm {
+ */
+function opensBlock(trimmed: string): boolean {
+    const code = stripTrailingComment(trimmed);
+    if (/^(else|for|while|loop|sub|sprdef|repeat)\b/i.test(code)) { return true; }
+    if (/^asm\s*\{/i.test(code)) { return true; }
+    // Block-form if: line ends with 'then' (after stripping comments)
+    if (/^if\b/i.test(code) && /\bthen\s*$/i.test(code)) { return true; }
+    return false;
+}
+
+class UbFormatter implements vscode.DocumentFormattingEditProvider {
+    provideDocumentFormattingEdits(
+        document: vscode.TextDocument,
+        options: vscode.FormattingOptions,
+    ): vscode.TextEdit[] {
+        const edits: vscode.TextEdit[] = [];
+        const unit = options.insertSpaces ? ' '.repeat(options.tabSize) : '\t';
+        let level = 0;
+
+        for (let i = 0; i < document.lineCount; i++) {
+            const line    = document.lineAt(i);
+            const trimmed = line.text.trim();
+
+            // Blank / whitespace-only line: strip any trailing spaces, leave empty
+            if (trimmed === '') {
+                if (line.text !== '') {
+                    edits.push(vscode.TextEdit.replace(line.range, ''));
+                }
+                continue;
+            }
+
+            // De-dent BEFORE printing this line (end / else / next / until / })
+            if (closesBlock(trimmed)) { level = Math.max(0, level - 1); }
+
+            const newText = unit.repeat(level) + trimmed;
+
+            // Indent the NEXT line if this line opens a block
+            if (opensBlock(trimmed)) { level++; }
+
+            if (newText !== line.text) {
+                edits.push(vscode.TextEdit.replace(line.range, newText));
+            }
+        }
+
+        return edits;
+    }
+}
+
 // ── Activation ────────────────────────────────────────────────────────────────
 
 export function activate(context: vscode.ExtensionContext) {
@@ -223,6 +301,10 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand('ultimate-basic.buildD64',       () => cmdBuildD64()),
         vscode.commands.registerCommand('ultimate-basic.buildAndRun',    () => cmdBuildAndRun()),
         vscode.commands.registerCommand('ultimate-basic.buildAndRunD64', () => cmdBuildAndRunD64()),
+        vscode.languages.registerDocumentFormattingEditProvider(
+            { language: 'ultimate-basic' },
+            new UbFormatter()
+        ),
         vscode.tasks.registerTaskProvider('ultimate-basic', new UbTaskProvider()),
         vscode.window.onDidCloseTerminal(t => { if (t === _terminal) { _terminal = undefined; } })
     );
