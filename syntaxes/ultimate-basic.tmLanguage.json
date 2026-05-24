@@ -4,6 +4,7 @@
   "scopeName": "source.ub",
   "fileTypes": ["ub"],
   "patterns": [
+    { "include": "#print-hash" },
     { "include": "#comments" },
     { "include": "#strings" },
     { "include": "#numbers" },
@@ -19,11 +20,19 @@
     { "include": "#identifiers" }
   ],
   "repository": {
+    "print-hash": {
+      "patterns": [
+        {
+          "name": "support.function.c64.serial.ub",
+          "match": "(?i)\\bprint#"
+        }
+      ]
+    },
     "comments": {
       "patterns": [
         {
           "name": "comment.line.number-sign.ub",
-          "match": "#.*$"
+          "match": "(?<!\\w)#.*$"
         },
         {
           "name": "comment.line.semicolon.ub",
@@ -101,7 +110,7 @@
         },
         {
           "name": "support.function.c64.memory.ub",
-          "match": "(?i)\\b(poke)\\b"
+          "match": "(?i)\\b(poke|poke16|fill|memcopy)\\b"
         },
         {
           "name": "support.function.c64.sprite.ub",
@@ -113,7 +122,7 @@
         },
         {
           "name": "support.function.c64.timing.ub",
-          "match": "(?i)\\b(wait)\\b"
+          "match": "(?i)\\b(wait|irq)\\b"
         },
         {
           "name": "support.function.c64.reu.ub",
@@ -129,7 +138,7 @@
         },
         {
           "name": "support.function.c64.disk.ub",
-          "match": "(?i)\\b(load)\\b"
+          "match": "(?i)\\b(load|save|open|close|input)\\b"
         },
         {
           "name": "constant.language.c64.modifier.ub",
@@ -153,7 +162,7 @@
         },
         {
           "name": "support.function.builtin.memory.ub",
-          "match": "(?i)\\b(peek)\\s*(?=\\()"
+          "match": "(?i)\\b(peek|peek16)\\s*(?=\\()"
         },
         {
           "name": "support.function.builtin.math.ub",
@@ -177,7 +186,7 @@
       "patterns": [
         {
           "name": "storage.type.ub",
-          "match": "(?i)\\b(int|word|string|array)\\b"
+          "match": "(?i)\\b(int|word|string|array|array_word)\\b"
         }
       ]
     },
@@ -208,8 +217,83 @@
         "0": { "name": "keyword.other.asm.ub" }
       },
       "patterns": [
-        { "include": "#numbers" },
-        { "include": "#comments" }
+        { "include": "#asm-comment" },
+        { "include": "#asm-label" },
+        { "include": "#asm-mnemonic" },
+        { "include": "#asm-register" },
+        { "include": "#numbers" }
+      ]
+    },
+    "asm-comment": {
+      "patterns": [
+        {
+          "name": "comment.line.asm.ub",
+          "match": "(;|//).*$"
+        }
+      ]
+    },
+    "asm-label": {
+      "patterns": [
+        {
+          "name": "entity.name.label.asm.ub",
+          "match": "^\\s*([A-Za-z_][A-Za-z0-9_]*)\\s*:"
+        },
+        {
+          "name": "entity.name.label.asm-ref.ub",
+          "match": "#[<>][A-Za-z_][A-Za-z0-9_]*"
+        }
+      ]
+    },
+    "asm-mnemonic": {
+      "patterns": [
+        {
+          "name": "keyword.control.asm.branch.ub",
+          "match": "(?i)\\b(BCC|BCS|BEQ|BMI|BNE|BPL|BVC|BVS)\\b"
+        },
+        {
+          "name": "keyword.control.asm.jump.ub",
+          "match": "(?i)\\b(JMP|JSR|RTS|RTI|BRK)\\b"
+        },
+        {
+          "name": "support.function.asm.load-store.ub",
+          "match": "(?i)\\b(LDA|LDX|LDY|STA|STX|STY)\\b"
+        },
+        {
+          "name": "support.function.asm.transfer.ub",
+          "match": "(?i)\\b(TAX|TAY|TXA|TYA|TSX|TXS)\\b"
+        },
+        {
+          "name": "support.function.asm.stack.ub",
+          "match": "(?i)\\b(PHA|PLA|PHP|PLP)\\b"
+        },
+        {
+          "name": "support.function.asm.arithmetic.ub",
+          "match": "(?i)\\b(ADC|SBC|INC|INX|INY|DEC|DEX|DEY)\\b"
+        },
+        {
+          "name": "support.function.asm.logic.ub",
+          "match": "(?i)\\b(AND|ORA|EOR|BIT)\\b"
+        },
+        {
+          "name": "support.function.asm.shift.ub",
+          "match": "(?i)\\b(ASL|LSR|ROL|ROR)\\b"
+        },
+        {
+          "name": "support.function.asm.flag.ub",
+          "match": "(?i)\\b(CLC|SEC|CLD|SED|CLI|SEI|CLV|NOP)\\b"
+        },
+        {
+          "name": "support.function.asm.compare.ub",
+          "match": "(?i)\\b(CMP|CPX|CPY)\\b"
+        }
+      ]
+    },
+    "asm-register": {
+      "patterns": [
+        {
+          "name": "variable.language.asm.register.ub",
+          "match": "(?i)(?<=[,\\s])\\b(A|X|Y)\\b"
+        }
       ]
     },
     "operators": {

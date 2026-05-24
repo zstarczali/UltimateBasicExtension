@@ -19,6 +19,11 @@
     "body": ["var ${1:name} = array(${2:8})"],
     "description": "Declare a byte array"
   },
+  "Word array variable": {
+    "prefix": "varaw",
+    "body": ["var ${1:name} = array_word(${2:8})"],
+    "description": "Declare a word (16-bit) array"
+  },
   "Constant": {
     "prefix": "const",
     "body": ["const ${1:NAME} = ${2:$0000}"],
@@ -166,10 +171,30 @@
     "body": ["poke ${1:\\$D020}, ${2:value}"],
     "description": "Write byte to memory address"
   },
+  "Poke16": {
+    "prefix": "poke16",
+    "body": ["poke16 ${1:\\$0314}, ${2:\\$EA81}"],
+    "description": "Write 16-bit word to memory (lo→addr, hi→addr+1)"
+  },
   "Peek": {
     "prefix": "peek",
     "body": ["var ${1:v} = peek(${2:\\$D012})"],
     "description": "Read byte from memory address"
+  },
+  "Peek16": {
+    "prefix": "peek16",
+    "body": ["var ${1:w}: word = peek16(${2:\\$C000})"],
+    "description": "Read 16-bit word from memory (lo, hi)"
+  },
+  "Fill memory": {
+    "prefix": "fill",
+    "body": ["fill ${1:\\$0400}, ${2:1000}, ${3:32}"],
+    "description": "Fill memory: address, length, value"
+  },
+  "Memcopy": {
+    "prefix": "memcopy",
+    "body": ["memcopy ${1:\\$C000}, ${2:\\$0400}, ${3:256}"],
+    "description": "Copy memory: source, destination, length"
   },
   "Getch": {
     "prefix": "getch",
@@ -383,6 +408,49 @@
     "prefix": "read",
     "body": ["read ${1:varname}"],
     "description": "Load next byte from data table into variable"
+  },
+  "Input int": {
+    "prefix": "input",
+    "body": ["input ${1:score}"],
+    "description": "Read up to 3 digits from keyboard into integer variable"
+  },
+  "Input with prompt": {
+    "prefix": "inputp",
+    "body": ["input \"${1:Name: }\", ${2:name}"],
+    "description": "Show prompt string, then read into variable"
+  },
+  "Open file": {
+    "prefix": "open",
+    "body": ["open ${1:1}, ${2:8}, ${3:2}, \"${4:MYFILE}\""],
+    "description": "Open logical file (channel, device, secondary, filename)"
+  },
+  "Open without filename": {
+    "prefix": "openp",
+    "body": ["open ${1:2}, ${2:4}, ${3:7}"],
+    "description": "Open logical file without filename (e.g. printer)"
+  },
+  "Print to file": {
+    "prefix": "printhash",
+    "body": ["print# ${1:1}, ${2:\"HELLO\"}"],
+    "description": "Send output to logical file channel"
+  },
+  "Close file": {
+    "prefix": "close",
+    "body": ["close ${1:1}"],
+    "description": "Close logical file channel"
+  },
+  "IRQ handler setup": {
+    "prefix": "irq",
+    "body": [
+      "irq ${1:my_handler}, ${2:100}",
+      "",
+      "sub ${1:my_handler}()",
+      "  poke \\$D019, \\$FF    # ACK VIC IRQ",
+      "  ${3:# IRQ work here}",
+      "  sys \\$EA81           # KERNAL end-of-IRQ",
+      "end"
+    ],
+    "description": "Set up raster IRQ with handler subroutine"
   },
   "Load file": {
     "prefix": "load",
