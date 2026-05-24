@@ -126,6 +126,11 @@
           "when": "resourceExtname == .ub",
           "command": "ultimate-basic.buildD64",
           "group": "ub@4"
+        },
+        {
+          "when": "resourceExtname == .ub",
+          "command": "ultimate-basic.format",
+          "group": "ub@5"
         }
       ]
     },
@@ -159,6 +164,12 @@
         "title": "Build D64 & Run in VICE",
         "category": "Ultimate Basic",
         "icon": "$(debug-start)"
+      },
+      {
+        "command": "ultimate-basic.format",
+        "title": "Format Document",
+        "category": "Ultimate Basic",
+        "icon": "$(symbol-keyword)"
       }
     ],
     "configuration": {

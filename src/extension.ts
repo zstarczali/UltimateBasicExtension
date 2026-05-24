@@ -337,6 +337,54 @@ class UbFormatter implements vscode.DocumentFormattingEditProvider {
     }
 }
 
+// ── Format command ────────────────────────────────────────────────────────────
+
+async function cmdFormat() {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showErrorMessage('No active editor — open a .ub file first.');
+        return;
+    }
+    if (editor.document.languageId !== 'ultimate-basic') {
+        vscode.window.showErrorMessage('Active file is not an Ultimate Basic (.ub) file.');
+        return;
+    }
+    try {
+        // editor.options.tabSize can be the string "tabSize" instead of a number
+        // when auto-detection is active — fall back to workspace config in that case.
+        const editorCfg  = vscode.workspace.getConfiguration('editor', editor.document.uri);
+        const rawTabSize = editor.options.tabSize;
+        const rawSpaces  = editor.options.insertSpaces;
+        const opts: vscode.FormattingOptions = {
+            tabSize:      typeof rawTabSize === 'number'  ? rawTabSize : (editorCfg.get<number>('tabSize')        ?? 4),
+            insertSpaces: typeof rawSpaces  === 'boolean' ? rawSpaces  : (editorCfg.get<boolean>('insertSpaces')  ?? true),
+        };
+
+        const formatter = new UbFormatter();
+        const edits = formatter.provideDocumentFormattingEdits(editor.document, opts);
+
+        if (edits.length === 0) {
+            vscode.window.showInformationMessage('Already formatted — no changes needed.');
+            return;
+        }
+
+        // editor.edit() is more reliable than WorkspaceEdit for direct text changes
+        const success = await editor.edit(builder => {
+            for (const e of edits) { builder.replace(e.range, e.newText); }
+        });
+
+        if (success) {
+            vscode.window.showInformationMessage(
+                `Formatting applied (${edits.length} change${edits.length === 1 ? '' : 's'}).`
+            );
+        } else {
+            vscode.window.showErrorMessage('Formatting failed — file may be read-only.');
+        }
+    } catch (e: any) {
+        vscode.window.showErrorMessage(`Formatter error: ${e?.message ?? String(e)}`);
+    }
+}
+
 // ── Activation ────────────────────────────────────────────────────────────────
 
 export function activate(context: vscode.ExtensionContext) {
@@ -346,6 +394,7 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand('ultimate-basic.buildD64',       () => cmdBuildD64()),
         vscode.commands.registerCommand('ultimate-basic.buildAndRun',    () => cmdBuildAndRun()),
         vscode.commands.registerCommand('ultimate-basic.buildAndRunD64', () => cmdBuildAndRunD64()),
+        vscode.commands.registerCommand('ultimate-basic.format',         () => cmdFormat()),
         vscode.languages.registerDocumentFormattingEditProvider(
             { language: 'ultimate-basic' },
             new UbFormatter()
