@@ -9,7 +9,7 @@ Language support for **Ultimate Basic** (`.ub`), a modern BASIC-like language th
 ## Features
 
 - **Syntax highlighting** — keywords, types, C64-specific statements, numbers (decimal, hex `$D020`, binary `%1010`), comments (`#`, `rem`, `;`)
-- **80+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `select`, `sprdef`, `mainloop`, `bitmapskel` and more
+- **100+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `select`, `sprdef`, `mainloop`, `bitmapskel` and more
 - **Auto-indent** — smart indentation for `if/end`, `for/next`, `sub/end`, `sprdef/end`, `while/end`, `repeat/until` blocks
 - **Build & Run commands** — compile and launch directly in VICE with a single command
 - **Context menu** — right-click any `.ub` file for quick access to Build / Build & Run
@@ -62,7 +62,7 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 
 | Prefix | Inserts |
 |---|---|
-| `var`, `varw`, `vars`, `vara`, `varaw` | variable declaration (int / word / string / array / word array) |
+| `var`, `varw`, `vars`, `vara`, `varaw`, `varf` | variable declaration (int / word / string / array / word array / float) |
 | `const` | compile-time constant |
 | `if`, `ife` | if/then, if/then/else block |
 | `for`, `fors` | for..next loop (with or without step) |
@@ -75,10 +75,18 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `inc`, `dec` | increment / decrement variable |
 | `print`, `printv` | print string / print label + variable |
 | `ctext`, `cborder`, `cbg`, `colors` | color text / border / bg / all three |
-| `clsf` | fast screen clear |
+| `cls`, `clsf` | screen clear / fast screen clear |
+| `gcls` | clear bitmap RAM |
+| `bye` | exit to BASIC |
 | `cursor` | move cursor to column, row |
 | `getch`, `inkey`, `joy` | keyboard (blocking / non-blocking) / joystick read |
 | `mousex`, `mousey`, `mousebtn` | mouse X / Y position / button state |
+| `scrollx`, `scrolly` | hardware horizontal / vertical fine scroll |
+| `speed`, `speedmax`, `speedoff` | U64 CPU speed (MHz / max / 1 MHz) |
+| `badlon`, `badloff` | U64 badline timing on / off |
+| `turbo` | check if U64 turbo is active |
+| `val` | runtime PETSCII decimal string → integer |
+| `intf` | extract integer part from Q8.8 float |
 | `printat` | print text at column, row |
 | `spc`, `tab` | print N spaces / move to column N |
 | `screen`, `screenc` | write char to screen RAM (with optional color) |
@@ -105,18 +113,25 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `sprex`, `sprey` | sprite expand x / expand y |
 | `sprpri` | sprite priority (behind/in front of background) |
 | `sprhit`, `sprbghit` | sprite collision checks |
+| `sprmov` | sprite position update (no data pointer) |
 | `data`, `read` | data table / read next byte |
 | `numstr` | write number as 3-digit decimal string |
 | `strtoint` | compile-time string to integer |
 | `len`, `asc` | string length / first character PETSCII code |
-| `hex`, `bin` | print as 2-digit hex / 8-bit binary string |
+| `hex`, `bin`, `decp` | print as 2-digit hex / 8-bit binary / right-justified decimal |
 | `chrp` | print single character by PETSCII code (`chr$`) |
+| `abs`, `min`, `max`, `sgn` | absolute value / min / max / sign |
+| `rnd`, `rndn` | random 0–255 / random 0–(N-1) |
+| `sin`, `cos` | sine / cosine lookup (0–255 angle, 0–255 result) |
 | `input`, `inputp` | keyboard input (with / without prompt) |
 | `load`, `loada`, `save` | load from disk / load to address / save memory range |
 | `open`, `openp`, `close` | open / close serial file channel |
 | `printhash` | send output to logical file (`print#`) |
 | `irq` | raster IRQ setup with handler skeleton |
 | `irqexit` | exit IRQ handler (restores registers, RTI) |
+| `nmi` | NMI handler setup ($0318/$0319 vector) |
+| `nmiexit` | exit NMI handler (JMP $FE47) |
+| `ciatimer` | CIA1 timer A periodic IRQ setup |
 | `include`, `incbin` | source file include / binary embed |
 | `reustash`, `reufetch`, `reuswap` | REU memory transfer |
 | `reupresent` | check if REU is present |
