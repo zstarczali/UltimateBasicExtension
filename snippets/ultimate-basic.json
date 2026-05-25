@@ -678,5 +678,155 @@
     "prefix": "chrp",
     "body": ["print chr$(${1:65})"],
     "description": "Print single character by PETSCII code"
+  },
+  "CLS (screen clear)": {
+    "prefix": "cls",
+    "body": ["cls"],
+    "description": "Clear screen via KERNAL $E544"
+  },
+  "GCLS (bitmap clear)": {
+    "prefix": "gcls",
+    "body": ["gcls"],
+    "description": "Clear bitmap RAM ($2000-$3FFF) and reset video matrix colors"
+  },
+  "Bye (exit to BASIC)": {
+    "prefix": "bye",
+    "body": ["bye"],
+    "description": "Clean exit: JSR $E544, clear STOP flag, RTS to BASIC"
+  },
+  "Abs": {
+    "prefix": "abs",
+    "body": ["var ${1:a} = abs(${2:x})"],
+    "description": "Two's-complement absolute value (8-bit signed)"
+  },
+  "Min": {
+    "prefix": "min",
+    "body": ["var ${1:m} = min(${2:x}, ${3:39})"],
+    "description": "8-bit unsigned minimum of two values"
+  },
+  "Max": {
+    "prefix": "max",
+    "body": ["var ${1:m} = max(${2:x}, ${3:0})"],
+    "description": "8-bit unsigned maximum of two values"
+  },
+  "Sgn": {
+    "prefix": "sgn",
+    "body": ["var ${1:s} = sgn(${2:x})"],
+    "description": "Sign: 0 = zero, 1 = positive (1–127), $FF = negative (128–255)"
+  },
+  "Rnd": {
+    "prefix": "rnd",
+    "body": ["var ${1:r} = rnd()"],
+    "description": "LCG pseudo-random 0–255; seed from raster line"
+  },
+  "Rnd (bounded)": {
+    "prefix": "rndn",
+    "body": ["var ${1:r} = rnd(${2:10})"],
+    "description": "LCG pseudo-random 0–(N-1); equivalent to rnd() mod N"
+  },
+  "Sin": {
+    "prefix": "sin",
+    "body": ["var ${1:s} = sin(${2:angle})"],
+    "description": "Sine lookup: angle 0–255 (full circle), returns 0–255 (center = 128)"
+  },
+  "Cos": {
+    "prefix": "cos",
+    "body": ["var ${1:c} = cos(${2:angle})"],
+    "description": "Cosine lookup: cos(a) = sin(a+64); same scale as sin"
+  },
+  "Sprite move (no data ptr)": {
+    "prefix": "sprmov",
+    "body": ["sprite ${1:0}, ${2:x}, ${3:y}"],
+    "description": "Update sprite position only (keeps existing data pointer)"
+  },
+  "Float variable": {
+    "prefix": "varf",
+    "body": ["var ${1:f}: float = ${2:0.0}"],
+    "description": "Declare a Q8.8 fixed-point float variable (hi=integer, lo=fraction×256)"
+  },
+  "Scroll X (horizontal fine scroll)": {
+    "prefix": "scrollx",
+    "body": ["scroll x ${1:0}"],
+    "description": "Hardware horizontal fine scroll: set $D016 bits 0-2 (range 0-7)"
+  },
+  "Scroll Y (vertical fine scroll)": {
+    "prefix": "scrolly",
+    "body": ["scroll y ${1:0}"],
+    "description": "Hardware vertical fine scroll: set $D011 bits 0-2 (range 0-7)"
+  },
+  "CPU Speed (U64)": {
+    "prefix": "speed",
+    "body": ["speed ${1:4}"],
+    "description": "Set U64 CPU speed in MHz (1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 20, 24, 32, 40, 48)"
+  },
+  "CPU Speed Max (U64)": {
+    "prefix": "speedmax",
+    "body": ["speed max"],
+    "description": "Set U64 CPU to maximum speed (index 15 = 48 MHz, or 64 MHz on Elite-II)"
+  },
+  "CPU Speed Off (U64)": {
+    "prefix": "speedoff",
+    "body": ["speed off"],
+    "description": "Return U64 CPU to 1 MHz (index 0)"
+  },
+  "Badlines On": {
+    "prefix": "badlon",
+    "body": ["badlines on"],
+    "description": "Enable VIC-II badline timing ($D031 bit 7 = 0)"
+  },
+  "Badlines Off": {
+    "prefix": "badloff",
+    "body": ["badlines off"],
+    "description": "Disable VIC-II badlines ($D031 bit 7 = 1) — reduces CPU stall on U64"
+  },
+  "Turbo check (U64)": {
+    "prefix": "turbo",
+    "body": ["var ${1:t} = turbo()"],
+    "description": "1 if U64 turbo active (bits 0-3 of $D031 != 0), 0 if running at 1 MHz"
+  },
+  "Val (string to int)": {
+    "prefix": "val",
+    "body": ["var ${1:n} = val(${2:s})"],
+    "description": "Runtime parse decimal PETSCII string to 8-bit integer (stops at null or non-digit)"
+  },
+  "Int (float to int)": {
+    "prefix": "intf",
+    "body": ["var ${1:n} = int(${2:f})"],
+    "description": "Extract integer part (hi byte) from a Q8.8 float variable"
+  },
+  "Print dec (right-justified)": {
+    "prefix": "decp",
+    "body": ["print dec(${1:n}, ${2:4})"],
+    "description": "Print number right-justified in a field of N characters, space-padded on the left"
+  },
+  "NMI handler setup": {
+    "prefix": "nmi",
+    "body": [
+      "nmi ${1:my_nmi}",
+      "",
+      "sub ${1:my_nmi}()",
+      "  ${2:# NMI work here}",
+      "  nmi_exit              # JMP \\$FE47: proper NMI exit",
+      "end"
+    ],
+    "description": "Set NMI vector ($0318/$0319) with handler subroutine"
+  },
+  "NMI exit": {
+    "prefix": "nmiexit",
+    "body": ["nmi_exit"],
+    "description": "Return from NMI handler — JMP $FE47 (restores A/X/Y + RTI)"
+  },
+  "CIA1 Timer IRQ": {
+    "prefix": "ciatimer",
+    "body": [
+      "cia_timer ${1:19656}, ${2:my_handler}   # ~50 Hz PAL",
+      "",
+      "sub ${2:my_handler}()",
+      "  poke \\$DC0D, \\$01    # ACK CIA1 timer A IRQ",
+      "  ${3:# timer work here}",
+      "  irq_exit              # JMP \\$EA81: restore A/X/Y + RTI",
+      "end"
+    ],
+    "description": "Set up CIA1 timer A as periodic IRQ (19656 cycles ≈ 50 Hz PAL)"
   }
 }

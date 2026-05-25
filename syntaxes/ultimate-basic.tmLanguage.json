@@ -98,7 +98,7 @@
         },
         {
           "name": "support.function.c64.graphics.ub",
-          "match": "(?i)\\b(graphics|gcls|plot|line|circle|display|cursor|paint)\\b"
+          "match": "(?i)\\b(graphics|gcls|plot|line|circle|display|cursor|paint|scroll)\\b"
         },
         {
           "name": "support.function.c64.color.ub",
@@ -118,7 +118,11 @@
         },
         {
           "name": "support.function.c64.timing.ub",
-          "match": "(?i)\\b(wait|irq|irq_exit)\\b"
+          "match": "(?i)\\b(wait|irq|irq_exit|nmi|nmi_exit|cia_timer)\\b"
+        },
+        {
+          "name": "support.function.c64.u64.ub",
+          "match": "(?i)\\b(speed|badlines)\\b"
         },
         {
           "name": "support.function.c64.reu.ub",
@@ -138,7 +142,7 @@
         },
         {
           "name": "constant.language.c64.modifier.ub",
-          "match": "(?i)\\b(on|off|fast|multi|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority|at|volume|stop)\\b"
+          "match": "(?i)\\b(on|off|max|fast|multi|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority|at|volume|stop)\\b"
         }
       ]
     },
@@ -183,6 +187,18 @@
         {
           "name": "support.function.builtin.reu.ub",
           "match": "(?i)\\b(reu_present)\\s*(?=\\()"
+        },
+        {
+          "name": "support.function.builtin.u64.ub",
+          "match": "(?i)\\b(turbo)\\s*(?=\\()"
+        },
+        {
+          "name": "support.function.builtin.string2.ub",
+          "match": "(?i)\\b(val|dec)\\s*(?=\\()"
+        },
+        {
+          "name": "support.function.builtin.float.ub",
+          "match": "(?i)\\b(int)\\s*(?=\\()"
         }
       ]
     },
@@ -190,7 +206,7 @@
       "patterns": [
         {
           "name": "storage.type.ub",
-          "match": "(?i)\\b(int|word|string|array|array_word)\\b"
+          "match": "(?i)\\b(int|word|float|string|array|array_word)\\b"
         }
       ]
     },
