@@ -56,6 +56,19 @@ function quote(s: string): string {
     return `"${s.replace(/"/g, '\\"')}"`;
 }
 
+/**
+ * On Windows, PowerShell requires the '&' call operator before a quoted
+ * executable path (e.g. '& "C:\tools\ub.exe"').  Without it, PowerShell
+ * treats the quoted string as a string expression and raises a ParserError.
+ * In CMD.exe the leading '& ' with an empty left-hand side is harmless.
+ * On non-Windows platforms the path is returned unchanged.
+ */
+function invokeExe(quotedPath: string): string {
+    return (process.platform === 'win32' && quotedPath.startsWith('"'))
+        ? '& ' + quotedPath
+        : quotedPath;
+}
+
 // ── Build command builder ─────────────────────────────────────────────────────
 
 interface BuildOptions {
@@ -65,7 +78,7 @@ interface BuildOptions {
 }
 
 function buildCommand(src: string, prg: string, opts: BuildOptions, d64?: string): string {
-    const parts = [quote(compilerPath()), 'build', quote(src), '-o', quote(prg)];
+    const parts = [invokeExe(quote(compilerPath())), 'build', quote(src), '-o', quote(prg)];
     if (opts.verbose) { parts.push('-v'); }
     if (opts.noStub)  { parts.push('--no-stub'); }
     if (opts.d64 && d64) { parts.push('--d64', quote(d64)); }
@@ -74,7 +87,7 @@ function buildCommand(src: string, prg: string, opts: BuildOptions, d64?: string
 
 function viceCommand(prg: string): string {
     const extra = viceArgs().map(quote).join(' ');
-    return [quote(vicePath()), '-autostart', quote(prg), extra].filter(Boolean).join(' ');
+    return [invokeExe(quote(vicePath())), '-autostart', quote(prg), extra].filter(Boolean).join(' ');
 }
 
 // ── Compile-then-run via child_process so we can detect success ───────────────
