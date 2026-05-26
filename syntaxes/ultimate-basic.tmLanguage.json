@@ -11,6 +11,7 @@
     { "include": "#keywords-control" },
     { "include": "#keywords-declaration" },
     { "include": "#keywords-c64" },
+    { "include": "#compound-bitwise" },
     { "include": "#keywords-operators" },
     { "include": "#builtin-functions" },
     { "include": "#types" },
@@ -118,7 +119,7 @@
         },
         {
           "name": "support.function.c64.timing.ub",
-          "match": "(?i)\\b(wait|irq|irq_exit|nmi|nmi_exit|cia_timer)\\b"
+          "match": "(?i)\\b(wait|delay|irq|irq_exit|nmi|nmi_exit|cia_timer)\\b"
         },
         {
           "name": "support.function.c64.u64.ub",
@@ -143,6 +144,14 @@
         {
           "name": "constant.language.c64.modifier.ub",
           "match": "(?i)\\b(on|off|max|fast|multi|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority|at|volume|stop)\\b"
+        }
+      ]
+    },
+    "compound-bitwise": {
+      "patterns": [
+        {
+          "name": "keyword.operator.compound.bitwise.ub",
+          "match": "(?i)\\b(and|or|xor|shl|shr)="
         }
       ]
     },

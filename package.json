@@ -177,8 +177,8 @@
       "properties": {
         "ultimateBasic.compilerPath": {
           "type": "string",
-          "default": "ultimate-basic",
-          "description": "Path to the ultimate-basic compiler executable (e.g. C:\\tools\\ultimate-basic.exe)"
+          "default": "ub",
+          "description": "Path to the Ultimate Basic compiler executable (e.g. C:\\tools\\ub.exe)"
         },
         "ultimateBasic.vicePath": {
           "type": "string",

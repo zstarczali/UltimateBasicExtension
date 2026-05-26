@@ -28,7 +28,7 @@ Language support for **Ultimate Basic** (`.ub`), a modern BASIC-like language th
 
 | Setting | Default | Description |
 |---|---|---|
-| `ultimateBasic.compilerPath` | `ultimate-basic` | Full path to the compiler executable |
+| `ultimateBasic.compilerPath` | `ub` | Full path to the compiler executable |
 | `ultimateBasic.vicePath` | `x64sc` | Full path to the VICE C64 emulator executable |
 | `ultimateBasic.viceArgs` | `[]` | Extra arguments passed to VICE, e.g. `["-fullscreen"]` |
 | `ultimateBasic.defaultOutputDir` | *(source directory)* | Output directory for compiled `.prg` files |
@@ -36,7 +36,7 @@ Language support for **Ultimate Basic** (`.ub`), a modern BASIC-like language th
 **Example** (`settings.json`):
 ```json
 {
-  "ultimateBasic.compilerPath": "C:\\tools\\ultimate-basic.exe",
+  "ultimateBasic.compilerPath": "C:\\tools\\ub.exe",
   "ultimateBasic.vicePath": "C:\\VICE\\x64sc.exe",
   "ultimateBasic.viceArgs": ["-fullscreen"]
 }
@@ -98,7 +98,7 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `sidvol` | set SID master volume (0–15) |
 | `sidstop` | silence SID (volume 0, gates off) |
 | `loadsid` | embed SID music file at compile time |
-| `wait`, `waitr` | wait N transitions / wait for raster line |
+| `wait`, `waitr`, `delay` | wait N raster transitions / wait for raster line / wait N PAL frames |
 | `plot`, `plote`, `plotx` | set / erase / toggle pixel |
 | `line`, `circle` | line and circle drawing |
 | `paint` | 4-connected flood fill |

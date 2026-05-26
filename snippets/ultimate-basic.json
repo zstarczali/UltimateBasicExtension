@@ -219,12 +219,17 @@
   "Wait": {
     "prefix": "wait",
     "body": ["wait ${1:50}"],
-    "description": "Wait N raster-line transitions (~3.2 ms each)"
+    "description": "Wait N raster-line transitions (~3.2 ms each at 1 MHz)"
   },
   "Wait raster": {
     "prefix": "waitr",
     "body": ["wait raster ${1:100}"],
-    "description": "Spin until raster line N ($D012)"
+    "description": "Spin until raster line N ($D012) — useful for raster-split effects"
+  },
+  "Delay (PAL frames)": {
+    "prefix": "delay",
+    "body": ["delay ${1:1}"],
+    "description": "Wait N full PAL frames (1 frame = 1/50 s ≈ 20 ms); n can be a variable (0–255)"
   },
   "Graphics on": {
     "prefix": "gon",
