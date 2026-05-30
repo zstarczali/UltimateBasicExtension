@@ -67,7 +67,7 @@
       "patterns": [
         {
           "name": "keyword.control.ub",
-          "match": "(?i)\\b(if|then|else|end|for|to|step|next|while|loop|break|continue|goto|label|sub|call|return|repeat|until|select|case|inc|dec)\\b"
+          "match": "(?i)\\b(if|then|else|end|for|to|step|next|while|loop|times|break|continue|goto|gosub|label|sub|call|return|repeat|until|select|case|inc|dec|onerr)\\b"
         },
         {
           "name": "keyword.control.exit.ub",
@@ -83,7 +83,7 @@
         },
         {
           "name": "keyword.other.include.ub",
-          "match": "(?i)\\b(include|incbin)\\b"
+          "match": "(?i)\\b(include|incbin|charset)\\b"
         },
         {
           "name": "keyword.other.data.ub",
@@ -99,7 +99,7 @@
         },
         {
           "name": "support.function.c64.graphics.ub",
-          "match": "(?i)\\b(graphics|gcls|plot|line|circle|display|cursor|paint|scroll)\\b"
+          "match": "(?i)\\b(graphics|gcls|plot|mplot|line|circle|display|cursor|paint|scroll)\\b"
         },
         {
           "name": "support.function.c64.color.ub",
@@ -111,15 +111,15 @@
         },
         {
           "name": "support.function.c64.sprite.ub",
-          "match": "(?i)\\b(sprite|sprdef)\\b"
+          "match": "(?i)\\b(sprite|sprdef|chardef|sprite_frame)\\b"
         },
         {
           "name": "support.function.c64.sound.ub",
-          "match": "(?i)\\b(sound|sid)\\b"
+          "match": "(?i)\\b(sound|sid|music)\\b"
         },
         {
           "name": "support.function.c64.timing.ub",
-          "match": "(?i)\\b(wait|delay|irq|irq_exit|nmi|nmi_exit|cia_timer)\\b"
+          "match": "(?i)\\b(wait|waitkey|delay|irq|irq_exit|nmi|nmi_exit|cia_timer)\\b"
         },
         {
           "name": "support.function.c64.u64.ub",
@@ -143,7 +143,7 @@
         },
         {
           "name": "constant.language.c64.modifier.ub",
-          "match": "(?i)\\b(on|off|max|fast|multi|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority|at|volume|stop)\\b"
+          "match": "(?i)\\b(on|off|max|fast|multi|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority|at|volume|stop|play|pause|resume|screen)\\b"
         }
       ]
     },
@@ -159,7 +159,7 @@
       "patterns": [
         {
           "name": "keyword.operator.logical.ub",
-          "match": "(?i)\\b(and|or|xor|not|shl|shr|mod)\\b"
+          "match": "(?i)\\b(and|or|xor|not|bnot|shl|shr|mod)\\b"
         }
       ]
     },
@@ -179,15 +179,15 @@
         },
         {
           "name": "support.function.builtin.math.ub",
-          "match": "(?i)\\b(abs|min|max|sgn|rnd|sin|cos)\\s*(?=\\()"
+          "match": "(?i)\\b(abs|min|max|sgn|rnd|sin|cos|clamp)\\s*(?=\\()"
         },
         {
           "name": "support.function.builtin.string.ub",
-          "match": "(?i)\\b(chr\\$|len|asc|hex|bin|str_to_int)\\s*(?=\\()"
+          "match": "(?i)\\b(chr\\$|str\\$|len|asc|hex|bin|str_to_int)\\s*(?=\\()"
         },
         {
           "name": "support.function.builtin.sprite.ub",
-          "match": "(?i)\\b(sprite_hit|sprite_bg_hit)\\s*(?=\\()"
+          "match": "(?i)\\b(sprite_hit|sprite_bg_hit|sprite_x|sprite_y)\\s*(?=\\()"
         },
         {
           "name": "support.function.builtin.mouse.ub",
@@ -195,7 +195,7 @@
         },
         {
           "name": "support.function.builtin.reu.ub",
-          "match": "(?i)\\b(reu_present)\\s*(?=\\()"
+          "match": "(?i)\\b(reu_present|reudet)\\s*(?=\\()"
         },
         {
           "name": "support.function.builtin.u64.ub",
@@ -228,6 +228,10 @@
         {
           "name": "entity.name.label.goto.ub",
           "match": "(?i)(?<=\\bgoto\\s)\\s*([A-Za-z_][A-Za-z0-9_]*)"
+        },
+        {
+          "name": "entity.name.label.gosub.ub",
+          "match": "(?i)(?<=\\bgosub\\s)\\s*([A-Za-z_][A-Za-z0-9_]*)"
         },
         {
           "name": "entity.name.function.ub",

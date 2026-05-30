@@ -84,6 +84,11 @@
             "type": "boolean",
             "description": "Skip the BASIC SYS stub"
           },
+          "addFiles": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Extra files to embed in the .d64 disk image (--add)"
+          },
           "runAfterBuild": {
             "type": "boolean",
             "description": "Launch VICE emulator after successful build"
@@ -195,6 +200,12 @@
           "type": "string",
           "default": "",
           "description": "Default output directory for compiled .prg files (empty = same directory as source file)"
+        },
+        "ultimateBasic.d64AddFiles": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "Extra files to embed in the .d64 disk image when using Build + D64 commands (passed via --add)"
         }
       }
     }
