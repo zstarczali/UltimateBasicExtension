@@ -9,7 +9,7 @@ Language support for **Ultimate Basic** (`.ub`), a modern BASIC-like language th
 ## Features
 
 - **Syntax highlighting** — keywords, types, C64-specific statements, numbers (decimal, hex `$D020`, binary `%1010`), comments (`#`, `rem`, `;`)
-- **100+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `select`, `sprdef`, `mainloop`, `bitmapskel` and more
+- **120+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `select`, `sprdef`, `chardef`, `mainloop`, `bitmapskel` and more
 - **Auto-indent** — smart indentation for `if/end`, `for/next`, `sub/end`, `sprdef/end`, `while/end`, `repeat/until` blocks
 - **Build & Run commands** — compile and launch directly in VICE with a single command
 - **Context menu** — right-click any `.ub` file for quick access to Build / Build & Run
@@ -32,6 +32,7 @@ Language support for **Ultimate Basic** (`.ub`), a modern BASIC-like language th
 | `ultimateBasic.vicePath` | `x64sc` | Full path to the VICE C64 emulator executable |
 | `ultimateBasic.viceArgs` | `[]` | Extra arguments passed to VICE, e.g. `["-fullscreen"]` |
 | `ultimateBasic.defaultOutputDir` | *(source directory)* | Output directory for compiled `.prg` files |
+| `ultimateBasic.d64AddFiles` | `[]` | Extra files to embed in the `.d64` disk image (passed as `--add file` for each entry) |
 
 **Example** (`settings.json`):
 ```json
@@ -99,6 +100,20 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `sidstop` | silence SID (volume 0, gates off) |
 | `loadsid` | embed SID music file at compile time |
 | `wait`, `waitr`, `delay` | wait N raster transitions / wait for raster line / wait N PAL frames |
+| `waitkey` | CIA1 keyboard scan — blocks until key pressed, returns PETSCII code |
+| `gosub` | call label-based subroutine (paired with `return`) |
+| `times` | counted loop alias (`times N … end`) |
+| `onerr` | register KERNAL I/O error handler (`onerr goto label`) |
+| `musicplay`, `musicstop`, `musicpause`, `musicresume` | high-level SID music control |
+| `mplot` | set multicolor bitmap pixel (x, y, color-index 0–3) |
+| `bnot` | bitwise NOT operator (XOR 255) |
+| `clamp` | 8-bit unsigned clamp (`clamp(x, lo, hi)`) |
+| `spritex`, `spritey` | read current sprite X / Y position |
+| `sprframe` | set sprite data pointer (`sprite_frame id, addr`) |
+| `chardef`, `charset` | define custom character / load charset from binary file |
+| `strn` | integer → 3-digit decimal string (`str$(n)`) |
+| `reudet` | check REU present — alias for `reu_present()` |
+| `fillscr`, `fillcol` | fill screen RAM / color RAM with a constant value |
 | `plot`, `plote`, `plotx` | set / erase / toggle pixel |
 | `line`, `circle` | line and circle drawing |
 | `paint` | 4-connected flood fill |

@@ -833,5 +833,125 @@
       "end"
     ],
     "description": "Set up CIA1 timer A as periodic IRQ (19656 cycles ≈ 50 Hz PAL)"
+  },
+  "Music play": {
+    "prefix": "musicplay",
+    "body": ["music play"],
+    "description": "Start SID music playback (calls music init and hooks IRQ player)"
+  },
+  "Music stop": {
+    "prefix": "musicstop",
+    "body": ["music stop"],
+    "description": "Stop SID music playback"
+  },
+  "Music pause": {
+    "prefix": "musicpause",
+    "body": ["music pause"],
+    "description": "Pause SID music (player stays hooked but stops calling the tune)"
+  },
+  "Music resume": {
+    "prefix": "musicresume",
+    "body": ["music resume"],
+    "description": "Resume paused SID music playback"
+  },
+  "Multicolor plot pixel": {
+    "prefix": "mplot",
+    "body": ["mplot ${1:x}, ${2:y}, ${3:color}"],
+    "description": "Set multicolor bitmap pixel at (x, y) with color index 0–3"
+  },
+  "On error goto": {
+    "prefix": "onerr",
+    "body": ["onerr goto ${1:err_handler}"],
+    "description": "Register KERNAL I/O error handler — jumps to label on disk error"
+  },
+  "Gosub": {
+    "prefix": "gosub",
+    "body": ["gosub ${1:label}"],
+    "description": "Call label-based subroutine (paired with return)"
+  },
+  "Times loop": {
+    "prefix": "times",
+    "body": [
+      "times ${1:5}",
+      "  ${2:# body}",
+      "end"
+    ],
+    "description": "Counted loop alias — executes body N times (equivalent to loop N ... end)"
+  },
+  "Waitkey": {
+    "prefix": "waitkey",
+    "body": ["var ${1:k} = waitkey()"],
+    "description": "CIA1 keyboard scan — blocks until a key is pressed, returns PETSCII code"
+  },
+  "Bnot (bitwise NOT)": {
+    "prefix": "bnot",
+    "body": ["var ${1:r} = bnot ${2:x}"],
+    "description": "Bitwise NOT — equivalent to x XOR 255 (inverts all 8 bits)"
+  },
+  "Clamp": {
+    "prefix": "clamp",
+    "body": ["var ${1:r} = clamp(${2:x}, ${3:0}, ${4:255})"],
+    "description": "8-bit unsigned clamp: returns lo if x<lo, hi if x>hi, else x"
+  },
+  "Sprite X position": {
+    "prefix": "spritex",
+    "body": ["var ${1:x} = sprite_x(${2:0})"],
+    "description": "Read current X position of sprite N"
+  },
+  "Sprite Y position": {
+    "prefix": "spritey",
+    "body": ["var ${1:y} = sprite_y(${2:0})"],
+    "description": "Read current Y position of sprite N"
+  },
+  "Sprite frame (data pointer)": {
+    "prefix": "sprframe",
+    "body": ["sprite_frame ${1:0}, ${2:\\$2000}"],
+    "description": "Set sprite N data pointer address (updates $07F8+N)"
+  },
+  "Chardef (custom character)": {
+    "prefix": "chardef",
+    "body": [
+      "chardef ${1:65}",
+      "  %${2:00000000}",
+      "  %${3:00000000}",
+      "  %${4:00000000}",
+      "  %${5:00000000}",
+      "  %${6:00000000}",
+      "  %${7:00000000}",
+      "  %${8:00000000}",
+      "  %${9:00000000}",
+      "end"
+    ],
+    "description": "Define custom character N (8 bytes, one per row, binary notation)"
+  },
+  "Charset (load from file)": {
+    "prefix": "charset",
+    "body": ["charset \"${1:chars.chr}\""],
+    "description": "Load custom character set from binary file at compile time"
+  },
+  "Str$ (int to string)": {
+    "prefix": "strn",
+    "body": ["var ${1:s} = str\\$(${2:n})"],
+    "description": "Convert integer to 3-digit decimal string (returns string value)"
+  },
+  "REU detect (reudet)": {
+    "prefix": "reudet",
+    "body": [
+      "var ${1:ok} = reudet()",
+      "if ${1:ok} == 0 then",
+      "  ${2:# no REU}",
+      "end"
+    ],
+    "description": "Check if REU is present — alias for reu_present()"
+  },
+  "Fill screen RAM": {
+    "prefix": "fillscr",
+    "body": ["fill screen ${1:32}"],
+    "description": "Fill entire screen RAM ($0400) with character code N (e.g. 32 = space)"
+  },
+  "Fill color RAM": {
+    "prefix": "fillcol",
+    "body": ["fill color ${1:14}"],
+    "description": "Fill entire color RAM ($D800) with color N (0–15)"
   }
 }

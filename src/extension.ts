@@ -9,9 +9,10 @@ function cfg<T>(key: string): T | undefined {
     return vscode.workspace.getConfiguration('ultimateBasic').get<T>(key);
 }
 
-function compilerPath(): string { return cfg<string>('compilerPath') ?? 'ultimate-basic'; }
-function vicePath(): string     { return cfg<string>('vicePath')     ?? 'x64sc'; }
-function viceArgs(): string[]   { return cfg<string[]>('viceArgs')   ?? []; }
+function compilerPath(): string  { return cfg<string>('compilerPath')   ?? 'ultimate-basic'; }
+function vicePath(): string      { return cfg<string>('vicePath')       ?? 'x64sc'; }
+function viceArgs(): string[]    { return cfg<string[]>('viceArgs')     ?? []; }
+function d64AddFiles(): string[] { return cfg<string[]>('d64AddFiles')  ?? []; }
 
 function outputPathFor(srcFile: string, ext: '.prg' | '.d64'): string {
     const outDir = cfg<string>('defaultOutputDir') ?? '';
@@ -81,7 +82,10 @@ function buildCommand(src: string, prg: string, opts: BuildOptions, d64?: string
     const parts = [invokeExe(quote(compilerPath())), 'build', quote(src), '-o', quote(prg)];
     if (opts.verbose) { parts.push('-v'); }
     if (opts.noStub)  { parts.push('--no-stub'); }
-    if (opts.d64 && d64) { parts.push('--d64', quote(d64)); }
+    if (opts.d64 && d64) {
+        parts.push('--d64', quote(d64));
+        for (const f of d64AddFiles()) { parts.push('--add', quote(f)); }
+    }
     return parts.join(' ');
 }
 
@@ -137,7 +141,10 @@ function buildArgs(src: string, prg: string, opts: BuildOptions, d64?: string): 
     const args = ['build', src, '-o', prg];
     if (opts.verbose) { args.push('-v'); }
     if (opts.noStub)  { args.push('--no-stub'); }
-    if (opts.d64 && d64) { args.push('--d64', d64); }
+    if (opts.d64 && d64) {
+        args.push('--d64', d64);
+        for (const f of d64AddFiles()) { args.push('--add', f); }
+    }
     return args;
 }
 
@@ -333,7 +340,7 @@ class UbFormatter implements vscode.DocumentFormattingEditProvider {
             } else if (/^select\b/i.test(low)) {
                 level++; stack.push('select');
 
-            } else if (/^(for|while|loop|sub|sprdef|repeat)\b/i.test(low)) {
+            } else if (/^(for|while|loop|times|sub|sprdef|chardef|repeat)\b/i.test(low)) {
                 level++; stack.push('generic');
 
             } else if (/^asm\s*\{/i.test(low)) {
