@@ -103,7 +103,7 @@
         },
         {
           "name": "support.function.c64.graphics.ub",
-          "match": "(?i)\\b(graphics|gcls|plot|mplot|plot4|line|circle|display|cursor|paint|scroll)\\b"
+          "match": "(?i)\\b(graphics|gcls|plot|mplot|plot4|line|circle|circle4|display|cursor|paint|scroll)\\b"
         },
         {
           "name": "support.function.c64.color.ub",

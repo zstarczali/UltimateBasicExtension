@@ -9,7 +9,8 @@
       "Bash(npx @vscode/vsce package --allow-missing-repository)",
       "Bash(npx @vscode/vsce package --no-dependencies)",
       "Bash(code --install-extension \"F:\\\\Development\\\\UltimateBasicExtension\\\\ultimate-basic-0.2.0.vsix\" --force)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(code --install-extension ultimate-basic-0.2.0.vsix --force)"
     ]
   }
 }

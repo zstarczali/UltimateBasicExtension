@@ -981,5 +981,10 @@
     "prefix": "plot4e",
     "body": ["plot4 erase ${1:x}, ${2:y}"],
     "description": "Clear block pixel at (x: 0-79, y: 0-49) in graphics on block mode"
+  },
+  "Block circle": {
+    "prefix": "circle4",
+    "body": ["circle4 ${1:x}, ${2:y}, ${3:r}"],
+    "description": "Draw midpoint circle in block pixels (80×50 block mode); clips off-screen pixels, useful radius 0–49"
   }
 }
