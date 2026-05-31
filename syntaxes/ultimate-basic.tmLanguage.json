@@ -38,6 +38,10 @@
         {
           "name": "comment.line.rem.ub",
           "match": "(?i)\\brem\\b.*$"
+        },
+        {
+          "name": "comment.line.semicolon.ub",
+          "match": ";.*$"
         }
       ]
     },
@@ -95,11 +99,11 @@
       "patterns": [
         {
           "name": "support.function.c64.output.ub",
-          "match": "(?i)\\b(print|cls|screen)\\b"
+          "match": "(?i)\\b(print|cls|screen|lowercase|uppercase)\\b"
         },
         {
           "name": "support.function.c64.graphics.ub",
-          "match": "(?i)\\b(graphics|gcls|plot|mplot|line|circle|display|cursor|paint|scroll)\\b"
+          "match": "(?i)\\b(graphics|gcls|plot|mplot|plot4|line|circle|circle4|display|cursor|paint|scroll)\\b"
         },
         {
           "name": "support.function.c64.color.ub",
@@ -143,7 +147,7 @@
         },
         {
           "name": "constant.language.c64.modifier.ub",
-          "match": "(?i)\\b(on|off|max|fast|multi|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority|at|volume|stop|play|pause|resume|screen)\\b"
+          "match": "(?i)\\b(on|off|max|fast|multi|block|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority|at|volume|stop|play|pause|resume|screen)\\b"
         }
       ]
     },
@@ -346,10 +350,6 @@
         {
           "name": "punctuation.separator.statement.ub",
           "match": ":"
-        },
-        {
-          "name": "punctuation.separator.print.ub",
-          "match": ";"
         },
         {
           "name": "keyword.operator.arithmetic.ub",
