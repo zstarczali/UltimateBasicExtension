@@ -9,7 +9,7 @@ Language support for **Ultimate Basic** (`.ub`), a modern BASIC-like language th
 ## Features
 
 - **Syntax highlighting** — keywords, types, C64-specific statements, numbers (decimal, hex `$D020`, binary `%1010`), comments (`#`, `rem`, `;`)
-- **120+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `select`, `sprdef`, `chardef`, `mainloop`, `bitmapskel` and more
+- **130+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `select`, `sprdef`, `chardef`, `mainloop`, `bitmapskel` and more
 - **Auto-indent** — smart indentation for `if/end`, `for/next`, `sub/end`, `sprdef/end`, `while/end`, `repeat/until` blocks
 - **Build & Run commands** — compile and launch directly in VICE with a single command
 - **Context menu** — right-click any `.ub` file for quick access to Build / Build & Run
@@ -114,6 +114,9 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `strn` | integer → 3-digit decimal string (`str$(n)`) |
 | `reudet` | check REU present — alias for `reu_present()` |
 | `fillscr`, `fillcol` | fill screen RAM / color RAM with a constant value |
+| `gonb` | graphics on block — 80×50 block-pixel mode |
+| `plot4`, `plot4e` | set / clear block pixel (0-79, 0-49) in block mode |
+| `lowercase`, `uppercase` | switch VIC-II charset mode (lowercase ↔ uppercase/graphics) |
 | `plot`, `plote`, `plotx` | set / erase / toggle pixel |
 | `line`, `circle` | line and circle drawing |
 | `paint` | 4-connected flood fill |
