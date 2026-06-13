@@ -38,10 +38,6 @@
         {
           "name": "comment.line.rem.ub",
           "match": "(?i)\\brem\\b.*$"
-        },
-        {
-          "name": "comment.line.semicolon.ub",
-          "match": ";.*$"
         }
       ]
     },
@@ -71,7 +67,7 @@
       "patterns": [
         {
           "name": "keyword.control.ub",
-          "match": "(?i)\\b(if|then|else|end|for|to|step|next|while|loop|times|break|continue|goto|gosub|label|sub|call|return|repeat|until|select|case|inc|dec|onerr)\\b"
+          "match": "(?i)\\b(if|then|else|end|for|to|step|next|while|loop|times|break|continue|goto|gosub|label|sub|fn|call|return|repeat|until|select|case|inc|dec|onerr)\\b"
         },
         {
           "name": "keyword.control.exit.ub",
@@ -147,7 +143,7 @@
         },
         {
           "name": "constant.language.c64.modifier.ub",
-          "match": "(?i)\\b(on|off|max|fast|multi|block|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority|at|volume|stop|play|pause|resume|screen)\\b"
+          "match": "(?i)\\b(on|off|max|fast|multi|block|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority|at|volume|stop|play|pause|resume|screen|narrow|wide|left|row)\\b"
         }
       ]
     },
@@ -240,6 +236,10 @@
         {
           "name": "entity.name.function.ub",
           "match": "(?i)(?<=\\bsub\\s)\\s*([A-Za-z_][A-Za-z0-9_]*)"
+        },
+        {
+          "name": "entity.name.function.fn.ub",
+          "match": "(?i)(?<=\\bfn\\s)\\s*([A-Za-z_][A-Za-z0-9_]*)"
         }
       ]
     },

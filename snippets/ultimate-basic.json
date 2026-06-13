@@ -122,6 +122,24 @@
     ],
     "description": "Subroutine definition"
   },
+  "Function (fn)": {
+    "prefix": "fn",
+    "body": [
+      "fn ${1:name}(${2:x})",
+      "  return ${3:${2:x}}",
+      "end"
+    ],
+    "description": "Function definition — returns a value from the expression after 'return'"
+  },
+  "Function with word return type": {
+    "prefix": "fnw",
+    "body": [
+      "fn ${1:name}(${2:x}): word",
+      "  return ${3:\\$0000}",
+      "end"
+    ],
+    "description": "Function definition with 16-bit word return type"
+  },
   "Print": {
     "prefix": "print",
     "body": ["print \"${1:text}\""],
@@ -758,6 +776,21 @@
     "prefix": "scrolly",
     "body": ["scroll y ${1:0}"],
     "description": "Hardware vertical fine scroll: set $D011 bits 0-2 (range 0-7)"
+  },
+  "Scroll X narrow (38-col mode)": {
+    "prefix": "scrollxn",
+    "body": ["scroll x ${1:7} narrow"],
+    "description": "Set horizontal fine scroll and force 38-column mode ($D016 bit3 = 0)"
+  },
+  "Scroll X wide (40-col mode)": {
+    "prefix": "scrollxw",
+    "body": ["scroll x ${1:0} wide"],
+    "description": "Set horizontal fine scroll and restore 40-column mode ($D016 bit3 = 1)"
+  },
+  "Scroll row left": {
+    "prefix": "scrollrow",
+    "body": ["scroll row ${1:0} left"],
+    "description": "Shift screen RAM row N left by one character (software text scrolling)"
   },
   "CPU Speed (U64)": {
     "prefix": "speed",

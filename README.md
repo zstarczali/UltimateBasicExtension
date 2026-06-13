@@ -8,8 +8,8 @@ Language support for **Ultimate Basic** (`.ub`), a modern BASIC-like language th
 
 ## Features
 
-- **Syntax highlighting** — keywords, types, C64-specific statements, numbers (decimal, hex `$D020`, binary `%1010`), comments (`#`, `rem`, `;`)
-- **130+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `select`, `sprdef`, `chardef`, `mainloop`, `bitmapskel` and more
+- **Syntax highlighting** — keywords, types, C64-specific statements, numbers (decimal, hex `$D020`, binary `%1010`), comments (`#`, `rem`)
+- **135+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `fn`, `select`, `sprdef`, `chardef`, `mainloop`, `bitmapskel` and more
 - **Auto-indent** — smart indentation for `if/end`, `for/next`, `sub/end`, `sprdef/end`, `while/end`, `repeat/until` blocks
 - **Build & Run commands** — compile and launch directly in VICE with a single command
 - **Context menu** — right-click any `.ub` file for quick access to Build / Build & Run
@@ -73,6 +73,7 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `break`, `conti` | exit loop / skip to next iteration |
 | `label`, `goto` | label definition / jump |
 | `sub` | subroutine definition |
+| `fn`, `fnw` | function definition (returns a value / with 16-bit `word` return type) |
 | `inc`, `dec` | increment / decrement variable |
 | `print`, `printv` | print string / print label + variable |
 | `ctext`, `cborder`, `cbg`, `colors` | color text / border / bg / all three |
@@ -83,6 +84,8 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `getch`, `inkey`, `joy` | keyboard (blocking / non-blocking) / joystick read |
 | `mousex`, `mousey`, `mousebtn` | mouse X / Y position / button state |
 | `scrollx`, `scrolly` | hardware horizontal / vertical fine scroll |
+| `scrollxn`, `scrollxw` | scroll X narrow (38-col) / scroll X wide (40-col) |
+| `scrollrow` | shift screen RAM row left (software text scroll) |
 | `speed`, `speedmax`, `speedoff` | U64 CPU speed (MHz / max / 1 MHz) |
 | `badlon`, `badloff` | U64 badline timing on / off |
 | `turbo` | check if U64 turbo is active |
