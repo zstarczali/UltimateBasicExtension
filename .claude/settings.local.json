@@ -10,7 +10,11 @@
       "Bash(npx @vscode/vsce package --no-dependencies)",
       "Bash(code --install-extension \"F:\\\\Development\\\\UltimateBasicExtension\\\\ultimate-basic-0.2.0.vsix\" --force)",
       "Bash(npm run *)",
-      "Bash(code --install-extension ultimate-basic-0.2.0.vsix --force)"
+      "Bash(code --install-extension ultimate-basic-0.2.0.vsix --force)",
+      "Bash(npx tsc *)",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('F:/Development/UltimateBasicExtension/syntaxes/ultimate-basic.tmLanguage.json','utf8'\\)\\); console.log\\('tmLanguage OK'\\)\")",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('F:/Development/UltimateBasicExtension/snippets/ultimate-basic.json','utf8'\\)\\); console.log\\('snippets OK'\\)\")",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('F:/Development/UltimateBasicExtension/package.json','utf8'\\)\\); console.log\\('package.json OK'\\)\")"
     ]
   }
 }
