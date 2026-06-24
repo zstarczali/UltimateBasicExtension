@@ -6,6 +6,41 @@ Language support for **Ultimate Basic** (`.ub`), a modern BASIC-like language th
 
 ---
 
+## Installation
+
+If the extension is published to the VS Code Marketplace, install it with:
+
+```bash
+code --install-extension zsolt-tarczali.ultimate-basic
+```
+
+If you have a local `.vsix` package, install that instead:
+
+```bash
+code --install-extension /path/to/ultimate-basic-0.2.0.vsix
+```
+
+## Create a VSIX
+
+Before packaging, install the project dependencies:
+
+```bash
+npm ci
+```
+
+Then build the extension package with VS Code's extension tool:
+
+```bash
+npx @vscode/vsce package
+```
+
+This creates a `.vsix` file in the project folder. If you prefer a global install first, use:
+
+```bash
+npm install -g @vscode/vsce
+vsce package
+```
+
 ## Features
 
 - **Syntax highlighting** — keywords, types, C64-specific statements, numbers (decimal, hex `$D020`, binary `%1010`), comments (`#`, `rem`)
