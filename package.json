@@ -92,6 +92,10 @@
           "runAfterBuild": {
             "type": "boolean",
             "description": "Launch VICE emulator after successful build"
+          },
+          "exo": {
+            "type": "boolean",
+            "description": "Run Exomizer on the .prg after a successful build"
           }
         }
       }
@@ -134,8 +138,18 @@
         },
         {
           "when": "resourceExtname == .ub",
-          "command": "ultimate-basic.format",
+          "command": "ultimate-basic.buildExo",
           "group": "ub@5"
+        },
+        {
+          "when": "resourceExtname == .ub",
+          "command": "ultimate-basic.buildExoRun",
+          "group": "ub@6"
+        },
+        {
+          "when": "resourceExtname == .ub",
+          "command": "ultimate-basic.format",
+          "group": "ub@7"
         }
       ]
     },
@@ -167,6 +181,18 @@
       {
         "command": "ultimate-basic.buildAndRunD64",
         "title": "Build D64 & Run in VICE",
+        "category": "Ultimate Basic",
+        "icon": "$(debug-start)"
+      },
+      {
+        "command": "ultimate-basic.buildExo",
+        "title": "Build + Exomize",
+        "category": "Ultimate Basic",
+        "icon": "$(archive)"
+      },
+      {
+        "command": "ultimate-basic.buildExoRun",
+        "title": "Build + Exomize & Run in VICE",
         "category": "Ultimate Basic",
         "icon": "$(debug-start)"
       },
@@ -206,6 +232,22 @@
           "items": { "type": "string" },
           "default": [],
           "description": "Extra files to embed in the .d64 disk image when using Build + D64 commands (passed via --add)"
+        },
+        "ultimateBasic.exomizerPath": {
+          "type": "string",
+          "default": "exomizer",
+          "description": "Path to the Exomizer executable (e.g. C:\\tools\\exomizer.exe)"
+        },
+        "ultimateBasic.exomizerMode": {
+          "type": "string",
+          "enum": ["sfx sys", "sfx basic", "mem"],
+          "default": "sfx sys",
+          "description": "Exomizer compression mode: 'sfx sys' (self-extractor, SYS start), 'sfx basic' (self-extractor, BASIC start), 'mem' (raw compressed data)"
+        },
+        "ultimateBasic.exomizerSuffix": {
+          "type": "string",
+          "default": "_exo",
+          "description": "Suffix appended to the .prg base name for the Exomizer output file (e.g. '_exo' → 'prog_exo.prg')"
         }
       }
     }

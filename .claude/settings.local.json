@@ -14,7 +14,8 @@
       "Bash(npx tsc *)",
       "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('F:/Development/UltimateBasicExtension/syntaxes/ultimate-basic.tmLanguage.json','utf8'\\)\\); console.log\\('tmLanguage OK'\\)\")",
       "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('F:/Development/UltimateBasicExtension/snippets/ultimate-basic.json','utf8'\\)\\); console.log\\('snippets OK'\\)\")",
-      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('F:/Development/UltimateBasicExtension/package.json','utf8'\\)\\); console.log\\('package.json OK'\\)\")"
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('F:/Development/UltimateBasicExtension/package.json','utf8'\\)\\); console.log\\('package.json OK'\\)\")",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('F:/Development/UltimateBasicExtension/package.json','utf8'\\)\\); console.log\\('OK'\\)\")"
     ]
   }
 }

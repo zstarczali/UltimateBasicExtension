@@ -33,6 +33,9 @@ Language support for **Ultimate Basic** (`.ub`), a modern BASIC-like language th
 | `ultimateBasic.viceArgs` | `[]` | Extra arguments passed to VICE, e.g. `["-fullscreen"]` |
 | `ultimateBasic.defaultOutputDir` | *(source directory)* | Output directory for compiled `.prg` files |
 | `ultimateBasic.d64AddFiles` | `[]` | Extra files to embed in the `.d64` disk image (passed as `--add file` for each entry) |
+| `ultimateBasic.exomizerPath` | `exomizer` | Full path to the Exomizer executable |
+| `ultimateBasic.exomizerMode` | `sfx sys` | Exomizer mode: `sfx sys`, `sfx basic`, or `mem` |
+| `ultimateBasic.exomizerSuffix` | `_exo` | Suffix appended to the output file name (e.g. `prog_exo.prg`) |
 
 **Example** (`settings.json`):
 ```json
@@ -56,6 +59,8 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | **Build + D64 disk image** | Compile and also produce a `.d64` disk image |
 | **Build & Run in VICE** | Compile, then automatically launch VICE on success |
 | **Build D64 & Run in VICE** | Produce a `.d64` disk image, then launch VICE |
+| **Build + Exomize** | Compile, then run Exomizer on the resulting `.prg` |
+| **Build + Exomize & Run in VICE** | Compile, Exomize, then launch VICE with the compressed file |
 
 ---
 
