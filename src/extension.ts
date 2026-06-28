@@ -9,15 +9,32 @@ function cfg<T>(key: string): T | undefined {
     return vscode.workspace.getConfiguration('ultimateBasic').get<T>(key);
 }
 
-function compilerPath(): string  { return cfg<string>('compilerPath')   ?? 'ultimate-basic'; }
-function vicePath(): string      { return cfg<string>('vicePath')       ?? 'x64sc'; }
-function viceArgs(): string[]    { return cfg<string[]>('viceArgs')     ?? []; }
-function d64AddFiles(): string[] { return cfg<string[]>('d64AddFiles')  ?? []; }
+function compilerPath(): string    { return cfg<string>('compilerPath')    ?? 'ultimate-basic'; }
+function vicePath(): string        { return cfg<string>('vicePath')        ?? 'x64sc'; }
+function viceArgs(): string[]      { return cfg<string[]>('viceArgs')      ?? []; }
+function d64AddFiles(): string[]   { return cfg<string[]>('d64AddFiles')   ?? []; }
+function exomizerPath(): string    { return cfg<string>('exomizerPath')    ?? 'exomizer'; }
+function exomizerMode(): string    { return cfg<string>('exomizerMode')    ?? 'sfx sys'; }
+function exomizerSuffix(): string  { return cfg<string>('exomizerSuffix')  ?? '_exo'; }
 
 function outputPathFor(srcFile: string, ext: '.prg' | '.d64'): string {
     const outDir = cfg<string>('defaultOutputDir') ?? '';
     const base   = path.basename(srcFile, path.extname(srcFile)) + ext;
     return outDir ? path.join(outDir, base) : path.join(path.dirname(srcFile), base);
+}
+
+function exoOutputFor(prg: string): string {
+    const dir  = path.dirname(prg);
+    const base = path.basename(prg, '.prg');
+    return path.join(dir, base + exomizerSuffix() + '.prg');
+}
+
+function exomizerCommand(prg: string, out: string): string {
+    return [invokeExe(quote(exomizerPath())), exomizerMode(), '-o', quote(out), quote(prg)].join(' ');
+}
+
+function exomizerSpawnArgs(prg: string, out: string): string[] {
+    return [...exomizerMode().split(' '), '-o', out, prg];
 }
 
 // ── Active file guard ─────────────────────────────────────────────────────────
@@ -68,6 +85,59 @@ function invokeExe(quotedPath: string): string {
     return (process.platform === 'win32' && quotedPath.startsWith('"'))
         ? '& ' + quotedPath
         : quotedPath;
+}
+
+// ── Exomizer: spawn-based build → exomize → optional VICE ────────────────────
+
+function buildAndExo(src: string, prg: string, launchVice: boolean) {
+    const t = getTerminal();
+    t.show(true);
+    const exo = exoOutputFor(prg);
+
+    t.sendText(buildCommand(src, prg, {}) + ' && ' + exomizerCommand(prg, exo));
+
+    const compiler = child_process.spawn(compilerPath(), buildArgs(src, prg, {}), {
+        cwd: path.dirname(src), shell: false,
+    });
+    let compilerStderr = '';
+    compiler.stderr.on('data', (d: Buffer) => { compilerStderr += d.toString(); });
+
+    compiler.on('close', (code: number | null) => {
+        if (code !== 0) {
+            vscode.window.showErrorMessage(`Build failed (exit ${code}). Check the Terminal for details.`);
+            return;
+        }
+        if (!fs.existsSync(prg)) {
+            vscode.window.showErrorMessage(`Build succeeded but .prg not found: ${prg}`);
+            return;
+        }
+
+        const exomizer = child_process.spawn(exomizerPath(), exomizerSpawnArgs(prg, exo), {
+            cwd: path.dirname(src), shell: false,
+        });
+        let exoStderr = '';
+        exomizer.stderr.on('data', (d: Buffer) => { exoStderr += d.toString(); });
+
+        exomizer.on('close', (exoCode: number | null) => {
+            if (exoCode !== 0) {
+                vscode.window.showErrorMessage(`Exomizer failed (exit ${exoCode}). Check the Terminal for details.`);
+                return;
+            }
+            if (!fs.existsSync(exo)) {
+                vscode.window.showErrorMessage(`Exomizer succeeded but output not found: ${exo}`);
+                return;
+            }
+
+            if (launchVice) {
+                vscode.window.showInformationMessage(`Build + Exomize OK → launching VICE with ${path.basename(exo)}`);
+                child_process.spawn(vicePath(), ['-autostart', exo, ...viceArgs()], {
+                    detached: true, stdio: 'ignore', cwd: path.dirname(src),
+                }).unref();
+            } else {
+                vscode.window.showInformationMessage(`Build + Exomize OK → ${path.basename(exo)}`);
+            }
+        });
+    });
 }
 
 // ── Build command builder ─────────────────────────────────────────────────────
@@ -176,21 +246,38 @@ function cmdBuildAndRunD64() {
     buildAndLaunchVice(f.src, prg, { d64: true }, d64);
 }
 
+function cmdBuildExo() {
+    const f = requireUbFile(); if (!f) { return; }
+    const prg = outputPathFor(f.src, '.prg');
+    const exo = exoOutputFor(prg);
+    runInTerminal(buildCommand(f.src, prg, {}) + ' && ' + exomizerCommand(prg, exo));
+}
+
+function cmdBuildExoRun() {
+    const f = requireUbFile(); if (!f) { return; }
+    const prg = outputPathFor(f.src, '.prg');
+    buildAndExo(f.src, prg, true);
+}
+
 // ── Task provider ─────────────────────────────────────────────────────────────
 
 function makeTask(
     name: string,
     scope: vscode.TaskScope | vscode.WorkspaceFolder,
     src: string,
-    opts: BuildOptions & { runAfterBuild?: boolean }
+    opts: BuildOptions & { runAfterBuild?: boolean; exo?: boolean }
 ): vscode.Task {
     const prg = outputPathFor(src, '.prg');
     const d64 = outputPathFor(src, '.d64');
+    const exo = exoOutputFor(prg);
 
     let shellCmd = buildCommand(src, prg, opts, opts.d64 ? d64 : undefined);
+    if (opts.exo) {
+        shellCmd += ' && ' + exomizerCommand(prg, exo);
+    }
     if (opts.runAfterBuild) {
-        const sep = process.platform === 'win32' ? ' && ' : ' && ';
-        shellCmd += `${sep}${viceCommand(prg)}`;
+        const runTarget = opts.exo ? exo : (opts.d64 ? d64 : prg);
+        shellCmd += ' && ' + viceCommand(runTarget);
     }
 
     const task = new vscode.Task(
@@ -212,17 +299,19 @@ class UbTaskProvider implements vscode.TaskProvider {
         if (!editor || editor.document.languageId !== 'ultimate-basic') { return []; }
         const src = editor.document.fileName;
         return [
-            makeTask('build',             vscode.TaskScope.Workspace, src, {}),
-            makeTask('build (verbose)',    vscode.TaskScope.Workspace, src, { verbose: true }),
-            makeTask('build + d64',        vscode.TaskScope.Workspace, src, { d64: true }),
-            makeTask('build & run',        vscode.TaskScope.Workspace, src, { runAfterBuild: true }),
+            makeTask('build',                  vscode.TaskScope.Workspace, src, {}),
+            makeTask('build (verbose)',         vscode.TaskScope.Workspace, src, { verbose: true }),
+            makeTask('build + d64',             vscode.TaskScope.Workspace, src, { d64: true }),
+            makeTask('build & run',             vscode.TaskScope.Workspace, src, { runAfterBuild: true }),
+            makeTask('build + exomize',         vscode.TaskScope.Workspace, src, { exo: true }),
+            makeTask('build + exomize & run',   vscode.TaskScope.Workspace, src, { exo: true, runAfterBuild: true }),
         ];
     }
 
     resolveTask(task: vscode.Task): vscode.Task | undefined {
         const def = task.definition as {
             type: string; file: string; output?: string;
-            verbose?: boolean; d64?: string; noStub?: boolean; runAfterBuild?: boolean;
+            verbose?: boolean; d64?: string; noStub?: boolean; runAfterBuild?: boolean; exo?: boolean;
         };
         if (def.type !== 'ultimate-basic') { return undefined; }
         return makeTask(task.name, task.scope ?? vscode.TaskScope.Workspace, def.file, {
@@ -230,6 +319,7 @@ class UbTaskProvider implements vscode.TaskProvider {
             d64: !!def.d64,
             noStub: def.noStub,
             runAfterBuild: def.runAfterBuild,
+            exo: def.exo,
         });
     }
 }
@@ -414,6 +504,8 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand('ultimate-basic.buildD64',       () => cmdBuildD64()),
         vscode.commands.registerCommand('ultimate-basic.buildAndRun',    () => cmdBuildAndRun()),
         vscode.commands.registerCommand('ultimate-basic.buildAndRunD64', () => cmdBuildAndRunD64()),
+        vscode.commands.registerCommand('ultimate-basic.buildExo',       () => cmdBuildExo()),
+        vscode.commands.registerCommand('ultimate-basic.buildExoRun',    () => cmdBuildExoRun()),
         vscode.commands.registerCommand('ultimate-basic.format',         () => cmdFormat()),
         vscode.languages.registerDocumentFormattingEditProvider(
             { language: 'ultimate-basic' },
