@@ -99,7 +99,7 @@
         },
         {
           "name": "support.function.c64.graphics.ub",
-          "match": "(?i)\\b(graphics|gcls|plot|mplot|plot4|line|circle|circle4|display|cursor|paint|scroll)\\b"
+          "match": "(?i)\\b(graphics|gcls|plot|mplot|plot4|line|circle|circle4|display|cursor|paint|scroll|rect|flip)\\b"
         },
         {
           "name": "support.function.c64.color.ub",
@@ -126,6 +126,14 @@
           "match": "(?i)\\b(speed|badlines)\\b"
         },
         {
+          "name": "support.function.c64.koala.ub",
+          "match": "(?i)\\b(koala)\\b"
+        },
+        {
+          "name": "support.function.c64.map.ub",
+          "match": "(?i)\\b(map)\\b"
+        },
+        {
           "name": "support.function.c64.reu.ub",
           "match": "(?i)\\b(reu)\\b"
         },
@@ -143,7 +151,7 @@
         },
         {
           "name": "constant.language.c64.modifier.ub",
-          "match": "(?i)\\b(on|off|max|fast|multi|block|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority|at|volume|stop|play|pause|resume|screen|narrow|wide|left|row)\\b"
+          "match": "(?i)\\b(on|off|max|fast|multi|block|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority|at|volume|stop|play|pause|resume|screen|narrow|wide|left|row|double|show|hide|draw|set)\\b"
         }
       ]
     },
@@ -208,6 +216,14 @@
         {
           "name": "support.function.builtin.float.ub",
           "match": "(?i)\\b(int)\\s*(?=\\()"
+        },
+        {
+          "name": "support.function.builtin.map.ub",
+          "match": "(?i)\\b(map_tile|map_color)\\s*(?=\\()"
+        },
+        {
+          "name": "support.function.builtin.collision.ub",
+          "match": "(?i)\\b(box_hit)\\s*(?=\\()"
         }
       ]
     },
