@@ -1019,5 +1019,158 @@
     "prefix": "circle4",
     "body": ["circle4 ${1:x}, ${2:y}, ${3:r}"],
     "description": "Draw midpoint circle in block pixels (80×50 block mode); clips off-screen pixels, useful radius 0–49"
+  },
+  "Struct type definition": {
+    "prefix": "type",
+    "body": [
+      "type ${1:TName}",
+      "  var ${2:field1}: ${3:int}",
+      "  var ${4:field2}: ${5:word}",
+      "endtype",
+      "",
+      "const ${6:N} = ${7:4}",
+      "var ${8:items}: ${1:TName} = array(${6:N})"
+    ],
+    "description": "Define a struct type and allocate an array of it. Field types: int (1 byte), word (2 bytes), float (2 bytes Q8.8)"
+  },
+  "Struct field set (constant index)": {
+    "prefix": "struct_set",
+    "body": ["${1:items}[${2:0}].${3:field} = ${4:value}"],
+    "description": "Set a struct field at a constant index"
+  },
+  "Struct field set (variable index)": {
+    "prefix": "struct_setv",
+    "body": ["${1:items}[${2:i}].${3:field} = ${4:value}"],
+    "description": "Set a struct field at a variable index"
+  },
+  "Struct field get (variable index)": {
+    "prefix": "struct_get",
+    "body": ["var ${1:v} = ${2:items}[${3:i}].${4:field}"],
+    "description": "Read a struct field at a variable index"
+  },
+  "Koala load": {
+    "prefix": "koala_load",
+    "body": ["koala load \"${1:picture.kla}\""],
+    "description": "Embed a Koala Painter image at compile time (standard 10003-byte or raw 10001-byte .kla file)"
+  },
+  "Koala show": {
+    "prefix": "koala_show",
+    "body": ["koala show"],
+    "description": "Switch to multicolor bitmap mode and show the loaded Koala image (bitmap $2000, screen $0400, colors $D800)"
+  },
+  "Koala hide": {
+    "prefix": "koala_hide",
+    "body": ["koala hide"],
+    "description": "Restore normal text mode after displaying a Koala image"
+  },
+  "Koala load and show": {
+    "prefix": "koala",
+    "body": [
+      "koala load \"${1:picture.kla}\"",
+      "koala show",
+      "",
+      "var key = getch()",
+      "",
+      "koala hide"
+    ],
+    "description": "Load and display a Koala Painter image, wait for keypress, then return to text mode"
+  },
+  "Map load": {
+    "prefix": "map_load",
+    "body": ["map load \"${1:level.ubmap}\""],
+    "description": "Embed and validate a .ubmap or VisualAssembler .bin tile map at compile time"
+  },
+  "Map draw": {
+    "prefix": "map_draw",
+    "body": ["map draw ${1:map_x}, ${2:map_y}"],
+    "description": "Render 40×25 viewport of the loaded map to screen RAM $0400 (and optionally color RAM $D800)"
+  },
+  "Map set tile": {
+    "prefix": "map_set",
+    "body": ["map set ${1:x}, ${2:y}, ${3:tile}"],
+    "description": "Set the tile at map position (x, y)"
+  },
+  "Map set color": {
+    "prefix": "map_color",
+    "body": ["map color ${1:x}, ${2:y}, ${3:color}"],
+    "description": "Set the color at map position (x, y)"
+  },
+  "Map skeleton": {
+    "prefix": "map_skeleton",
+    "body": [
+      "map load \"${1:level.ubmap}\"",
+      "",
+      "var map_x = 0",
+      "var map_y = 0",
+      "",
+      "map draw map_x, map_y",
+      "",
+      "var tile = map_tile(${2:x}, ${3:y})",
+      "var col  = map_color(${2:x}, ${3:y})"
+    ],
+    "description": "Load a tile map and draw it; read tile and color at a position"
+  },
+  "Graphics on double (double-buffered)": {
+    "prefix": "gfx_double",
+    "body": [
+      "graphics on double",
+      "",
+      "loop",
+      "  gcls",
+      "",
+      "  # draw to the hidden buffer",
+      "  plot ${1:160}, ${2:100}",
+      "",
+      "  flip          # swap buffers (tear-free)",
+      "end"
+    ],
+    "description": "Double-buffered hires bitmap (320×200). Buffer A=$2000/$0400, Buffer B=$6000/$4400. flip waits for raster ≥251 then swaps. Program code must stay below $4400."
+  },
+  "Load SID with address override": {
+    "prefix": "load_sid_addr",
+    "body": ["load sid \"${1:tune.sid}\", $${2:2000}"],
+    "description": "Embed a SID music file at a specific address, overriding the SID header load address"
+  },
+  "Multicolor line": {
+    "prefix": "mline",
+    "body": ["mline ${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:color}"],
+    "description": "Draw a Bresenham line in multicolor bitmap mode (x: 0-159, y: 0-199, color: 0-3). Requires graphics on multi."
+  },
+  "Multicolor rectangle": {
+    "prefix": "mrect",
+    "body": ["mrect ${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:color}"],
+    "description": "Draw a rectangle outline in multicolor bitmap mode (four mlines). Requires graphics on multi."
+  },
+  "Multicolor circle": {
+    "prefix": "mcircle",
+    "body": ["mcircle ${1:x}, ${2:y}, ${3:r}, ${4:color}"],
+    "description": "Draw a midpoint circle in multicolor bitmap mode (x: 0-159, y: 0-199, color: 0-3). Requires graphics on multi."
+  },
+  "Color pen (hires draw color)": {
+    "prefix": "color_pen",
+    "body": ["color pen ${1:1}"],
+    "description": "Set the persistent hires bitmap draw color (foreground nibble 0-15). The plot helper stamps this color into the video matrix of each touched 8×8 cell. Requires graphics on."
+  },
+  "Multicolor graphics skeleton": {
+    "prefix": "gfx_multi",
+    "body": [
+      "graphics on multi",
+      "gcls",
+      "",
+      "# multicolor draw (x: 0-159, y: 0-199, color: 0-3)",
+      "mplot ${1:80}, ${2:100}, ${3:1}",
+      "mline ${4:0}, ${5:0}, ${6:159}, ${7:199}, ${3:1}",
+      "mcircle ${8:80}, ${9:100}, ${10:40}, ${3:1}",
+      "",
+      "display on",
+      "var key = getch()",
+      "graphics off"
+    ],
+    "description": "Multicolor bitmap mode skeleton with mplot, mline and mcircle. 4 colors per 8×8 cell, effective 160×200 resolution."
+  },
+  "Mouse X high byte": {
+    "prefix": "mouse_x_hi",
+    "body": ["var ${1:mxhi} = mouse_x_hi()"],
+    "description": "Read the high byte of the 1351 mouse X position — combine with mouse_x() for the full 9-bit range: x = mouse_x() + mouse_x_hi() * 256"
   }
 }

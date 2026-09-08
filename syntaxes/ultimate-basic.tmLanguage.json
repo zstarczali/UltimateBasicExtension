@@ -67,7 +67,7 @@
       "patterns": [
         {
           "name": "keyword.control.ub",
-          "match": "(?i)\\b(if|then|else|end|for|to|step|next|while|loop|times|break|continue|goto|gosub|label|sub|fn|call|return|repeat|until|select|case|inc|dec|onerr)\\b"
+          "match": "(?i)\\b(if|then|else|end|endtype|for|to|step|next|while|loop|times|break|continue|goto|gosub|label|sub|fn|call|return|repeat|until|select|case|inc|dec|onerr|type)\\b"
         },
         {
           "name": "keyword.control.exit.ub",
@@ -99,7 +99,7 @@
         },
         {
           "name": "support.function.c64.graphics.ub",
-          "match": "(?i)\\b(graphics|gcls|plot|mplot|plot4|line|circle|circle4|display|cursor|paint|scroll|rect|flip)\\b"
+          "match": "(?i)\\b(graphics|gcls|plot|mplot|mline|mrect|mcircle|plot4|line|circle|circle4|display|cursor|paint|scroll|rect|flip)\\b"
         },
         {
           "name": "support.function.c64.color.ub",
@@ -151,7 +151,7 @@
         },
         {
           "name": "constant.language.c64.modifier.ub",
-          "match": "(?i)\\b(on|off|max|fast|multi|block|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority|at|volume|stop|play|pause|resume|screen|narrow|wide|left|row|double|show|hide|draw|set)\\b"
+          "match": "(?i)\\b(on|off|max|fast|multi|block|raster|text|border|bg|stash|fetch|swap|color|multicolor|erase|xor|expand|priority|at|volume|stop|play|pause|resume|screen|narrow|wide|left|row|double|show|hide|draw|set|pen)\\b"
         }
       ]
     },
@@ -199,7 +199,7 @@
         },
         {
           "name": "support.function.builtin.mouse.ub",
-          "match": "(?i)\\b(mouse_x|mouse_y|mouse_btn)\\s*(?=\\()"
+          "match": "(?i)\\b(mouse_x|mouse_x_hi|mouse_y|mouse_btn)\\s*(?=\\()"
         },
         {
           "name": "support.function.builtin.reu.ub",
