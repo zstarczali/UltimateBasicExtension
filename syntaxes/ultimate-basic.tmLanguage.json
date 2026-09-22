@@ -67,7 +67,7 @@
       "patterns": [
         {
           "name": "keyword.control.ub",
-          "match": "(?i)\\b(if|then|else|end|endtype|for|to|step|next|while|loop|times|break|continue|goto|gosub|label|sub|fn|call|return|repeat|until|select|case|inc|dec|onerr|type)\\b"
+          "match": "(?i)\\b(if|then|else|end|endtype|for|to|step|next|while|loop|times|break|continue|goto|gosub|label|sub|fn|call|return|repeat|until|select|case|inc|dec|onerr|type|tune)\\b"
         },
         {
           "name": "keyword.control.exit.ub",
@@ -83,7 +83,7 @@
         },
         {
           "name": "keyword.other.include.ub",
-          "match": "(?i)\\b(include|incbin|charset)\\b"
+          "match": "(?i)\\b(include|incbin|charset|org)\\b"
         },
         {
           "name": "keyword.other.data.ub",
@@ -115,7 +115,11 @@
         },
         {
           "name": "support.function.c64.sound.ub",
-          "match": "(?i)\\b(sound|sid|music)\\b"
+          "match": "(?i)\\b(sound|sid|music|sfx)\\b"
+        },
+        {
+          "name": "support.function.c64.tune.ub",
+          "match": "(?i)\\b(instrument|adsr|order)\\b"
         },
         {
           "name": "support.function.c64.timing.ub",

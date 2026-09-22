@@ -430,7 +430,7 @@ class UbFormatter implements vscode.DocumentFormattingEditProvider {
             } else if (/^select\b/i.test(low)) {
                 level++; stack.push('select');
 
-            } else if (/^(for|while|loop|times|sub|fn|sprdef|chardef|repeat)\b/i.test(low)) {
+            } else if (/^(for|while|loop|times|sub|fn|tune|instrument|sprdef|chardef|repeat)\b/i.test(low)) {
                 level++; stack.push('generic');
 
             } else if (/^asm\s*\{/i.test(low)) {
