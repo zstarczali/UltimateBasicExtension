@@ -96,6 +96,14 @@
           "exo": {
             "type": "boolean",
             "description": "Run Exomizer on the .prg after a successful build"
+          },
+          "debug": {
+            "type": "boolean",
+            "description": "Also produce .sym, .dbg and .vs debugger files (--debug)"
+          },
+          "asm": {
+            "type": "boolean",
+            "description": "Also produce a readable 6502 codegen .asm listing (--asm)"
           }
         }
       }
@@ -148,8 +156,23 @@
         },
         {
           "when": "resourceExtname == .ub",
-          "command": "ultimate-basic.format",
+          "command": "ultimate-basic.buildDebug",
           "group": "ub@7"
+        },
+        {
+          "when": "resourceExtname == .ub",
+          "command": "ultimate-basic.buildAsm",
+          "group": "ub@8"
+        },
+        {
+          "when": "resourceExtname == .ub",
+          "command": "ultimate-basic.buildCrt",
+          "group": "ub@9"
+        },
+        {
+          "when": "resourceExtname == .ub",
+          "command": "ultimate-basic.format",
+          "group": "ub@10"
         }
       ]
     },
@@ -195,6 +218,24 @@
         "title": "Build + Exomize & Run in VICE",
         "category": "Ultimate Basic",
         "icon": "$(debug-start)"
+      },
+      {
+        "command": "ultimate-basic.buildDebug",
+        "title": "Build (debug symbols)",
+        "category": "Ultimate Basic",
+        "icon": "$(debug)"
+      },
+      {
+        "command": "ultimate-basic.buildAsm",
+        "title": "Build (asm listing)",
+        "category": "Ultimate Basic",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "ultimate-basic.buildCrt",
+        "title": "Build (.crt cartridge)",
+        "category": "Ultimate Basic",
+        "icon": "$(package)"
       },
       {
         "command": "ultimate-basic.format",
@@ -248,6 +289,11 @@
           "type": "string",
           "default": "_exo",
           "description": "Suffix appended to the .prg base name for the Exomizer output file (e.g. '_exo' → 'prog_exo.prg')"
+        },
+        "ultimateBasic.explicitMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "Always pass --explicit to the compiler, requiring a :type annotation on every var / sub-param / fn-param"
         }
       }
     }

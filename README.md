@@ -71,6 +71,7 @@ vsce package
 | `ultimateBasic.exomizerPath` | `exomizer` | Full path to the Exomizer executable |
 | `ultimateBasic.exomizerMode` | `sfx sys` | Exomizer mode: `sfx sys`, `sfx basic`, or `mem` |
 | `ultimateBasic.exomizerSuffix` | `_exo` | Suffix appended to the output file name (e.g. `prog_exo.prg`) |
+| `ultimateBasic.explicitMode` | `false` | Always pass `--explicit` to the compiler (require `:type` on every `var` / sub-param / fn-param) |
 
 **Example** (`settings.json`):
 ```json
@@ -96,6 +97,9 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | **Build D64 & Run in VICE** | Produce a `.d64` disk image, then launch VICE |
 | **Build + Exomize** | Compile, then run Exomizer on the resulting `.prg` |
 | **Build + Exomize & Run in VICE** | Compile, Exomize, then launch VICE with the compressed file |
+| **Build (debug symbols)** | Compile with `--debug` — also produces `.sym` / `.dbg` / `.vs` debugger files |
+| **Build (asm listing)** | Compile with `--asm` — also produces a readable 6502 codegen `.asm` listing |
+| **Build (.crt cartridge)** | Compile to a Magic Desk type-19 `.crt` cartridge image |
 
 ---
 
@@ -148,6 +152,11 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `times` | counted loop alias (`times N … end`) |
 | `onerr` | register KERNAL I/O error handler (`onerr goto label`) |
 | `musicplay`, `musicstop`, `musicpause`, `musicresume` | high-level SID music control |
+| `tune` | inline SID tracker tune block (`speed`/`inst`/`order`/`pat`) |
+| `inst`, `pat` | tune instrument definition / pattern row |
+| `sfx` | non-blocking SID note, safe inside game loops |
+| `org` | continue subroutine code at a given address, zero-filling the gap |
+| `charseton`, `charsetoff` | point VIC-II at the custom charset RAM / restore the ROM charset |
 | `mplot` | set multicolor bitmap pixel (x, y, color-index 0–3) |
 | `bnot` | bitwise NOT operator (XOR 255) |
 | `clamp` | 8-bit unsigned clamp (`clamp(x, lo, hi)`) |
@@ -176,6 +185,7 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `sprhit`, `sprbghit` | sprite collision checks |
 | `sprmov` | sprite position update (no data pointer) |
 | `data`, `read` | data table / read next byte |
+| `data_array` | initialize a declared array/array_word with constant values |
 | `numstr` | write number as 3-digit decimal string |
 | `strtoint` | compile-time string to integer |
 | `len`, `asc` | string length / first character PETSCII code |

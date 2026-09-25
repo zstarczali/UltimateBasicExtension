@@ -119,7 +119,7 @@
         },
         {
           "name": "support.function.c64.tune.ub",
-          "match": "(?i)\\b(instrument|adsr|order)\\b"
+          "match": "(?i)\\b(inst|order|pat)\\b"
         },
         {
           "name": "support.function.c64.timing.ub",
@@ -147,7 +147,7 @@
         },
         {
           "name": "support.function.c64.string.ub",
-          "match": "(?i)\\b(numstr|int_to_str)\\b"
+          "match": "(?i)\\b(numstr)\\b"
         },
         {
           "name": "support.function.c64.disk.ub",
