@@ -196,6 +196,7 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `sin`, `cos` | sine / cosine lookup (0–255 angle, 0–255 result) |
 | `input`, `inputp` | keyboard input (with / without prompt) |
 | `load`, `loada`, `save` | load from disk / load to address / save memory range |
+| `chain` | load another program over this one and RUN it (boot/title → game) |
 | `open`, `openp`, `close` | open / close serial file channel |
 | `printhash` | send output to logical file (`print#`) |
 | `irq` | raster IRQ setup with handler skeleton |

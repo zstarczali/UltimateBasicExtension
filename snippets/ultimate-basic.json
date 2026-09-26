@@ -641,6 +641,11 @@
     "body": ["save \"${1:MYFILE}\", ${2:\\$C000}, ${3:\\$C100}"],
     "description": "Save memory range to disk (filename, start address, end address)"
   },
+  "Chain to another program": {
+    "prefix": "chain",
+    "body": ["chain \"${1:GAME}\""],
+    "description": "Load another program over this one and RUN it (LOAD+RUN); returns and continues here only if the load failed. Uses the drive the program was started from unless a device is given: chain \"GAME\", 9"
+  },
   "Increment": {
     "prefix": "inc",
     "body": ["inc ${1:x}"],

@@ -151,7 +151,7 @@
         },
         {
           "name": "support.function.c64.disk.ub",
-          "match": "(?i)\\b(load|save|open|close|input)\\b"
+          "match": "(?i)\\b(load|save|open|close|input|chain)\\b"
         },
         {
           "name": "constant.language.c64.modifier.ub",
