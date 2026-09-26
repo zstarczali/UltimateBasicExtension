@@ -432,6 +432,14 @@
     "body": ["read ${1:varname}"],
     "description": "Load next byte from data table into variable"
   },
+  "Data array init": {
+    "prefix": "data_array",
+    "body": [
+      "var ${1:name} = array(${2:8})",
+      "data ${1:name}: ${3:1, 2, 3, 4}"
+    ],
+    "description": "Initialize a declared array/array_word with constant values (fills the array itself, not the read stream); can repeat with more 'data name: ...' lines to continue filling"
+  },
   "Input int": {
     "prefix": "input",
     "body": ["input ${1:score}"],
@@ -632,6 +640,11 @@
     "prefix": "save",
     "body": ["save \"${1:MYFILE}\", ${2:\\$C000}, ${3:\\$C100}"],
     "description": "Save memory range to disk (filename, start address, end address)"
+  },
+  "Chain to another program": {
+    "prefix": "chain",
+    "body": ["chain \"${1:GAME}\""],
+    "description": "Load another program over this one and RUN it (LOAD+RUN); returns and continues here only if the load failed. Uses the drive the program was started from unless a device is given: chain \"GAME\", 9"
   },
   "Increment": {
     "prefix": "inc",
@@ -1172,5 +1185,48 @@
     "prefix": "mouse_x_hi",
     "body": ["var ${1:mxhi} = mouse_x_hi()"],
     "description": "Read the high byte of the 1351 mouse X position — combine with mouse_x() for the full 9-bit range: x = mouse_x() + mouse_x_hi() * 256"
+  },
+  "SFX non-blocking note": {
+    "prefix": "sfx",
+    "body": ["sfx ${1:0}, ${2:$1100}, ${3:3}"],
+    "description": "Non-blocking SID note: sfx channel(0-2), freq, frames [, wave]. wave: 16=triangle, 32=saw(default), 64=pulse, 128=noise. Safe inside game loops."
+  },
+  "ORG origin directive": {
+    "prefix": "org",
+    "body": ["org \\$${1:C000}"],
+    "description": "Continue subroutine code at addr; zero-fills the gap (free for data). Place between sub/fn definitions. Error if addr < current code end."
+  },
+  "Tracker tune block": {
+    "prefix": "tune",
+    "body": [
+      "tune                       # optional: tune at \\$${1:8000}",
+      "  speed ${2:6}",
+      "  inst 0, \\$${3:41}, \\$${4:09}, \\$${5:F0}, \\$${6:0800}, \\$${7:0064}, \\$${8:27}, \\$${9:1F}",
+      "  order 0",
+      "  pat 0, 0, \"${10:C-4 00}\", \"...\", \"...\", \"...\"",
+      "end",
+      "music play"
+    ],
+    "description": "Inline SID tracker tune (defines sid_init/sid_play, works with music play|stop|pause|resume). inst: ctrl,ad,sr,pw,cutoff,resfilt,modevol. pat: pattern#, voice(0-2), up to 32 \"NOTE INST FX\" cells."
+  },
+  "Tune instrument": {
+    "prefix": "inst",
+    "body": ["inst ${1:0}, \\$${2:41}, \\$${3:09}, \\$${4:F0}, \\$${5:0800}, \\$${6:0064}, \\$${7:27}, \\$${8:1F}"],
+    "description": "Tune instrument: id, control(waveform+gate), attack/decay, sustain/release, 12-bit pulse width, 11-bit filter cutoff, resonance/routing ($D417), mode/volume ($D418)"
+  },
+  "Tune pattern row": {
+    "prefix": "pat",
+    "body": ["pat ${1:0}, ${2:0}, \"${3:C-4 00}\", \"...\", \"...\", \"...\""],
+    "description": "Tune pattern: pattern#(0-7), voice(0-2), up to 32 cells \"NOTE INST FX\" (e.g. C-4, D#3, ... for no note; FX: Vxy vibrato, Uxx/Dxx slide, C note cut, Fxx speed)"
+  },
+  "Charset on/off": {
+    "prefix": "charseton",
+    "body": ["charset on"],
+    "description": "Point VIC-II to the chardef RAM set ($D018 bits 1-3, screen-matrix bits kept). Use after charset addr to activate the custom charset."
+  },
+  "Charset off (restore ROM)": {
+    "prefix": "charsetoff",
+    "body": ["charset off"],
+    "description": "Restore the VIC-II ROM charset ($1000, or $1800 after lowercase)."
   }
 }

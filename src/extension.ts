@@ -16,8 +16,9 @@ function d64AddFiles(): string[]   { return cfg<string[]>('d64AddFiles')   ?? []
 function exomizerPath(): string    { return cfg<string>('exomizerPath')    ?? 'exomizer'; }
 function exomizerMode(): string    { return cfg<string>('exomizerMode')    ?? 'sfx sys'; }
 function exomizerSuffix(): string  { return cfg<string>('exomizerSuffix')  ?? '_exo'; }
+function explicitMode(): boolean   { return cfg<boolean>('explicitMode')   ?? false; }
 
-function outputPathFor(srcFile: string, ext: '.prg' | '.d64'): string {
+function outputPathFor(srcFile: string, ext: '.prg' | '.d64' | '.crt'): string {
     const outDir = cfg<string>('defaultOutputDir') ?? '';
     const base   = path.basename(srcFile, path.extname(srcFile)) + ext;
     return outDir ? path.join(outDir, base) : path.join(path.dirname(srcFile), base);
@@ -146,12 +147,17 @@ interface BuildOptions {
     verbose?: boolean;
     d64?: boolean;
     noStub?: boolean;
+    debug?: boolean;
+    asm?: boolean;
 }
 
 function buildCommand(src: string, prg: string, opts: BuildOptions, d64?: string): string {
     const parts = [invokeExe(quote(compilerPath())), 'build', quote(src), '-o', quote(prg)];
     if (opts.verbose) { parts.push('-v'); }
     if (opts.noStub)  { parts.push('--no-stub'); }
+    if (opts.debug)   { parts.push('--debug'); }
+    if (opts.asm)     { parts.push('--asm'); }
+    if (explicitMode()) { parts.push('--explicit'); }
     if (opts.d64 && d64) {
         parts.push('--d64', quote(d64));
         for (const f of d64AddFiles()) { parts.push('--add', quote(f)); }
@@ -211,6 +217,9 @@ function buildArgs(src: string, prg: string, opts: BuildOptions, d64?: string): 
     const args = ['build', src, '-o', prg];
     if (opts.verbose) { args.push('-v'); }
     if (opts.noStub)  { args.push('--no-stub'); }
+    if (opts.debug)   { args.push('--debug'); }
+    if (opts.asm)     { args.push('--asm'); }
+    if (explicitMode()) { args.push('--explicit'); }
     if (opts.d64 && d64) {
         args.push('--d64', d64);
         for (const f of d64AddFiles()) { args.push('--add', f); }
@@ -259,6 +268,24 @@ function cmdBuildExoRun() {
     buildAndExo(f.src, prg, true);
 }
 
+function cmdBuildDebug() {
+    const f = requireUbFile(); if (!f) { return; }
+    const prg = outputPathFor(f.src, '.prg');
+    runInTerminal(buildCommand(f.src, prg, { debug: true }));
+}
+
+function cmdBuildAsm() {
+    const f = requireUbFile(); if (!f) { return; }
+    const prg = outputPathFor(f.src, '.prg');
+    runInTerminal(buildCommand(f.src, prg, { asm: true }));
+}
+
+function cmdBuildCrt() {
+    const f = requireUbFile(); if (!f) { return; }
+    const crt = outputPathFor(f.src, '.crt');
+    runInTerminal(buildCommand(f.src, crt, {}));
+}
+
 // ── Task provider ─────────────────────────────────────────────────────────────
 
 function makeTask(
@@ -305,6 +332,8 @@ class UbTaskProvider implements vscode.TaskProvider {
             makeTask('build & run',             vscode.TaskScope.Workspace, src, { runAfterBuild: true }),
             makeTask('build + exomize',         vscode.TaskScope.Workspace, src, { exo: true }),
             makeTask('build + exomize & run',   vscode.TaskScope.Workspace, src, { exo: true, runAfterBuild: true }),
+            makeTask('build (debug symbols)',   vscode.TaskScope.Workspace, src, { debug: true }),
+            makeTask('build (asm listing)',     vscode.TaskScope.Workspace, src, { asm: true }),
         ];
     }
 
@@ -312,6 +341,7 @@ class UbTaskProvider implements vscode.TaskProvider {
         const def = task.definition as {
             type: string; file: string; output?: string;
             verbose?: boolean; d64?: string; noStub?: boolean; runAfterBuild?: boolean; exo?: boolean;
+            debug?: boolean; asm?: boolean;
         };
         if (def.type !== 'ultimate-basic') { return undefined; }
         return makeTask(task.name, task.scope ?? vscode.TaskScope.Workspace, def.file, {
@@ -320,6 +350,8 @@ class UbTaskProvider implements vscode.TaskProvider {
             noStub: def.noStub,
             runAfterBuild: def.runAfterBuild,
             exo: def.exo,
+            debug: def.debug,
+            asm: def.asm,
         });
     }
 }
@@ -430,7 +462,7 @@ class UbFormatter implements vscode.DocumentFormattingEditProvider {
             } else if (/^select\b/i.test(low)) {
                 level++; stack.push('select');
 
-            } else if (/^(for|while|loop|times|sub|fn|sprdef|chardef|repeat)\b/i.test(low)) {
+            } else if (/^(for|while|loop|times|sub|fn|tune|sprdef|chardef|repeat)\b/i.test(low)) {
                 level++; stack.push('generic');
 
             } else if (/^asm\s*\{/i.test(low)) {
@@ -506,6 +538,9 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand('ultimate-basic.buildAndRunD64', () => cmdBuildAndRunD64()),
         vscode.commands.registerCommand('ultimate-basic.buildExo',       () => cmdBuildExo()),
         vscode.commands.registerCommand('ultimate-basic.buildExoRun',    () => cmdBuildExoRun()),
+        vscode.commands.registerCommand('ultimate-basic.buildDebug',     () => cmdBuildDebug()),
+        vscode.commands.registerCommand('ultimate-basic.buildAsm',       () => cmdBuildAsm()),
+        vscode.commands.registerCommand('ultimate-basic.buildCrt',       () => cmdBuildCrt()),
         vscode.commands.registerCommand('ultimate-basic.format',         () => cmdFormat()),
         vscode.languages.registerDocumentFormattingEditProvider(
             { language: 'ultimate-basic' },
