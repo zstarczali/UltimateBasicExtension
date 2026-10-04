@@ -1091,7 +1091,30 @@
   "Map load": {
     "prefix": "map_load",
     "body": ["map load \"${1:level.ubmap}\""],
-    "description": "Embed and validate a .ubmap or VisualAssembler .bin tile map at compile time"
+    "description": "Embed and validate a .ubmap or VisualAssembler .bin tile map at compile time. Also reads VisualAssembler Level Editor projects (max 6x10 screens, 255x255 cells)"
+  },
+  "Map load at address": {
+    "prefix": "map_load_addr",
+    "body": ["map load \"${1:level.bin}\", \\$${2:4000}"],
+    "description": "Store the map data at a fixed address instead of inline (like incbin \"file\", addr): characters first, colors follow. $4000 keeps $3C00-$3FFF free for map view"
+  },
+  "Map view (smooth scroll)": {
+    "prefix": "map_view",
+    "body": ["map view ${1:px}, ${2:py}"],
+    "description": "Show the loaded map at pixel position (word x, y), smooth XSCROLL/YSCROLL scrolling with double-buffered screens ($0400/$3C00). Call once per frame instead of wait raster; code must stay out of $3C00-$3FFF"
+  },
+  "Map scroll skeleton": {
+    "prefix": "map_scroll",
+    "body": [
+      "map load \"${1:level.bin}\", \\$${2:4000}",
+      "var px: word = 0",
+      "var py: word = 0",
+      "loop",
+      "  map view px, py               # once per frame, instead of wait raster",
+      "  $0",
+      "end"
+    ],
+    "description": "Smooth-scrolling map main loop: map load to an address + map view every frame"
   },
   "Map draw": {
     "prefix": "map_draw",
@@ -1212,7 +1235,27 @@
   "Tune instrument": {
     "prefix": "inst",
     "body": ["inst ${1:0}, \\$${2:41}, \\$${3:09}, \\$${4:F0}, \\$${5:0800}, \\$${6:0064}, \\$${7:27}, \\$${8:1F}"],
-    "description": "Tune instrument: id, control(waveform+gate), attack/decay, sustain/release, 12-bit pulse width, 11-bit filter cutoff, resonance/routing ($D417), mode/volume ($D418)"
+    "description": "Tune instrument: id, control(waveform, ring mod $04, sync $02; gate added by player), attack/decay, sustain/release, 12-bit pulse width, 11-bit filter cutoff, resonance/routing ($D417), mode/volume ($D418, bit 7 = 3 OFF)"
+  },
+  "Tune instrument modulation": {
+    "prefix": "imod",
+    "body": ["imod ${1:0}, ${2:6}, ${3:3}, ${4:9}, ${5:40}, \\$${6:0200}, \\$${7:0E00}"],
+    "description": "Instrument vibrato + PWM: id, vibdelay (frames), vibspeed (1-15, 0 = off), vibdepth (0-15, scaled to the semitone), pwmspeed (per frame, 0 = off), pwmmin, pwmmax"
+  },
+  "Tune instrument filter sweep": {
+    "prefix": "ifilt",
+    "body": ["ifilt ${1:0}, \\$${2:0500}, ${3:20}, ${4:1}"],
+    "description": "Filter cutoff sweep: id, cutend, sweep (0-127 per frame from the inst cutoff toward cutend), pingpong (1 = back and forth)"
+  },
+  "Tune instrument gate": {
+    "prefix": "igate",
+    "body": ["igate ${1:0}, ${2:2}, ${3:1}, \\$${4:09}"],
+    "description": "Gate timer: id, gatetimer (gate off N frames before the next note, keep below speed), hardrestart (1 = ADSR 0 too), firstwave (written on the note's first frame, $09 = test + gate)"
+  },
+  "Tune wave/arpeggio table": {
+    "prefix": "itab",
+    "body": ["itab ${1:0}, ${2:2}, ${3:0}, \"${4:.. +0}\", \"${5:.. +4}\", \"${6:.. +7}\""],
+    "description": "Wave / arpeggio table: id, speed (frames per step), loop step (255 = stay on last), up to 32 steps \"WW +n\" / \".. -n\" / \"WW =n\" (hex waveform or .. to keep, semitone offset or absolute note)"
   },
   "Tune pattern row": {
     "prefix": "pat",
