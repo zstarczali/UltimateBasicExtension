@@ -154,6 +154,8 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `musicplay`, `musicstop`, `musicpause`, `musicresume` | high-level SID music control |
 | `tune` | inline SID tracker tune block (`speed`/`inst`/`order`/`pat`) |
 | `inst`, `pat` | tune instrument definition / pattern row |
+| `imod`, `ifilt`, `igate`, `itab` | tune instrument vibrato/PWM, filter sweep, gate timer/hard restart, wave/arpeggio table (1.6.2) |
+| `map_load_addr`, `map_view`, `map_scroll` | map data at a fixed address, smooth double-buffered map scrolling (1.6.1) |
 | `sfx` | non-blocking SID note, safe inside game loops |
 | `org` | continue subroutine code at a given address, zero-filling the gap |
 | `charseton`, `charsetoff` | point VIC-II at the custom charset RAM / restore the ROM charset |
