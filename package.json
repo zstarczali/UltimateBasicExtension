@@ -2,7 +2,7 @@
   "name": "ultimate-basic",
   "displayName": "Ultimate Basic",
   "description": "Language support for Ultimate Basic (.ub) — C64 BASIC-like compiler targeting 6502",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "zsolt-tarczali",
   "author": {
     "name": "Zsolt Tarczali"

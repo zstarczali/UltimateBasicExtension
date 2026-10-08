@@ -360,7 +360,7 @@ class UbTaskProvider implements vscode.TaskProvider {
 
 /**
  * Strip a trailing line comment and trim trailing whitespace.
- * Handles # and ; starters, respecting double-quoted strings.
+ * Handles # and QBasic ' starters, respecting double-quoted strings.
  * (Does not interpret # inside asm blocks, but block keywords never start
  *  with a 6502 mnemonic, so this is safe for indent detection.)
  */
@@ -368,7 +368,7 @@ function stripTrailingComment(raw: string): string {
     let inStr = false;
     for (let i = 0; i < raw.length; i++) {
         if (raw[i] === '"') { inStr = !inStr; continue; }
-        if (!inStr && raw[i] === '#') {
+        if (!inStr && (raw[i] === '#' || raw[i] === "'")) {
             return raw.slice(0, i).trimEnd();
         }
     }
@@ -382,8 +382,12 @@ function stripTrailingComment(raw: string): string {
  *  'generic'   – opened by if/for/while/loop/sub/sprdef/repeat/asm/else
  *  'select'    – opened by `select`; case arms live at this level
  *  'case_body' – opened by `case` / `else:` inside a select
+ *  'do'        – opened by QBasic `do`; closed by `loop` / `loop while|until …`
  */
-type BlockKind = 'generic' | 'select' | 'case_body';
+type BlockKind = 'generic' | 'select' | 'case_body' | 'do';
+
+/** One-line QBasic loop: `do while c : … : loop`, `while c : … : wend` */
+const ONE_LINE_LOOP = /:\s*(loop(\s+(while|until)\b.*)?|wend|end)\s*$/i;
 
 class UbFormatter implements vscode.DocumentFormattingEditProvider {
     provideDocumentFormattingEdits(
@@ -418,6 +422,13 @@ class UbFormatter implements vscode.DocumentFormattingEditProvider {
             const isCase  = /^case\b/i.test(low) || /^else\s*:\s*$/.test(low);
             // plain `else` (without colon) — belongs to if/then
             const isElse  = /^else\b/i.test(low) && !isCase;
+            // QBasic `elseif … then` — closes the previous branch, opens the next
+            const isElseIf = /^elseif\b/i.test(low);
+            // QBasic `wend` closes `while`
+            const isWend  = /^wend\b/i.test(low);
+            // inside a `do` block a bare `loop` / `loop while|until c` closes it
+            // (elsewhere `loop` / `loop N` still opens an Ultimate Basic loop)
+            const isLoopClose = top() === 'do' && /^loop(\s+(while|until)\b.*)?$/i.test(low);
             const isEnd   = /^end\b/i.test(low);
             const isNext  = /^next\b/i.test(low);
             const isUntil = /^until\b/i.test(low);
@@ -429,7 +440,7 @@ class UbFormatter implements vscode.DocumentFormattingEditProvider {
                 // Close the previous case body (not the select frame itself)
                 if (top() === 'case_body') { level = Math.max(0, level - 1); stack.pop(); }
 
-            } else if (isElse) {
+            } else if (isElse || isElseIf) {
                 // Close the if-body, print at the if-level
                 level = Math.max(0, level - 1); stack.pop();
 
@@ -438,7 +449,7 @@ class UbFormatter implements vscode.DocumentFormattingEditProvider {
                 if (top() === 'case_body') { level = Math.max(0, level - 1); stack.pop(); }
                 level = Math.max(0, level - 1); stack.pop();
 
-            } else if (isNext || isUntil || isBrace) {
+            } else if (isNext || isUntil || isBrace || isWend || isLoopClose) {
                 level = Math.max(0, level - 1); stack.pop();
             }
 
@@ -455,20 +466,29 @@ class UbFormatter implements vscode.DocumentFormattingEditProvider {
                 // Open the case body
                 level++; stack.push('case_body');
 
-            } else if (isElse) {
-                // Re-open for the else body
+            } else if (isElse || isElseIf) {
+                // Re-open for the else / elseif body
                 level++; stack.push('generic');
+
+            } else if (isWend || isLoopClose) {
+                // already closed above
+
+            } else if (/^do\b/i.test(low)) {
+                if (!ONE_LINE_LOOP.test(code)) { level++; stack.push('do'); }
+
+            } else if (/^while\b/i.test(low) && ONE_LINE_LOOP.test(code)) {
+                // one-line `while c : … : wend` — nothing to open
 
             } else if (/^select\b/i.test(low)) {
                 level++; stack.push('select');
 
-            } else if (/^(for|while|loop|times|sub|fn|tune|sprdef|chardef|repeat)\b/i.test(low)) {
+            } else if (/^(for|while|loop|times|sub|fn|function|tune|sprdef|chardef|repeat)\b/i.test(low)) {
                 level++; stack.push('generic');
 
             } else if (/^asm\s*\{/i.test(low)) {
                 level++; stack.push('generic');
 
-            } else if (/^if\b/i.test(low) && /\bthen\s*$/.test(code)) {
+            } else if (/^if\b/i.test(low) && /\bthen\s*$/i.test(code)) {
                 // Block-form if: line ends with 'then' (nothing after it)
                 level++; stack.push('generic');
             }

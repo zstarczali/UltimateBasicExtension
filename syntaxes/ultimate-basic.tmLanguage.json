@@ -8,6 +8,8 @@
     { "include": "#comments" },
     { "include": "#strings" },
     { "include": "#numbers" },
+    { "include": "#as-types" },
+    { "include": "#string-dollar-functions" },
     { "include": "#keywords-control" },
     { "include": "#keywords-declaration" },
     { "include": "#keywords-c64" },
@@ -38,6 +40,33 @@
         {
           "name": "comment.line.rem.ub",
           "match": "(?i)\\brem\\b.*$"
+        },
+        {
+          "name": "comment.line.single-quote.ub",
+          "match": "'.*$"
+        }
+      ]
+    },
+    "as-types": {
+      "patterns": [
+        {
+          "match": "(?i)\\b(as)\\s+(byte|int|integer|word|single|double|float|string)\\b",
+          "captures": {
+            "1": { "name": "keyword.other.declaration.as.ub" },
+            "2": { "name": "storage.type.ub" }
+          }
+        },
+        {
+          "name": "keyword.control.case-is.ub",
+          "match": "(?i)(?<=\\bcase\\s)\\s*is\\b"
+        }
+      ]
+    },
+    "string-dollar-functions": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.string.ub",
+          "match": "(?i)\\b(left\\$|right\\$|mid\\$)"
         }
       ]
     },
@@ -67,7 +96,7 @@
       "patterns": [
         {
           "name": "keyword.control.ub",
-          "match": "(?i)\\b(if|then|else|end|endtype|for|to|step|next|while|loop|times|break|continue|goto|gosub|label|sub|fn|call|return|repeat|until|select|case|inc|dec|onerr|type|tune)\\b"
+          "match": "(?i)\\b(if|then|else|end|endtype|for|to|step|next|while|loop|times|break|continue|goto|gosub|label|sub|fn|call|return|repeat|until|select|case|inc|dec|onerr|type|tune|function|elseif|do|wend)\\b"
         },
         {
           "name": "keyword.control.exit.ub",
@@ -79,7 +108,7 @@
       "patterns": [
         {
           "name": "keyword.other.declaration.ub",
-          "match": "(?i)\\b(var|const)\\b"
+          "match": "(?i)\\b(var|dim|const)\\b"
         },
         {
           "name": "keyword.other.include.ub",
@@ -235,7 +264,7 @@
       "patterns": [
         {
           "name": "storage.type.ub",
-          "match": "(?i)\\b(int|word|float|string|array|array_word)\\b"
+          "match": "(?i)\\b(int|byte|integer|single|word|float|string|array|array_word)\\b"
         }
       ]
     },
@@ -260,6 +289,10 @@
         {
           "name": "entity.name.function.fn.ub",
           "match": "(?i)(?<=\\bfn\\s)\\s*([A-Za-z_][A-Za-z0-9_]*)"
+        },
+        {
+          "name": "entity.name.function.function.ub",
+          "match": "(?i)(?<=\\bfunction\\s)\\s*([A-Za-z_][A-Za-z0-9_]*)"
         }
       ]
     },
@@ -357,7 +390,7 @@
       "patterns": [
         {
           "name": "keyword.operator.comparison.ub",
-          "match": "==|!=|<=|>=|<|>"
+          "match": "==|!=|<>|<=|>=|<|>"
         },
         {
           "name": "keyword.operator.compound.ub",

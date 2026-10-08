@@ -443,7 +443,7 @@
   "Input int": {
     "prefix": "input",
     "body": ["input ${1:score}"],
-    "description": "Read up to 3 digits from keyboard into integer variable"
+    "description": "Keyboard input: byte = up to 3 digits, INTEGER/WORD = up to 6 chars (- for INTEGER), DOUBLE = \"12.5\", string = 30 chars, also array elements: input t(i) (1.6.3)"
   },
   "Input with prompt": {
     "prefix": "inputp",
@@ -838,7 +838,7 @@
   "Val (string to int)": {
     "prefix": "val",
     "body": ["var ${1:n} = val(${2:s})"],
-    "description": "Runtime parse decimal PETSCII string to 8-bit integer (stops at null or non-digit)"
+    "description": "Runtime parse decimal PETSCII string to a number — 16-bit signed since 1.6.3 (VAL(\"1234\") + 1 = 1235)"
   },
   "Int (float to int)": {
     "prefix": "intf",
@@ -978,7 +978,7 @@
   "Str$ (int to string)": {
     "prefix": "strn",
     "body": ["var ${1:s} = str\\$(${2:n})"],
-    "description": "Convert integer to 3-digit decimal string (returns string value)"
+    "description": "Convert a number to a decimal string: a byte gives the 3-digit form (\"007\"), an integer/word has no leading zeros (\"-42\", 1.6.3)"
   },
   "REU detect (reudet)": {
     "prefix": "reudet",
@@ -1271,5 +1271,180 @@
     "prefix": "charsetoff",
     "body": ["charset off"],
     "description": "Restore the VIC-II ROM charset ($1000, or $1800 after lowercase)."
+  },
+  "DIM declaration": {
+    "prefix": "dim",
+    "body": [
+      "DIM ${1:name} AS ${2|INTEGER,BYTE,WORD,DOUBLE,SINGLE,STRING|}"
+    ],
+    "description": "BASIC-style typed declaration (1.6.3) = var name: type. BYTE/INT 8-bit, INTEGER signed 16-bit, WORD unsigned 16-bit, SINGLE/DOUBLE/FLOAT Q8.8, STRING. Starts at 0 / \"\""
+  },
+  "DIM with initializer": {
+    "prefix": "dimi",
+    "body": [
+      "DIM ${1:name} AS ${2|INTEGER,BYTE,WORD,DOUBLE,SINGLE,STRING|} = ${3:0}"
+    ],
+    "description": "DIM with an initial value (1.6.3); several: DIM a AS INTEGER = 1, s AS STRING = \"C64\""
+  },
+  "DIM array": {
+    "prefix": "dima",
+    "body": [
+      "DIM ${1:name}(${2:9}) AS ${3|INTEGER,BYTE,WORD,DOUBLE,SINGLE,STRING|}"
+    ],
+    "description": "Array with DIM (1.6.3): the bound is the HIGHEST index (DIM t(9) = 10 elements). Index t(i) or t[i]. Arrays live in $C000-$CFFF"
+  },
+  "DIM 2D array": {
+    "prefix": "dima2",
+    "body": [
+      "DIM ${1:name}(${2:2}, ${3:3}) AS ${4|INTEGER,BYTE,WORD,DOUBLE,SINGLE,STRING|}"
+    ],
+    "description": "Multi-dimensional DIM array (1.6.3): DIM t(2, 3) = 3 x 4 elements, index t(r, c)"
+  },
+  "QBasic FUNCTION": {
+    "prefix": "function",
+    "body": [
+      "FUNCTION ${1:Name} (${2:x} AS ${3|INTEGER,BYTE,WORD,DOUBLE,STRING|}) AS ${4|INTEGER,BYTE,WORD,DOUBLE,STRING|}",
+      "    ${1:Name} = ${5:${2:x}}",
+      "END FUNCTION"
+    ],
+    "description": "QBasic-style FUNCTION (1.6.3): return a value by assigning to the function name; EXIT FUNCTION returns early. No recursion"
+  },
+  "QBasic SUB": {
+    "prefix": "subq",
+    "body": [
+      "SUB ${1:Name} (${2:p} AS ${3|STRING,INTEGER,BYTE,WORD,DOUBLE|})",
+      "    ${4:PRINT ${2:p}}",
+      "END SUB"
+    ],
+    "description": "QBasic-style SUB with AS-typed parameters (1.6.3). Call as Name x, Name(x) or CALL Name(x); EXIT SUB returns early"
+  },
+  "QBasic IF block": {
+    "prefix": "ifq",
+    "body": [
+      "IF ${1:x = 1} THEN",
+      "    ${2:PRINT \"igen\"}",
+      "END IF"
+    ],
+    "description": "QBasic IF … END IF (1.6.3). In conditions a single = compares, <> is not equal"
+  },
+  "QBasic IF/ELSEIF/ELSE": {
+    "prefix": "ifelseif",
+    "body": [
+      "IF ${1:n < 0} THEN",
+      "    ${2:PRINT \"negativ\"}",
+      "ELSEIF ${3:n = 0} THEN",
+      "    ${4:PRINT \"nulla\"}",
+      "ELSE",
+      "    ${5:PRINT \"pozitiv\"}",
+      "END IF"
+    ],
+    "description": "IF … ELSEIF … ELSE … END IF (1.6.3)"
+  },
+  "ELSEIF branch": {
+    "prefix": "elseif",
+    "body": [
+      "ELSEIF ${1:condition} THEN",
+      "    ${2}"
+    ],
+    "description": "ELSEIF branch inside an IF block (1.6.3)"
+  },
+  "Single-line IF": {
+    "prefix": "ifl",
+    "body": [
+      "IF ${1:x = 3} THEN ${2:PRINT \"igen\"} ELSE ${3:PRINT \"nem\"}"
+    ],
+    "description": "Single-line IF … THEN … ELSE (1.6.3): ends with the line, no END IF. Everything after THEN belongs to the IF"
+  },
+  "DO WHILE loop": {
+    "prefix": "dow",
+    "body": [
+      "DO ${1|WHILE,UNTIL|} ${2:i < 10}",
+      "    ${3:i = i + 1}",
+      "LOOP"
+    ],
+    "description": "DO WHILE|UNTIL c … LOOP (1.6.3) — condition checked first"
+  },
+  "DO … LOOP UNTIL": {
+    "prefix": "dou",
+    "body": [
+      "DO",
+      "    ${3:i = i - 1}",
+      "LOOP ${1|UNTIL,WHILE|} ${2:i = 0}"
+    ],
+    "description": "DO … LOOP UNTIL|WHILE c (1.6.3) — body runs at least once. Plain DO … LOOP is endless (leave with EXIT DO)"
+  },
+  "WHILE … WEND": {
+    "prefix": "wend",
+    "body": [
+      "WHILE ${1:k <> 5}",
+      "    ${2:k = k + 1}",
+      "WEND"
+    ],
+    "description": "QBasic WHILE … WEND (1.6.3), same as while … end"
+  },
+  "SELECT CASE": {
+    "prefix": "selectcase",
+    "body": [
+      "SELECT CASE ${1:n}",
+      "    CASE ${2:1, 2, 3}",
+      "        ${3:PRINT \"kicsi\"}",
+      "    CASE ${4:10 TO 20}",
+      "        ${5:PRINT \"tizenx\"}",
+      "    CASE IS ${6:> 1000}",
+      "        ${7:PRINT \"nagy\"}",
+      "    CASE ELSE",
+      "        ${8:PRINT \"egyeb\"}",
+      "END SELECT"
+    ],
+    "description": "QBasic SELECT CASE (1.6.3): value lists, lo TO hi ranges, IS <op> n, CASE ELSE"
+  },
+  "EXIT (QBasic)": {
+    "prefix": "exitq",
+    "body": [
+      "EXIT ${1|FOR,DO,WHILE,FUNCTION,SUB|}"
+    ],
+    "description": "EXIT FOR / DO / WHILE = break, EXIT FUNCTION / SUB = return (1.6.3). Plain exit is still bye"
+  },
+  "LEFT$": {
+    "prefix": "left",
+    "body": [
+      "LEFT\\$(${1:s}, ${2:1})"
+    ],
+    "description": "First n characters of a string (1.6.3)"
+  },
+  "RIGHT$": {
+    "prefix": "right",
+    "body": [
+      "RIGHT\\$(${1:s}, ${2:1})"
+    ],
+    "description": "Last n characters of a string (1.6.3)"
+  },
+  "MID$": {
+    "prefix": "mid",
+    "body": [
+      "MID\\$(${1:s}, ${2:2}, ${3:3})"
+    ],
+    "description": "Substring from position (1-based), optional length: MID$(s, 7) = rest of the string (1.6.3)"
+  },
+  "String concatenation": {
+    "prefix": "concat",
+    "body": [
+      "${1:s} = ${2:\"Pont: \"} + ${3:pont} + ${4:\"!\"}"
+    ],
+    "description": "Runtime string building (1.6.3): + joins strings and numbers into the variable's 80-char buffer; t = s copies"
+  },
+  "PRINT with ;": {
+    "prefix": "prints",
+    "body": [
+      "PRINT ${1:\"x = \"}; ${2:x}${3:;}"
+    ],
+    "description": "PRINT a; b — ';' joins items without spaces, a trailing ';' keeps the cursor on the line (1.6.3)"
+  },
+  "INPUT with ; prompt": {
+    "prefix": "inputq",
+    "body": [
+      "INPUT \"${1:Kor}\"; ${2:kor}"
+    ],
+    "description": "QBasic-style INPUT \"prompt\"; x (1.6.3) — also into INTEGER/WORD/DOUBLE and array elements"
   }
 }

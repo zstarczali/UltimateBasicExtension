@@ -17,7 +17,7 @@ code --install-extension zsolt-tarczali.ultimate-basic
 If you have a local `.vsix` package, install that instead:
 
 ```bash
-code --install-extension /path/to/ultimate-basic-0.2.0.vsix
+code --install-extension /path/to/ultimate-basic-0.3.0.vsix
 ```
 
 ## Create a VSIX
@@ -43,9 +43,9 @@ vsce package
 
 ## Features
 
-- **Syntax highlighting** — keywords, types, C64-specific statements, numbers (decimal, hex `$D020`, binary `%1010`), comments (`#`, `rem`)
-- **135+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `fn`, `select`, `sprdef`, `chardef`, `mainloop`, `bitmapskel` and more
-- **Auto-indent** — smart indentation for `if/end`, `for/next`, `sub/end`, `sprdef/end`, `while/end`, `repeat/until` blocks
+- **Syntax highlighting** — keywords, types, C64-specific statements, numbers (decimal, hex `$D020`, binary `%1010`), comments (`#`, `rem`, QBasic `'`), QBasic-style `DIM … AS`, `FUNCTION`, `ELSEIF`, `DO … LOOP`, `WHILE … WEND`, `SELECT CASE`, `LEFT$`/`RIGHT$`/`MID$`, `<>`
+- **220+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `fn`, `select`, `sprdef`, `chardef`, `mainloop`, `bitmapskel` and more
+- **Auto-indent** — smart indentation for `if/end`, `for/next`, `sub/end`, `sprdef/end`, `while/end`, `repeat/until` blocks, plus QBasic `IF … ELSEIF … END IF`, `FUNCTION`/`SUB … END`, `DO … LOOP [UNTIL|WHILE]`, `WHILE … WEND`, `SELECT CASE … END SELECT`
 - **Build & Run commands** — compile and launch directly in VICE with a single command
 - **Context menu** — right-click any `.ub` file for quick access to Build / Build & Run
 - **Task integration** — works with the VS Code Task system (`Ctrl+Shift+B`)
@@ -114,6 +114,15 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `while`, `loop`, `loopc` | while / infinite / counted loop |
 | `repeat` | repeat/until do-while loop |
 | `select` | select/case statement |
+| `dim`, `dimi` | QBasic-style `DIM name AS type` (with / without initializer) — 1.6.3 |
+| `dima`, `dima2` | `DIM name(9) AS type` / `DIM name(2, 3) AS type` arrays (bound = highest index) — 1.6.3 |
+| `function`, `subq` | QBasic `FUNCTION … AS type … END FUNCTION` (return by name) / `SUB … END SUB` — 1.6.3 |
+| `ifq`, `ifelseif`, `elseif`, `ifl` | `IF … END IF`, `IF … ELSEIF … ELSE … END IF`, `ELSEIF` branch, single-line `IF … THEN … ELSE` — 1.6.3 |
+| `dow`, `dou`, `wend` | `DO WHILE\|UNTIL … LOOP`, `DO … LOOP UNTIL\|WHILE`, `WHILE … WEND` — 1.6.3 |
+| `selectcase` | `SELECT CASE` with lists, `TO` ranges, `CASE IS`, `CASE ELSE` — 1.6.3 |
+| `exitq` | `EXIT FOR` / `DO` / `WHILE` / `FUNCTION` / `SUB` — 1.6.3 |
+| `left`, `right`, `mid` | `LEFT$` / `RIGHT$` / `MID$` runtime string functions — 1.6.3 |
+| `concat`, `prints`, `inputq` | runtime string `+`, `PRINT a; b`, `INPUT "prompt"; x` — 1.6.3 |
 | `break`, `conti` | exit loop / skip to next iteration |
 | `label`, `goto` | label definition / jump |
 | `sub` | subroutine definition |
