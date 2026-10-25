@@ -17,7 +17,7 @@ code --install-extension zsolt-tarczali.ultimate-basic
 If you have a local `.vsix` package, install that instead:
 
 ```bash
-code --install-extension /path/to/ultimate-basic-0.3.0.vsix
+code --install-extension /path/to/ultimate-basic-0.4.0.vsix
 ```
 
 ## Create a VSIX
@@ -43,9 +43,9 @@ vsce package
 
 ## Features
 
-- **Syntax highlighting** — keywords, types, C64-specific statements, numbers (decimal, hex `$D020`, binary `%1010`), comments (`#`, `rem`, QBasic `'`), QBasic-style `DIM … AS`, `FUNCTION`, `ELSEIF`, `DO … LOOP`, `WHILE … WEND`, `SELECT CASE`, `LEFT$`/`RIGHT$`/`MID$`, `<>`
-- **220+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `fn`, `select`, `sprdef`, `chardef`, `mainloop`, `bitmapskel` and more
-- **Auto-indent** — smart indentation for `if/end`, `for/next`, `sub/end`, `sprdef/end`, `while/end`, `repeat/until` blocks, plus QBasic `IF … ELSEIF … END IF`, `FUNCTION`/`SUB … END`, `DO … LOOP [UNTIL|WHILE]`, `WHILE … WEND`, `SELECT CASE … END SELECT`
+- **Syntax highlighting** — keywords, types, C64-specific statements, numbers (decimal, hex `$D020`, binary `%1010`), comments (`#`, `rem`, QBasic `'`), QBasic-style `DIM … AS`, `FUNCTION`, `ELSEIF`, `DO … LOOP`, `WHILE … WEND`, `SELECT CASE`, `LEFT$`/`RIGHT$`/`MID$`, `<>`; floating-point literals (`2.5`, `.5`, `1E6`), `^`, `SQR`/`TAN`/`ATN`/`EXP`/`LOG`/`FIX`/`CINT`/`CSNG`/`CDBL`, `PRINT USING`, `option basic print` / `option strings`, `TYPE … END TYPE` with `STRING * n` fields and `AS TypeName` struct parameters
+- **230+ code snippets** — `if`, `for`, `while`, `repeat`, `sub`, `fn`, `select`, `sprdef`, `chardef`, `mainloop`, `bitmapskel` and more
+- **Auto-indent** — smart indentation for `if/end`, `for/next`, `sub/end`, `sprdef/end`, `while/end`, `repeat/until` blocks, plus QBasic `IF … ELSEIF … END IF`, `FUNCTION`/`SUB … END`, `DO … LOOP [UNTIL|WHILE]`, `WHILE … WEND`, `SELECT CASE … END SELECT`, `TYPE … ENDTYPE` / `END TYPE`
 - **Build & Run commands** — compile and launch directly in VICE with a single command
 - **Context menu** — right-click any `.ub` file for quick access to Build / Build & Run
 - **Task integration** — works with the VS Code Task system (`Ctrl+Shift+B`)
@@ -72,6 +72,7 @@ vsce package
 | `ultimateBasic.exomizerMode` | `sfx sys` | Exomizer mode: `sfx sys`, `sfx basic`, or `mem` |
 | `ultimateBasic.exomizerSuffix` | `_exo` | Suffix appended to the output file name (e.g. `prog_exo.prg`) |
 | `ultimateBasic.explicitMode` | `false` | Always pass `--explicit` to the compiler (require `:type` on every `var` / sub-param / fn-param) |
+| `ultimateBasic.basicPrint` | `false` | Always pass `--basic-print` to the compiler (C64 BASIC `PRINT` spacing; same as `option basic print` in the source) |
 
 **Example** (`settings.json`):
 ```json
@@ -123,6 +124,10 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `exitq` | `EXIT FOR` / `DO` / `WHILE` / `FUNCTION` / `SUB` — 1.6.3 |
 | `left`, `right`, `mid` | `LEFT$` / `RIGHT$` / `MID$` runtime string functions — 1.6.3 |
 | `concat`, `prints`, `inputq` | runtime string `+`, `PRINT a; b`, `INPUT "prompt"; x` — 1.6.3 |
+| `dimd`, `floatfn`, `pow`, `forf` | `DIM x AS DOUBLE`, floating-point builtins (`SQR`, `ATN`, `CINT`, …), `^` power, `FOR … STEP 0.1` — 1.6.4 |
+| `rndf`, `printusing`, `optbp` | floating-point `RND` (0 ≤ x < 1), `PRINT USING "###.##"; x`, `option basic print` — 1.6.6 |
+| `optstr` | `option strings n, m` — string variable / string-array element capacity |
+| `typeq`, `typefield`, `substruct` | QBasic `TYPE … END TYPE` (defaults, `STRING * n`), struct field with default, `SUB s(p AS TName)` struct parameter |
 | `break`, `conti` | exit loop / skip to next iteration |
 | `label`, `goto` | label definition / jump |
 | `sub` | subroutine definition |

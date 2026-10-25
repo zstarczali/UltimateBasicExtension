@@ -8,6 +8,7 @@
     { "include": "#comments" },
     { "include": "#strings" },
     { "include": "#numbers" },
+    { "include": "#directives" },
     { "include": "#as-types" },
     { "include": "#string-dollar-functions" },
     { "include": "#keywords-control" },
@@ -47,6 +48,24 @@
         }
       ]
     },
+    "directives": {
+      "patterns": [
+        {
+          "match": "(?i)^\\s*(option)\\s+(basic\\s+print|strings)\\b",
+          "captures": {
+            "1": { "name": "keyword.other.directive.option.ub" },
+            "2": { "name": "keyword.other.directive.option.ub" }
+          }
+        },
+        {
+          "match": "(?i)\\b(print)\\s+(using)\\b",
+          "captures": {
+            "1": { "name": "support.function.c64.output.ub" },
+            "2": { "name": "keyword.other.using.ub" }
+          }
+        }
+      ]
+    },
     "as-types": {
       "patterns": [
         {
@@ -54,6 +73,28 @@
           "captures": {
             "1": { "name": "keyword.other.declaration.as.ub" },
             "2": { "name": "storage.type.ub" }
+          }
+        },
+        {
+          "match": "(?i)\\b(as)\\s+([A-Za-z_][A-Za-z0-9_]*)\\b",
+          "captures": {
+            "1": { "name": "keyword.other.declaration.as.ub" },
+            "2": { "name": "entity.name.type.ub" }
+          }
+        },
+        {
+          "match": "(?i)\\b(string)\\s*(\\*)\\s*([0-9]+)\\b",
+          "captures": {
+            "1": { "name": "storage.type.ub" },
+            "2": { "name": "keyword.operator.arithmetic.ub" },
+            "3": { "name": "constant.numeric.decimal.ub" }
+          }
+        },
+        {
+          "match": "(?i)^\\s*(type)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*$",
+          "captures": {
+            "1": { "name": "keyword.control.ub" },
+            "2": { "name": "entity.name.type.ub" }
           }
         },
         {
@@ -85,6 +126,10 @@
         {
           "name": "constant.numeric.binary.ub",
           "match": "%[01]+"
+        },
+        {
+          "name": "constant.numeric.float.ub",
+          "match": "(?i)(\\b[0-9]+\\.[0-9]*|(?<![\\w.])\\.[0-9]+|\\b[0-9]+(?=e[+-]?[0-9]))(e[+-]?[0-9]+)?\\b"
         },
         {
           "name": "constant.numeric.decimal.ub",
@@ -248,7 +293,11 @@
         },
         {
           "name": "support.function.builtin.float.ub",
-          "match": "(?i)\\b(int)\\s*(?=\\()"
+          "match": "(?i)\\b(int|sqr|tan|atn|exp|log|fix|cint|csng|cdbl)\\s*(?=\\()"
+        },
+        {
+          "name": "support.function.builtin.math.ub",
+          "match": "(?i)\\brnd\\b"
         },
         {
           "name": "support.function.builtin.map.ub",
@@ -406,7 +455,7 @@
         },
         {
           "name": "keyword.operator.arithmetic.ub",
-          "match": "[+\\-*/]"
+          "match": "[+\\-*/^]"
         }
       ]
     },
