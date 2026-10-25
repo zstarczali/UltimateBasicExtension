@@ -1277,7 +1277,7 @@
     "body": [
       "DIM ${1:name} AS ${2|INTEGER,BYTE,WORD,DOUBLE,SINGLE,STRING|}"
     ],
-    "description": "BASIC-style typed declaration (1.6.3) = var name: type. BYTE/INT 8-bit, INTEGER signed 16-bit, WORD unsigned 16-bit, SINGLE/DOUBLE/FLOAT Q8.8, STRING. Starts at 0 / \"\""
+    "description": "BASIC-style typed declaration (1.6.3) = var name: type. BYTE/INT 8-bit, INTEGER signed 16-bit, WORD unsigned 16-bit, SINGLE/DOUBLE 5-byte floating point (1.6.4), FLOAT Q8.8, STRING. Starts at 0 / \"\""
   },
   "DIM with initializer": {
     "prefix": "dimi",
@@ -1291,7 +1291,7 @@
     "body": [
       "DIM ${1:name}(${2:9}) AS ${3|INTEGER,BYTE,WORD,DOUBLE,SINGLE,STRING|}"
     ],
-    "description": "Array with DIM (1.6.3): the bound is the HIGHEST index (DIM t(9) = 10 elements). Index t(i) or t[i]. Arrays live in $C000-$CFFF"
+    "description": "Array with DIM (1.6.3): the bound is the HIGHEST index (DIM t(9) = 10 elements). Index t(i) or t[i]. Arrays live in $C000-$CFFF, or $A000-$CFFF (12 KB, BASIC ROM banked out) when they need more than 4 KB (1.6.4)"
   },
   "DIM 2D array": {
     "prefix": "dima2",
@@ -1446,5 +1446,94 @@
       "INPUT \"${1:Kor}\"; ${2:kor}"
     ],
     "description": "QBasic-style INPUT \"prompt\"; x (1.6.3) — also into INTEGER/WORD/DOUBLE and array elements"
+  },
+  "DOUBLE variable": {
+    "prefix": "dimd",
+    "body": [
+      "DIM ${1:x} AS ${2|DOUBLE,SINGLE|} = ${3:3.14159}"
+    ],
+    "description": "Floating-point variable (1.6.4): 5-byte C64 BASIC format, about 9 digits, +-2.9E-39 .. 1.7E+38. Literals 1E6, 2.5e-3, .5, 70000"
+  },
+  "Floating-point function": {
+    "prefix": "floatfn",
+    "body": [
+      "${1|SQR,SIN,COS,TAN,ATN,EXP,LOG,INT,FIX,CINT,ABS,SGN,CSNG,CDBL|}(${2:x})"
+    ],
+    "description": "Floating-point builtins (1.6.4) on SINGLE / DOUBLE values: SQR, SIN/COS/TAN/ATN (radians), EXP, LOG, INT (floor), FIX (truncate), CINT (round), ABS, SGN, CSNG/CDBL"
+  },
+  "Power": {
+    "prefix": "pow",
+    "body": [
+      "${1:y} = ${2:x} ^ ${3:2}"
+    ],
+    "description": "^ power operator (1.6.4) — computes in floating point"
+  },
+  "Floating-point FOR STEP": {
+    "prefix": "forf",
+    "body": [
+      "FOR ${1:x} = ${2:0} TO ${3:1} STEP ${4:0.1}",
+      "    $0",
+      "NEXT"
+    ],
+    "description": "FOR with a SINGLE / DOUBLE counter and a fractional STEP (1.6.4); declare x AS DOUBLE first"
+  },
+  "Floating-point RND": {
+    "prefix": "rndf",
+    "body": [
+      "${1:d} = RND * ${2:6}"
+    ],
+    "description": "In a floating-point statement RND / RND() is 0 <= x < 1 (1.6.6); rnd(n) and integer statements keep the 0-255 / 0..n-1 generator"
+  },
+  "PRINT USING": {
+    "prefix": "printusing",
+    "body": [
+      "PRINT USING \"${1:###,###.##}\"; ${2:x}"
+    ],
+    "description": "PRINT USING (1.6.6, QBasic subset): # digit, . point, , thousands, leading + sign, trailing - sign; & whole string, ! first char, \\\\  \\\\ fixed-width string, _ literal next char. Format must be a string literal"
+  },
+  "OPTION BASIC PRINT": {
+    "prefix": "optbp",
+    "body": [
+      "option basic print"
+    ],
+    "description": "C64 BASIC PRINT spacing (1.6.6): numbers print with a leading space/minus and a trailing space, ',' moves to the next 10-column zone; STR$ gives the C64 text (\" 7\"). Same as --basic-print"
+  },
+  "OPTION STRINGS": {
+    "prefix": "optstr",
+    "body": [
+      "option strings ${1:80}${2:, ${3:31}}"
+    ],
+    "description": "Computed string variable capacity n (1-255, default 80) and string-array element capacity m (default 31)"
+  },
+  "QBasic TYPE": {
+    "prefix": "typeq",
+    "body": [
+      "TYPE ${1:TEntity}",
+      "    ${2:x} AS ${3:BYTE}",
+      "    ${4:hp} AS ${5:WORD} = ${6:100}",
+      "    ${7:name} AS STRING * ${8:12}",
+      "END TYPE",
+      "",
+      "var ${9:e}: ${1:TEntity} = array(${10:8})"
+    ],
+    "description": "QBasic-style struct TYPE … END TYPE: field defaults (= value), fixed-length STRING * n fields, nested struct fields. Element max 256 bytes"
+  },
+  "Struct field with default": {
+    "prefix": "typefield",
+    "body": [
+      "var ${1:hp}: ${2|int,word,float,string * 12|} = ${3:100}"
+    ],
+    "description": "Struct field with a default value / fixed-length string field (inside type … endtype)"
+  },
+  "Sub with struct parameter": {
+    "prefix": "substruct",
+    "body": [
+      "SUB ${1:heal}(${2:p} AS ${3:TEntity})",
+      "    ${2:p}.${4:hp} = ${2:p}.${4:hp} + ${5:10}",
+      "END SUB",
+      "",
+      "${1:heal}(${6:e}[${7:i}])"
+    ],
+    "description": "Struct parameter (by reference): p.field reads / writes the passed array element"
   }
 }

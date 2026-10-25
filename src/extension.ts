@@ -17,6 +17,7 @@ function exomizerPath(): string    { return cfg<string>('exomizerPath')    ?? 'e
 function exomizerMode(): string    { return cfg<string>('exomizerMode')    ?? 'sfx sys'; }
 function exomizerSuffix(): string  { return cfg<string>('exomizerSuffix')  ?? '_exo'; }
 function explicitMode(): boolean   { return cfg<boolean>('explicitMode')   ?? false; }
+function basicPrint(): boolean     { return cfg<boolean>('basicPrint')     ?? false; }
 
 function outputPathFor(srcFile: string, ext: '.prg' | '.d64' | '.crt'): string {
     const outDir = cfg<string>('defaultOutputDir') ?? '';
@@ -158,6 +159,7 @@ function buildCommand(src: string, prg: string, opts: BuildOptions, d64?: string
     if (opts.debug)   { parts.push('--debug'); }
     if (opts.asm)     { parts.push('--asm'); }
     if (explicitMode()) { parts.push('--explicit'); }
+    if (basicPrint())   { parts.push('--basic-print'); }
     if (opts.d64 && d64) {
         parts.push('--d64', quote(d64));
         for (const f of d64AddFiles()) { parts.push('--add', quote(f)); }
@@ -220,6 +222,7 @@ function buildArgs(src: string, prg: string, opts: BuildOptions, d64?: string): 
     if (opts.debug)   { args.push('--debug'); }
     if (opts.asm)     { args.push('--asm'); }
     if (explicitMode()) { args.push('--explicit'); }
+    if (basicPrint())   { args.push('--basic-print'); }
     if (opts.d64 && d64) {
         args.push('--d64', d64);
         for (const f of d64AddFiles()) { args.push('--add', f); }
@@ -429,7 +432,7 @@ class UbFormatter implements vscode.DocumentFormattingEditProvider {
             // inside a `do` block a bare `loop` / `loop while|until c` closes it
             // (elsewhere `loop` / `loop N` still opens an Ultimate Basic loop)
             const isLoopClose = top() === 'do' && /^loop(\s+(while|until)\b.*)?$/i.test(low);
-            const isEnd   = /^end\b/i.test(low);
+            const isEnd   = /^(end\b|endtype\b)/i.test(low);
             const isNext  = /^next\b/i.test(low);
             const isUntil = /^until\b/i.test(low);
             const isBrace = low === '}';
@@ -483,6 +486,10 @@ class UbFormatter implements vscode.DocumentFormattingEditProvider {
                 level++; stack.push('select');
 
             } else if (/^(for|while|loop|times|sub|fn|function|tune|sprdef|chardef|repeat)\b/i.test(low)) {
+                level++; stack.push('generic');
+
+            } else if (/^type\s+[a-z_]\w*$/i.test(low)) {
+                // struct type: `type TName … endtype` / QBasic `TYPE TName … END TYPE`
                 level++; stack.push('generic');
 
             } else if (/^asm\s*\{/i.test(low)) {
