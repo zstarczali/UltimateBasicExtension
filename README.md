@@ -17,7 +17,7 @@ code --install-extension zsolt-tarczali.ultimate-basic
 If you have a local `.vsix` package, install that instead:
 
 ```bash
-code --install-extension /path/to/ultimate-basic-0.4.0.vsix
+code --install-extension /path/to/ultimate-basic-0.4.1.vsix
 ```
 
 ## Create a VSIX
@@ -66,7 +66,7 @@ vsce package
 | `ultimateBasic.compilerPath` | `ub` | Full path to the compiler executable |
 | `ultimateBasic.vicePath` | `x64sc` | Full path to the VICE C64 emulator executable |
 | `ultimateBasic.viceArgs` | `[]` | Extra arguments passed to VICE, e.g. `["-fullscreen"]` |
-| `ultimateBasic.defaultOutputDir` | *(source directory)* | Output directory for compiled `.prg` files |
+| `ultimateBasic.defaultOutputDir` | *(source directory)* | Output directory for compiled files, created if missing. Absolute or relative to the workspace folder (e.g. `./samples/out`) |
 | `ultimateBasic.d64AddFiles` | `[]` | Extra files to embed in the `.d64` disk image (passed as `--add file` for each entry) |
 | `ultimateBasic.exomizerPath` | `exomizer` | Full path to the Exomizer executable |
 | `ultimateBasic.exomizerMode` | `sfx sys` | Exomizer mode: `sfx sys`, `sfx basic`, or `mem` |

@@ -12,17 +12,34 @@ function cfg<T>(key: string): T | undefined {
 function compilerPath(): string    { return cfg<string>('compilerPath')    ?? 'ultimate-basic'; }
 function vicePath(): string        { return cfg<string>('vicePath')        ?? 'x64sc'; }
 function viceArgs(): string[]      { return cfg<string[]>('viceArgs')      ?? []; }
-function d64AddFiles(): string[]   { return cfg<string[]>('d64AddFiles')   ?? []; }
 function exomizerPath(): string    { return cfg<string>('exomizerPath')    ?? 'exomizer'; }
 function exomizerMode(): string    { return cfg<string>('exomizerMode')    ?? 'sfx sys'; }
 function exomizerSuffix(): string  { return cfg<string>('exomizerSuffix')  ?? '_exo'; }
 function explicitMode(): boolean   { return cfg<boolean>('explicitMode')   ?? false; }
 function basicPrint(): boolean     { return cfg<boolean>('basicPrint')     ?? false; }
 
+/**
+ * A path from a setting as an absolute path. A relative one means the workspace folder of the
+ * source (the source's folder without a workspace): the background build and the terminal
+ * run from different folders, so it must not depend on the current directory.
+ */
+function resolveSetting(srcFile: string, value: string): string {
+    const folder = vscode.workspace.getWorkspaceFolder(vscode.Uri.file(srcFile))?.uri.fsPath;
+    const first  = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath ?? '';
+    return path.resolve(folder ?? path.dirname(srcFile), value.replace(/\$\{workspaceFolder\}/g, folder ?? first));
+}
+
+function d64AddFiles(srcFile: string): string[] {
+    return (cfg<string[]>('d64AddFiles') ?? []).map(f => resolveSetting(srcFile, f));
+}
+
+function outputDirFor(srcFile: string): string {
+    const outDir = (cfg<string>('defaultOutputDir') ?? '').trim();
+    return outDir ? resolveSetting(srcFile, outDir) : path.dirname(srcFile);
+}
+
 function outputPathFor(srcFile: string, ext: '.prg' | '.d64' | '.crt'): string {
-    const outDir = cfg<string>('defaultOutputDir') ?? '';
-    const base   = path.basename(srcFile, path.extname(srcFile)) + ext;
-    return outDir ? path.join(outDir, base) : path.join(path.dirname(srcFile), base);
+    return path.join(outputDirFor(srcFile), path.basename(srcFile, path.extname(srcFile)) + ext);
 }
 
 function exoOutputFor(prg: string): string {
@@ -153,6 +170,8 @@ interface BuildOptions {
 }
 
 function buildCommand(src: string, prg: string, opts: BuildOptions, d64?: string): string {
+    // Every build goes through here, and the compiler does not create folders
+    fs.mkdirSync(outputDirFor(src), { recursive: true });
     const parts = [invokeExe(quote(compilerPath())), 'build', quote(src), '-o', quote(prg)];
     if (opts.verbose) { parts.push('-v'); }
     if (opts.noStub)  { parts.push('--no-stub'); }
@@ -162,7 +181,7 @@ function buildCommand(src: string, prg: string, opts: BuildOptions, d64?: string
     if (basicPrint())   { parts.push('--basic-print'); }
     if (opts.d64 && d64) {
         parts.push('--d64', quote(d64));
-        for (const f of d64AddFiles()) { parts.push('--add', quote(f)); }
+        for (const f of d64AddFiles(src)) { parts.push('--add', quote(f)); }
     }
     return parts.join(' ');
 }
@@ -225,7 +244,7 @@ function buildArgs(src: string, prg: string, opts: BuildOptions, d64?: string): 
     if (basicPrint())   { args.push('--basic-print'); }
     if (opts.d64 && d64) {
         args.push('--d64', d64);
-        for (const f of d64AddFiles()) { args.push('--add', f); }
+        for (const f of d64AddFiles(src)) { args.push('--add', f); }
     }
     return args;
 }
