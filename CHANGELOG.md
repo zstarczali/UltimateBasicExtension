@@ -3,6 +3,11 @@
 All notable changes to the Ultimate Basic extension are listed here. The compiler versions in brackets
 (e.g. *UB 1.6.3*) are the Ultimate Basic releases whose language elements the extension follows.
 
+## [0.4.3] — 2026-11-09
+
+### Changed
+- The icon fills its frame: 256×256 with the artwork edge to edge instead of a small picture in a 128×128 frame.
+
 ## [0.4.2] — 2026-11-09
 
 ### Changed
@@ -10,7 +15,6 @@ All notable changes to the Ultimate Basic extension are listed here. The compile
   which moved to *Building from source*; the compiler link points to the
   [Ultimate Basic releases](https://github.com/zstarczali/UltimateBasic/releases).
 - `package.json`: the repository link points to this repository; `"license": "MIT"`.
-- The icon fills its frame: 256×256 with the artwork edge to edge instead of a small picture in a 128×128 frame.
 - This changelog.
 
 ## [0.4.1] — 2026-10-31
@@ -72,7 +76,8 @@ The first releases, developed under one version number.
 - Quoted compiler / VICE paths run in PowerShell (the `&` call operator is added on Windows).
 - The `tune` grammar and snippet use the real `speed` / `inst` / `order` / `pat` syntax.
 
-[0.4.2]: https://github.com/zstarczali/UltimateBasicExtension/compare/916fa1d...dev
+[0.4.3]: https://github.com/zstarczali/UltimateBasicExtension/compare/cacb801...dev
+[0.4.2]: https://github.com/zstarczali/UltimateBasicExtension/compare/916fa1d...cacb801
 [0.4.1]: https://github.com/zstarczali/UltimateBasicExtension/compare/12776b0...916fa1d
 [0.4.0]: https://github.com/zstarczali/UltimateBasicExtension/compare/24663e1...12776b0
 [0.3.0]: https://github.com/zstarczali/UltimateBasicExtension/compare/f04a658...24663e1
