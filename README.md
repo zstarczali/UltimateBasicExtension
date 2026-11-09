@@ -6,40 +6,17 @@ Language support for **Ultimate Basic** (`.ub`), a modern BASIC-like language th
 
 ---
 
-## Installation
+## Getting started
 
-If the extension is published to the VS Code Marketplace, install it with:
-
-```bash
-code --install-extension zsolt-tarczali.ultimate-basic
-```
-
-If you have a local `.vsix` package, install that instead:
-
-```bash
-code --install-extension /path/to/ultimate-basic-0.4.0.vsix
-```
-
-## Create a VSIX
-
-Before packaging, install the project dependencies:
-
-```bash
-npm ci
-```
-
-Then build the extension package with VS Code's extension tool:
-
-```bash
-npx @vscode/vsce package
-```
-
-This creates a `.vsix` file in the project folder. If you prefer a global install first, use:
-
-```bash
-npm install -g @vscode/vsce
-vsce package
-```
+1. Install the extension from the Extensions view (search for **Ultimate Basic**), or from the command line:
+   ```bash
+   code --install-extension zsolt-tarczali.ultimate-basic
+   ```
+2. Download the Ultimate Basic compiler from the [releases](https://github.com/zstarczali/UltimateBasic/releases)
+   and, if it is not on your `PATH`, set `ultimateBasic.compilerPath` to it. For *Build & Run* set
+   `ultimateBasic.vicePath` as well.
+3. Open a `.ub` file and choose **Ultimate Basic: Build & Run in VICE** from the editor's context menu or the
+   Command Palette.
 
 ## Features
 
@@ -54,7 +31,7 @@ vsce package
 
 ## Requirements
 
-- [Ultimate Basic compiler](https://github.com/nextbasic)
+- [Ultimate Basic compiler](https://github.com/zstarczali/UltimateBasic/releases)
 - [VICE C64 emulator](https://vice-emu.sourceforge.io) *(only required for Build & Run)*
 
 ---
@@ -66,7 +43,7 @@ vsce package
 | `ultimateBasic.compilerPath` | `ub` | Full path to the compiler executable |
 | `ultimateBasic.vicePath` | `x64sc` | Full path to the VICE C64 emulator executable |
 | `ultimateBasic.viceArgs` | `[]` | Extra arguments passed to VICE, e.g. `["-fullscreen"]` |
-| `ultimateBasic.defaultOutputDir` | *(source directory)* | Output directory for compiled `.prg` files |
+| `ultimateBasic.defaultOutputDir` | *(source directory)* | Output directory for compiled files, created if missing. Absolute or relative to the workspace folder (e.g. `./samples/out`) |
 | `ultimateBasic.d64AddFiles` | `[]` | Extra files to embed in the `.d64` disk image (passed as `--add file` for each entry) |
 | `ultimateBasic.exomizerPath` | `exomizer` | Full path to the Exomizer executable |
 | `ultimateBasic.exomizerMode` | `sfx sys` | Exomizer mode: `sfx sys`, `sfx basic`, or `mem` |
@@ -227,3 +204,18 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `asm` | inline assembly block |
 | `mainloop` | full main loop skeleton (keyboard handling, Q = quit) |
 | `bitmapskel` | bitmap graphics skeleton |
+
+---
+
+## Building from source
+
+```bash
+npm ci
+npx @vscode/vsce package
+```
+
+This creates `ultimate-basic-<version>.vsix`; install it with *Extensions: Install from VSIX…*.
+
+## License
+
+MIT — see [LICENSE](LICENSE).

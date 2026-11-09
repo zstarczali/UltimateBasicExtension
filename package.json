@@ -2,8 +2,9 @@
   "name": "ultimate-basic",
   "displayName": "Ultimate Basic",
   "description": "Language support for Ultimate Basic (.ub) — C64 BASIC-like compiler targeting 6502",
-  "version": "0.4.0",
+  "version": "0.4.2",
   "publisher": "zsolt-tarczali",
+  "license": "MIT",
   "author": {
     "name": "Zsolt Tarczali"
   },
@@ -27,7 +28,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/nextbasic/ultimate-basic-vscode"
+    "url": "https://github.com/zstarczali/UltimateBasicExtension"
   },
   "contributes": {
     "languages": [
@@ -86,7 +87,9 @@
           },
           "addFiles": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "description": "Extra files to embed in the .d64 disk image (--add)"
           },
           "runAfterBuild": {
@@ -259,18 +262,22 @@
         },
         "ultimateBasic.viceArgs": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "default": [],
           "description": "Extra command-line arguments passed to VICE (e.g. [\"-fullscreen\", \"-joydev1\", \"4\"])"
         },
         "ultimateBasic.defaultOutputDir": {
           "type": "string",
           "default": "",
-          "description": "Default output directory for compiled .prg files (empty = same directory as source file)"
+          "description": "Output directory for compiled files; created if missing. Absolute, or relative to the workspace folder (e.g. ./samples/out); ${workspaceFolder} also works. Empty = same directory as source file."
         },
         "ultimateBasic.d64AddFiles": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "default": [],
           "description": "Extra files to embed in the .d64 disk image when using Build + D64 commands (passed via --add)"
         },
@@ -281,7 +288,11 @@
         },
         "ultimateBasic.exomizerMode": {
           "type": "string",
-          "enum": ["sfx sys", "sfx basic", "mem"],
+          "enum": [
+            "sfx sys",
+            "sfx basic",
+            "mem"
+          ],
           "default": "sfx sys",
           "description": "Exomizer compression mode: 'sfx sys' (self-extractor, SYS start), 'sfx basic' (self-extractor, BASIC start), 'mem' (raw compressed data)"
         },
