@@ -10,6 +10,7 @@ All notable changes to the Ultimate Basic extension are listed here. The compile
   which moved to *Building from source*; the compiler link points to the
   [Ultimate Basic releases](https://github.com/zstarczali/UltimateBasic/releases).
 - `package.json`: the repository link points to this repository; `"license": "MIT"`.
+- The icon fills its frame: 256×256 with the artwork edge to edge instead of a small picture in a 128×128 frame.
 - This changelog.
 
 ## [0.4.1] — 2026-10-31
