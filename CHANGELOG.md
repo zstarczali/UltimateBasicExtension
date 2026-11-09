@@ -3,6 +3,15 @@
 All notable changes to the Ultimate Basic extension are listed here. The compiler versions in brackets
 (e.g. *UB 1.6.3*) are the Ultimate Basic releases whose language elements the extension follows.
 
+## [0.4.4] — 2026-11-09
+
+*UB 1.6.7*: the Ultimate 64 palette.
+
+### Added
+- `palette` is highlighted with `speed` / `badlines` (Ultimate 64 statements).
+- Snippets `palette` (`palette "file.vpl"`), `palettec` (`palette i, $RRGGBB`), `palettergb`
+  (`palette i, r, g, b`) and `palettereset` (`palette reset`).
+
 ## [0.4.3] — 2026-11-09
 
 ### Changed
