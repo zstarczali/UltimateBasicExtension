@@ -104,6 +104,7 @@ Access via `Ctrl+Shift+P` → `Ultimate Basic: ...` or by **right-clicking** a `
 | `dimd`, `floatfn`, `pow`, `forf` | `DIM x AS DOUBLE`, floating-point builtins (`SQR`, `ATN`, `CINT`, …), `^` power, `FOR … STEP 0.1` — 1.6.4 |
 | `rndf`, `printusing`, `optbp` | floating-point `RND` (0 ≤ x < 1), `PRINT USING "###.##"; x`, `option basic print` — 1.6.6 |
 | `optstr` | `option strings n, m` — string variable / string-array element capacity |
+| `palette`, `palettec`, `palettergb`, `palettereset` | Ultimate 64 palette: from a `.vpl` / `.gpl` / `.act` file, one colour `$RRGGBB`, one colour from `r, g, b`, back to the menu's palette — 1.6.7 |
 | `typeq`, `typefield`, `substruct` | QBasic `TYPE … END TYPE` (defaults, `STRING * n`), struct field with default, `SUB s(p AS TName)` struct parameter |
 | `break`, `conti` | exit loop / skip to next iteration |
 | `label`, `goto` | label definition / jump |

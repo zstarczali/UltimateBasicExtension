@@ -201,7 +201,7 @@
         },
         {
           "name": "support.function.c64.u64.ub",
-          "match": "(?i)\\b(speed|badlines)\\b"
+          "match": "(?i)\\b(speed|badlines|palette)\\b"
         },
         {
           "name": "support.function.c64.koala.ub",

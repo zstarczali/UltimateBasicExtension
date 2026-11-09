@@ -830,6 +830,26 @@
     "body": ["badlines off"],
     "description": "Disable VIC-II badlines ($D031 bit 7 = 1) — reduces CPU stall on U64"
   },
+  "Palette from file (U64)": {
+    "prefix": "palette",
+    "body": ["palette \"${1:colodore.vpl}\""],
+    "description": "Ultimate 64 / C64U: all 16 colours from a palette file (VICE .vpl, GIMP .gpl, #RRGGBB list, .act) through the Ultimate Command Interface (firmware 3.15+) — UB 1.6.7"
+  },
+  "Palette colour (U64)": {
+    "prefix": "palettec",
+    "body": ["palette ${1:6}, \\$${2:3050C0}"],
+    "description": "Ultimate 64 / C64U: one palette colour, index 0-15 and $RRGGBB — UB 1.6.7"
+  },
+  "Palette colour from values (U64)": {
+    "prefix": "palettergb",
+    "body": ["palette ${1:i}, ${2:r}, ${3:g}, ${4:b}"],
+    "description": "Ultimate 64 / C64U: one palette colour from red / green / blue 0-255 (variables allowed) — UB 1.6.7"
+  },
+  "Palette reset (U64)": {
+    "prefix": "palettereset",
+    "body": ["palette reset"],
+    "description": "Ultimate 64 / C64U: back to the palette of the Ultimate menu — UB 1.6.7"
+  },
   "Turbo check (U64)": {
     "prefix": "turbo",
     "body": ["var ${1:t} = turbo()"],
