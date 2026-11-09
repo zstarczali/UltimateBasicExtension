@@ -2,8 +2,9 @@
   "name": "ultimate-basic",
   "displayName": "Ultimate Basic",
   "description": "Language support for Ultimate Basic (.ub) — C64 BASIC-like compiler targeting 6502",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "publisher": "zsolt-tarczali",
+  "license": "MIT",
   "author": {
     "name": "Zsolt Tarczali"
   },
@@ -27,7 +28,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/nextbasic/ultimate-basic-vscode"
+    "url": "https://github.com/zstarczali/UltimateBasicExtension"
   },
   "contributes": {
     "languages": [
