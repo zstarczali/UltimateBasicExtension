@@ -1,5 +1,30 @@
 # Ultimate Basic — VS Code Extension
 
+<!-- badges:start -->
+<p align="center">
+  <a href="https://marketplace.visualstudio.com/items?itemName=zsolt-tarczali.ultimate-basic"><img src="https://vsmarketplacebadges.dev/version-short/zsolt-tarczali.ultimate-basic.svg?label=Marketplace&color=007ACC" alt="VS Marketplace version"></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=zsolt-tarczali.ultimate-basic"><img src="https://vsmarketplacebadges.dev/installs-short/zsolt-tarczali.ultimate-basic.svg?color=007ACC" alt="Installs"></a>
+  <a href="https://github.com/zstarczali/UltimateBasicExtension/blob/main/package.json"><img src="https://img.shields.io/github/package-json/v/zstarczali/UltimateBasicExtension/main?label=version&color=4c1" alt="Version"></a>
+  <a href="https://github.com/zstarczali/UltimateBasicExtension/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License: MIT"></a>
+  <a href="https://www.c64va.pro/register/donate.php"><img src="https://img.shields.io/badge/donate-PayPal-00457C?logo=paypal&logoColor=white" alt="Donate"></a>
+</p>
+<p align="center">
+  <a href="https://code.visualstudio.com/"><img src="https://img.shields.io/badge/VS%20Code-%5E1.60-007ACC?logo=visualstudiocode&logoColor=white" alt="VS Code ^1.60"></a>
+  <a href="https://github.com/zstarczali/UltimateBasic/releases/latest"><img src="https://img.shields.io/github/v/release/zstarczali/UltimateBasic?label=Ultimate%20Basic&color=6c5eb5" alt="Compiler version"></a>
+  <a href="https://en.wikipedia.org/wiki/Commodore_64"><img src="https://img.shields.io/badge/target-C64%20%2F%206502-6c5eb5?logo=commodore&logoColor=white" alt="Target: C64 / 6502"></a>
+  <a href="https://github.com/zstarczali/UltimateBasicExtension/commits/main"><img src="https://img.shields.io/github/last-commit/zstarczali/UltimateBasicExtension/main" alt="Last commit"></a>
+  <a href="https://github.com/zstarczali/UltimateBasicExtension/graphs/commit-activity"><img src="https://img.shields.io/github/commit-activity/m/zstarczali/UltimateBasicExtension" alt="Commit activity"></a>
+  <a href="https://github.com/zstarczali/UltimateBasicExtension/issues"><img src="https://img.shields.io/github/issues/zstarczali/UltimateBasicExtension" alt="Issues"></a>
+  <a href="https://github.com/zstarczali/UltimateBasicExtension/stargazers"><img src="https://img.shields.io/github/stars/zstarczali/UltimateBasicExtension?style=flat" alt="Stars"></a>
+</p>
+<p align="center">
+  <a href="https://github.com/zstarczali/UltimateBasic"><img src="https://img.shields.io/badge/compiler-Ultimate%20Basic-8a2be2" alt="Ultimate Basic compiler"></a>
+  <a href="https://www.c64va.tech"><img src="https://img.shields.io/badge/website-c64va.tech-8a2be2" alt="Ultimate Basic website"></a>
+  <a href="https://www.c64va.pro/"><img src="https://img.shields.io/badge/used%20by-C64%20Visual%20Assembler-8a2be2" alt="C64 Visual Assembler"></a>
+  <a href="https://github.com/zstarczali/VMAExtension"><img src="https://img.shields.io/badge/sibling-VMA%20extension-8a2be2" alt="VMA extension"></a>
+</p>
+<!-- badges:end -->
+
 Language support for **Ultimate Basic** (`.ub`), a modern BASIC-like language that compiles directly to **6502 machine code** for the Commodore 64. Write C64 programs with syntax highlighting, code snippets and one-click build & run in VICE — all from VS Code.
 
 *© 2026 Zsolt Tarczali*
