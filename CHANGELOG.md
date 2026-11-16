@@ -3,6 +3,15 @@
 All notable changes to the Ultimate Basic extension are listed here. The compiler versions in brackets
 (e.g. *UB 1.6.3*) are the Ultimate Basic releases whose language elements the extension follows.
 
+## [0.4.5] — 2026-11-13
+
+*UB 1.6.7*.
+
+### Added
+- `sprhit()` and `sprbghit()`, the short forms of `sprite_hit()` / `sprite_bg_hit()`, are highlighted as built-in
+  functions.
+- README: status badges (Marketplace, GitHub, the Ultimate Basic compiler).
+
 ## [0.4.4] — 2026-11-09
 
 *UB 1.6.7*: the Ultimate 64 palette.

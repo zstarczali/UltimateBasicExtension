@@ -273,7 +273,7 @@
         },
         {
           "name": "support.function.builtin.sprite.ub",
-          "match": "(?i)\\b(sprite_hit|sprite_bg_hit|sprite_x|sprite_y)\\s*(?=\\()"
+          "match": "(?i)\\b(sprite_hit|sprite_bg_hit|sprhit|sprbghit|sprite_x|sprite_y)\\s*(?=\\()"
         },
         {
           "name": "support.function.builtin.mouse.ub",
